@@ -1,0 +1,36 @@
+# --- Archivos de Configuración y Credenciales ---
+.env
+.env.backup
+config.php
+credentials.json
+
+# --- Bases de Datos ---
+*.sql
+*.sqlite
+*.db
+
+# --- Backend: PHP / Laravel (Logs y Caché) ---
+/storage/*.key
+/storage/logs/*.log
+/bootstrap/cache/*.php
+
+# --- Frontend: Angular / React (Carpetas de compilación) ---
+/dist/
+/build/
+.angular/
+
+# --- Carpetas de Dependencias ---
+vendor/
+node_modules/
+
+# --- Archivos del Sistema Operativo ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Archivos de tu Editor de Código ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
