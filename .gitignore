@@ -1,4 +1,7 @@
 # --- Archivos de Configuración y Credenciales ---
+**/.env
+**/.env.local
+**/.env.*.local
 .env
 .env.backup
 config.php
