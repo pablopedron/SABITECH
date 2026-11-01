@@ -17,23 +17,31 @@ credentials.json
 *.pfx
 
 # --- Bases de Datos ---
-*.sql
+# Los .sql de esquema y datos de prueba SÍ se suben (database/); se ignoran copias y volcados reales
 *.sqlite
 *.db
+backups/
+*.dump
 
 # --- Backend: PHP / Laravel ---
-/storage/*.key
-/storage/logs/*.log
-/bootstrap/cache/*.php
+app/storage/*.key
+app/storage/logs/*.log
+app/bootstrap/cache/*.php
+.phpunit.result.cache
+.phpunit.cache/
 
-# --- Frontend: Angular / React ---
-/dist/
-/build/
-.angular/
+# --- Frontend: React (Vite) ---
+dist/
+build/
+.vite/
+npm-debug.log*
 
 # --- Dependencias ---
 vendor/
 node_modules/
+
+# --- Logs ---
+*.log
 
 # --- Sistema Operativo ---
 .DS_Store

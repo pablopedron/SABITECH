@@ -1,22 +1,77 @@
-name: sabiteck-despliegue
+name: sabitech-despliegue
 
 services:
+  # 1) Backend: PHP 8.4 + Apache (DocumentRoot = app/public)
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: sabitech-web
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:${WEB_PORT:-8080}:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./app:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
 
+  # 2) Base de datos: MySQL 8.4
   db:
     image: mysql:8.4
+    container_name: sabitech-db
     environment:
-      MYSQL_DATABASE: sabitechDB
-      MYSQL_USER: sabitechUser
-      MYSQL_PASSWORD: s4b1t3ch
-      MYSQL_ROOT_PASSWORD: s4b1t3chr00t
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  # 3) phpMyAdmin: gestión visual de la base de datos
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: sabitech-phpmyadmin
+    environment:
+      PMA_HOST: db
+    ports:
+      - "127.0.0.1:${PHPMYADMIN_PORT:-8081}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Opcional (no arranca por defecto): React + Vite dentro de Docker.
+  # Uso: docker compose --profile frontend up --build
+  frontend:
+    profiles: ["frontend"]
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+    container_name: sabitech-frontend
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:5173"
+    environment:
+      VITE_API_PROXY: http://web:80
+    volumes:
+      - ./frontend:/usr/src/app
+      - frontend_node_modules:/usr/src/app/node_modules
+    depends_on:
+      - web
+    restart: unless-stopped
 
 volumes:
   mysql_data:
+  frontend_node_modules:
