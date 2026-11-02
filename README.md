@@ -60,27 +60,66 @@ Siguiendo las directrices de ciberseguridad del ciclo formativo y los estándare
 
 Desarrollado en el marco del proyecto intermodular del ciclo superior de Desarrollo de Aplicaciones Web (DAW) por **PGD Technologies S.L.** Todos los derechos reservados © 2026.
 
+---
 
-# SABITECH
+## 🚀 Cómo arrancar el proyecto
 
-SABITECH WEB · Gestión de jornadas tecnológicas (2.º DAW, XTART).
+Servicios de Docker: **web** (Laravel sobre PHP 8.4 + Apache), **db** (MySQL 8.4) y **phpMyAdmin**.
 
-## Cómo arrancar el proyecto
+### 1. Variables de Docker
+Copia `.env.example` como `.env` (en la raíz) y cambia las contraseñas.
 
-### 1. Backend y base de datos (Docker)
+### 2. Backend Laravel (carpeta `app/`)
+Solo la primera vez, desde la raíz del proyecto (PowerShell):
 
-1. Crea tu archivo de variables: copia `.env.example` y llámalo `.env` (cambia las contraseñas).
-2. Ejecuta: `docker compose up --build`
-3. Abre:
-   - Backend: http://localhost:8080
-   - phpMyAdmin: http://localhost:8081 (usuario y contraseña de tu `.env`)
-4. Para parar: `docker compose down`
+```
+Copy-Item app/.env.example app/.env
+```
+Edita `app/.env` y deja estos valores (base de datos, usuario y contraseña deben ser los de tu `.env` de la raíz):
 
-### 2. Frontend React (en tu ordenador, necesita Node.js)
+```
+APP_NAME="SabiTech app"
+APP_URL=http://localhost:8080
+APP_LOCALE=es
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=sabitechDB
+DB_USERNAME=sabitechUser
+DB_PASSWORD="tu_password"
+SESSION_DRIVER=file
+CACHE_STORE=file
+QUEUE_CONNECTION=sync
+```
+Después instala las dependencias, genera la clave y da permisos:
 
+```
+docker compose run --rm --no-deps -e COMPOSER_PROCESS_TIMEOUT=0 web composer install --no-scripts
+docker compose run --rm --no-deps web php artisan key:generate
+docker compose run --rm --no-deps -u root web mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
+docker compose run --rm --no-deps -u root web touch storage/logs/laravel.log
+docker compose run --rm --no-deps -u root web chown -R www-data:www-data storage bootstrap/cache
+docker compose run --rm --no-deps -u root web chmod -R ug+rwX storage bootstrap/cache
+```
+
+### 3. Arrancar los contenedores
+```
+docker compose up -d
+docker compose ps
+```
+- Laravel: http://localhost:8080
+- phpMyAdmin: http://localhost:8081 (usuario y contraseña de tu `.env`)
+- Parar: `docker compose down`
+- Versión de Laravel: `docker compose exec web php artisan --version`
+
+### 4. Frontend React (en tu ordenador, necesita Node.js)
 ```
 cd frontend
 npm install
 npm run dev
 ```
 Abre http://localhost:5173
+
+### Notas
+- `.env`, `app/.env` y `app/vendor/` no se suben a GitHub (están en `.gitignore`).
+- Si `composer install` da un error de *timeout*, `COMPOSER_PROCESS_TIMEOUT=0` ya lo evita; puede tardar varios minutos.
