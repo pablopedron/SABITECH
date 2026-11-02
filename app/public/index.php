@@ -1,19 +1,20 @@
 <?php
-// Comprobación mínima backend + base de datos (sustituir por el framework PHP elegido).
-header('Content-Type: application/json; charset=utf-8');
 
-$dbStatus = 'ok';
-try {
-    new PDO(
-        sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
-            getenv('DB_HOST'), getenv('DB_PORT'), getenv('DB_NAME')),
-        getenv('DB_USER'),
-        getenv('DB_PASSWORD'),
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
-} catch (PDOException $e) {
-    http_response_code(500);
-    $dbStatus = 'error de conexión';
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-echo json_encode(['status' => 'ok', 'service' => 'sabitech-web', 'database' => $dbStatus]);
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());
