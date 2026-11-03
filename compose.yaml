@@ -21,6 +21,8 @@ services:
   # 2) Base de datos: MySQL
   db:
     image: mysql:8.4
+    ports:
+      - "127.0.0.1:3307:3306"   # solo para MySQL Workbench desde tu PC
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

@@ -109,6 +109,7 @@ docker compose ps
 ```
 - Laravel: http://localhost:8080
 - phpMyAdmin: http://localhost:8081 (usuario y contraseña de tu `.env`)
+- MySQL Workbench: host `127.0.0.1`, puerto `3307`, usuario y contraseña de tu `.env`, esquema `sabitechDB`
 - Parar: `docker compose down`
 - Versión de Laravel: `docker compose exec web php artisan --version`
 
