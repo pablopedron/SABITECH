@@ -1,0 +1,309 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SABITECH WEB API",
+    "description": "Contrato del frontend de SABITECH WEB (PGD Technologies S.L.): jornadas tecnológicas con inscripción, control de aforo y asistencia por QR.",
+    "version": "1.0.0",
+    "contact": { "name": "PGD Technologies S.L." }
+  },
+  "servers": [
+    { "url": "http://localhost:8000/api", "description": "Desarrollo" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Registro e inicio de sesión" },
+    { "name": "Talks", "description": "Catálogo, inscripción y cancelación" },
+    { "name": "Attendances", "description": "Valoración de charlas a las que se asistió" }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Registro de usuario",
+        "description": "Crea la cuenta con el rol 'asistente'. Incluye los campos analíticos zip_code y accessibility_needs.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterRequest" },
+              "example": {
+                "name": "Laura Pérez",
+                "email": "laura@example.com",
+                "password": "Secreta123",
+                "zip_code": "46001",
+                "accessibility_needs": "Acceso para silla de ruedas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/Unprocessable" }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Autenticación de usuario",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" },
+              "example": { "email": "laura@example.com", "password": "Secreta123" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Autenticación correcta",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthToken" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "422": { "$ref": "#/components/responses/Unprocessable" }
+        }
+      }
+    },
+    "/talks": {
+      "get": {
+        "tags": ["Talks"],
+        "summary": "Catálogo de charlas publicadas",
+        "description": "Devuelve las charlas con los datos del ponente integrados, su categoría y el aforo.",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "description": "Filtra por categoría",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de charlas",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Talk" } }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/talks/inscribe": {
+      "post": {
+        "tags": ["Talks"],
+        "summary": "Inscribirse en una charla",
+        "description": "Crea el registro en talk_user con estado 'confirmada' e incrementa seats_taken de forma atómica. El usuario se toma del token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InscribeRequest" },
+              "example": { "talk_id": 3 }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Inscripción confirmada",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Registration" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/talks/cancel": {
+      "post": {
+        "tags": ["Talks"],
+        "summary": "Cancelar la inscripción a una charla",
+        "description": "Pasa el estado a 'cancelada', libera una plaza y guarda el motivo analítico, que es obligatorio.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CancelRequest" },
+              "example": { "talk_id": 3, "cancellation_reason": "Incompatibilidad de horario" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inscripción cancelada",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Registration" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/Unprocessable" }
+        }
+      }
+    },
+    "/attendances/rate": {
+      "post": {
+        "tags": ["Attendances"],
+        "summary": "Valorar una charla",
+        "description": "Guarda rating y feedback_comment en user_talk_qr. Solo es posible si la asistencia fue validada por QR (checked_in_at no nulo).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RateRequest" },
+              "example": { "talk_id": 3, "rating": 5, "feedback_comment": "Muy útil y bien explicada" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Valoración registrada",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Attendance" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/Unprocessable" }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": { "type": "string", "maxLength": 150 },
+          "email": { "type": "string", "format": "email", "maxLength": 190 },
+          "password": { "type": "string", "format": "password", "minLength": 8 },
+          "zip_code": { "type": "string", "maxLength": 10, "nullable": true, "description": "Dato analítico: procedencia geográfica" },
+          "accessibility_needs": { "type": "string", "maxLength": 255, "nullable": true, "description": "Dato analítico: necesidades de accesibilidad" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
+        }
+      },
+      "AuthToken": {
+        "type": "object",
+        "properties": {
+          "access_token": { "type": "string" },
+          "token_type": { "type": "string", "example": "Bearer" },
+          "user": { "$ref": "#/components/schemas/User" }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "is_active": { "type": "integer", "enum": [0, 1] },
+          "zip_code": { "type": "string", "nullable": true },
+          "accessibility_needs": { "type": "string", "nullable": true }
+        }
+      },
+      "Talk": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 3 },
+          "category_id": { "type": "integer", "example": 2 },
+          "title": { "type": "string", "example": "Introducción a la IA generativa" },
+          "description": { "type": "string", "nullable": true },
+          "speaker_name": { "type": "string", "example": "Marta Soler" },
+          "speaker_company": { "type": "string", "nullable": true, "example": "DataLab" },
+          "speaker_bio": { "type": "string", "nullable": true },
+          "starts_at": { "type": "string", "format": "date-time" },
+          "ends_at": { "type": "string", "format": "date-time" },
+          "capacity": { "type": "integer", "example": 50 },
+          "seats_taken": { "type": "integer", "example": 32 }
+        }
+      },
+      "InscribeRequest": {
+        "type": "object",
+        "required": ["talk_id"],
+        "properties": { "talk_id": { "type": "integer", "minimum": 1 } }
+      },
+      "CancelRequest": {
+        "type": "object",
+        "required": ["talk_id", "cancellation_reason"],
+        "properties": {
+          "talk_id": { "type": "integer", "minimum": 1 },
+          "cancellation_reason": { "type": "string", "minLength": 1, "maxLength": 255, "description": "Dato analítico: motivo de cancelación" }
+        }
+      },
+      "Registration": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "user_id": { "type": "integer" },
+          "talk_id": { "type": "integer" },
+          "status": { "type": "string", "enum": ["confirmada", "cancelada"] },
+          "cancellation_reason": { "type": "string", "nullable": true },
+          "registered_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "RateRequest": {
+        "type": "object",
+        "required": ["talk_id", "rating"],
+        "properties": {
+          "talk_id": { "type": "integer", "minimum": 1 },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "feedback_comment": { "type": "string", "nullable": true }
+        }
+      },
+      "Attendance": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "user_id": { "type": "integer" },
+          "talk_id": { "type": "integer" },
+          "checked_in_at": { "type": "string", "format": "date-time", "nullable": true },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5, "nullable": true },
+          "feedback_comment": { "type": "string", "nullable": true }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": { "type": "string" },
+          "errors": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "No autenticado o credenciales incorrectas",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "NotFound": {
+        "description": "Charla, inscripción o asistencia no encontrada",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "Conflict": {
+        "description": "Conflicto: email duplicado, ya inscrito, aforo completo o valoración sin asistencia validada",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "Unprocessable": {
+        "description": "Datos no válidos",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      }
+    }
+  }
+}
