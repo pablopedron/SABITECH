@@ -1,122 +1,226 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+import Inicio from "./pages/Inicio";
+import Charlas from "./pages/Charlas";
+import Login from "./pages/Login";
+import Registro from "./pages/Registro";
+import Reserva from "./pages/Reserva";
+import Cuenta from "./pages/Cuenta";
+import Admin from "./pages/Admin";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // Página que se está mostrando.
+    const [pagina, setPagina] = useState("inicio");
 
-      <div className="ticks"></div>
+    // Usuario que ha iniciado sesión.
+    const [usuario, setUsuario] = useState(null);
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+    // Usuarios registrados.
+    const [usuarios, setUsuarios] = useState([]);
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    // Reservas realizadas.
+    const [reservas, setReservas] = useState([]);
+
+    // Charla seleccionada desde una tarjeta.
+    const [charlaSeleccionada, setCharlaSeleccionada] = useState(null);
+
+    // Cambiar de página.
+    function cambiarPagina(nombrePagina) {
+        setPagina(nombrePagina);
+    }
+
+    // Seleccionar una charla para reservarla.
+    function reservar(charla) {
+        setCharlaSeleccionada(charla);
+        setPagina("reserva");
+    }
+
+    // Iniciar sesión.
+    function iniciarSesion(correo) {
+
+        // Usuario de prueba para acceder al administrador.
+        if (correo === "admin@sabitech.es") {
+            const administrador = {
+                nombre: "Administrador",
+                correo: correo,
+                ciudad: "Valencia",
+                codigoPostal: "46001",
+                rol: "admin"
+            };
+
+            setUsuario(administrador);
+            setPagina("admin");
+            return;
+        }
+
+        // Buscamos si el usuario está registrado.
+        const usuarioEncontrado = usuarios.find(
+            (item) => item.correo === correo
+        );
+
+        if (usuarioEncontrado) {
+            setUsuario(usuarioEncontrado);
+            setPagina("cuenta");
+        } else {
+            alert("No existe una cuenta con ese correo. Regístrate primero.");
+        }
+    }
+
+    // Registrar un usuario nuevo.
+    function registrar(usuarioNuevo) {
+
+        const existe = usuarios.find(
+            (item) => item.correo === usuarioNuevo.correo
+        );
+
+        if (existe) {
+            alert("Este correo ya está registrado.");
+            return;
+        }
+
+        setUsuarios([...usuarios, usuarioNuevo]);
+        setUsuario(usuarioNuevo);
+
+        alert("Registro realizado correctamente.");
+
+        setPagina("cuenta");
+    }
+
+    // Confirmar una reserva.
+    function confirmarReserva(reservaNueva) {
+
+        if (!usuario) {
+            alert("Debes iniciar sesión para reservar una cita.");
+            setPagina("login");
+            return;
+        }
+
+        setReservas([...reservas, reservaNueva]);
+
+        alert("¡Tu reserva se ha realizado correctamente!");
+
+        setPagina("cuenta");
+    }
+
+    // Cancelar una reserva.
+    function cancelarReserva(indice) {
+
+        const nuevasReservas = reservas.filter(
+            (reserva, index) => index !== indice
+        );
+
+        setReservas(nuevasReservas);
+    }
+
+    // Cerrar sesión.
+    function cerrarSesion() {
+        setUsuario(null);
+        setPagina("inicio");
+    }
+
+    // Mostramos la página correspondiente.
+    function mostrarPagina() {
+
+        switch (pagina) {
+
+            case "inicio":
+                return (
+                    <Inicio
+                        reservar={reservar}
+                        cambiarPagina={cambiarPagina}
+                    />
+                );
+
+            case "charlas":
+                return (
+                    <Charlas reservar={reservar} />
+                );
+
+            case "login":
+                return (
+                    <Login
+                        iniciarSesion={iniciarSesion}
+                        cambiarPagina={cambiarPagina}
+                    />
+                );
+
+            case "registro":
+                return (
+                    <Registro
+                        registrar={registrar}
+                        cambiarPagina={cambiarPagina}
+                    />
+                );
+
+            case "reserva":
+                return (
+                    <Reserva
+                        charlaSeleccionada={charlaSeleccionada}
+                        confirmarReserva={confirmarReserva}
+                    />
+                );
+
+            case "cuenta":
+                if (!usuario) {
+                    return <Login iniciarSesion={iniciarSesion} cambiarPagina={cambiarPagina} />;
+                }
+
+                return (
+                    <Cuenta
+                        usuario={usuario}
+                        reservas={reservas}
+                        cancelarReserva={cancelarReserva}
+                        cerrarSesion={cerrarSesion}
+                    />
+                );
+
+            case "admin":
+                if (!usuario || usuario.rol !== "admin") {
+                    return <Inicio reservar={reservar} cambiarPagina={cambiarPagina} />;
+                }
+
+                return (
+                    <Admin usuarios={usuarios} />
+                );
+
+            default:
+                return (
+                    <Inicio
+                        reservar={reservar}
+                        cambiarPagina={cambiarPagina}
+                    />
+                );
+        }
+    }
+
+    return (
+        <div style={estilos.aplicacion}>
+
+            <Header
+                cambiarPagina={cambiarPagina}
+                usuario={usuario}
+            />
+
+            {mostrarPagina()}
+
+            <Footer />
+
+        </div>
+    );
 }
 
-export default App
+const estilos = {
+    aplicacion: {
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Arial, sans-serif",
+        color: "#000000"
+    }
+};
+
+export default App;
