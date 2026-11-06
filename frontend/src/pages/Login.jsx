@@ -26,6 +26,8 @@ function Login({ iniciarSesion, cambiarPagina }) {
 
                 <input
                     type="email"
+                    name="correo"
+                    placeholder="Introduce tu correo..."
                     value={correo}
                     onChange={(e) => setCorreo(e.target.value)}
                     required
@@ -35,6 +37,8 @@ function Login({ iniciarSesion, cambiarPagina }) {
 
                 <input
                     type="password"
+                    name="contrasenya"
+                    placeholder="Introduce tu contraseña..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required

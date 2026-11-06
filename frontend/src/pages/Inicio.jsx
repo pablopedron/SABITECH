@@ -7,7 +7,7 @@ function Inicio({ reservar, cambiarPagina }) {
         <main style={estilos.contenedor}>
 
             <section style={estilos.portada}>
-                <h2>Bienvenido a SABITECH - CHARLAS</h2>
+                <h2>Bienvenido a SABITECH</h2>
 
                 <p>
                     Un espacio para aprender, compartir y descubrir
@@ -27,7 +27,9 @@ function Inicio({ reservar, cambiarPagina }) {
 
                 <p>
                     En SABITECH organizamos charlas y actividades
-                    relacionadas con el mundo tecnológico.
+                    relacionadas con el mundo tecnológico. Tanto para estudiantes
+                     y trabajadores del sector, como personas que quieran
+                      adentrarse en el mundillo.
                 </p>
             </section>
 

@@ -20,7 +20,7 @@ function TarjetaCharla({ charla, reservar }) {
                 style={estilos.boton}
                 onClick={() => reservar(charla)}
             >
-                VER INFO
+                PIDE CITA
             </button>
         </article>
     );
