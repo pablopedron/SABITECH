@@ -31,7 +31,9 @@ services:
     # (sin esto MySQL da el error 1419 porque el log binario está activado)
     command: --log-bin-trust-function-creators=1
     ports:
-      - "127.0.0.1:3307:3306"   # solo para MySQL Workbench desde tu PC
+      # Solo para MySQL Workbench desde tu PC. Si Windows da error con el puerto 3307,
+      # pon otro en tu .env, por ejemplo MYSQL_HOST_PORT=3310
+      - "127.0.0.1:${MYSQL_HOST_PORT:-3307}:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
