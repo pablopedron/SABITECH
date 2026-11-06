@@ -240,6 +240,27 @@ CREATE TABLE migrations (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------
+-- 9b. PERSONAL_ACCESS_TOKENS (tokens de sesión de la API; los usa Laravel Sanctum)
+--     Mismo esquema que la migración de Sanctum, con INT como en el resto de tablas
+-- ---------------------------------------------------------------------
+CREATE TABLE personal_access_tokens (
+    id             INT NOT NULL AUTO_INCREMENT,
+    tokenable_type VARCHAR(255) NOT NULL,
+    tokenable_id   INT NOT NULL,
+    name           TEXT NOT NULL,
+    token          VARCHAR(64) NOT NULL,
+    abilities      TEXT NULL,
+    last_used_at   TIMESTAMP NULL,
+    expires_at     TIMESTAMP NULL,
+    created_at     TIMESTAMP NULL,
+    updated_at     TIMESTAMP NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY personal_access_tokens_token_unique (token),
+    KEY personal_access_tokens_tokenable (tokenable_type, tokenable_id),
+    KEY personal_access_tokens_expires_at (expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------------
 -- 10. TRIGGERS: reglas que un CHECK no puede expresar (miran otras tablas)
 --     - talks.capacity no puede superar locations.room_capacity
 --     - user_talk_qr.validated_by debe tener el rol personal_acceso
