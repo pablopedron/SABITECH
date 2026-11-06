@@ -27,6 +27,9 @@ services:
   # 2) Base de datos: MySQL
   db:
     image: mysql:8.4
+    # Permite que las migraciones de Laravel creen triggers con un usuario normal
+    # (sin esto MySQL da el error 1419 porque el log binario está activado)
+    command: --log-bin-trust-function-creators=1
     ports:
       - "127.0.0.1:3307:3306"   # solo para MySQL Workbench desde tu PC
     environment:
@@ -36,9 +39,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
-      # Crea las tablas y carga los datos ficticios la PRIMERA vez que arranca el volumen.
-      # Para recargarlos: docker compose down -v && docker compose up -d
-      - ./database/sabitechDDBB.sql:/docker-entrypoint-initdb.d/01_sabitech.sql:ro
     healthcheck:
       # Comprueba que MySQL ya está listo antes de arrancar la web
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]

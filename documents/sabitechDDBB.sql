@@ -1,5 +1,14 @@
 -- =====================================================================
--- SABITECH WEB - Script de base de datos (MySQL 8 / InnoDB / utf8mb4)
+-- SABITECH WEB - Base de datos en SQL (MySQL 8 / InnoDB / utf8mb4)
+--
+-- >>> CONSTANCIA DEL MODELO DE DATOS. NO se ejecuta en el proyecto. <<<
+-- La base de datos se crea al 100 % con Laravel (migraciones y seeder):
+--     docker compose exec web php artisan migrate:fresh --seed
+--   - Tablas:   app/database/migrations
+--   - Datos:    app/database/seeders/DatabaseSeeder.php
+-- Este fichero es el equivalente en SQL puro, para la memoria y para
+-- consultar el modelo. Si cambia una migración, hay que actualizarlo.
+--
 -- Proyecto intermodular 2.º DAW
 -- Regla: solo se usa el tipo INT para los campos numéricos enteros.
 --

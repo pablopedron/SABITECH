@@ -64,10 +64,10 @@ Desarrollado en el marco del proyecto intermodular del ciclo superior de Desarro
 
 ## 🚀 Cómo arrancar el proyecto
 
-Servicios de Docker: **web** (Laravel sobre PHP 8.4 + Apache), **db** (MySQL 8.4) y **phpMyAdmin**.
+Servicios de Docker: **web** (Laravel sobre PHP 8.4 + Apache), **db** (MySQL 8.4), **phpMyAdmin** y **Mailpit** (buzón de laboratorio para los correos).
 
 ### 1. Variables de Docker
-Copia `.env.example` como `.env` (en la raíz) y cambia las contraseñas.
+Copia `.env.example` como `.env` (en la raíz) y cambia las contraseñas. `MYSQL_DATABASE` debe ser `sabitech_web`.
 
 ### 2. Backend Laravel (carpeta `app/`)
 Solo la primera vez, desde la raíz del proyecto (PowerShell):
@@ -84,7 +84,7 @@ APP_LOCALE=es
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=sabitechDB
+DB_DATABASE=sabitech_web
 DB_USERNAME=sabitechUser
 DB_PASSWORD="tu_password"
 SESSION_DRIVER=file
@@ -108,12 +108,24 @@ docker compose up -d
 docker compose ps
 ```
 - Laravel: http://localhost:8080
+- Mailpit (correos de prueba): http://localhost:8025
 - phpMyAdmin: http://localhost:8081 (usuario y contraseña de tu `.env`)
-- MySQL Workbench: host `127.0.0.1`, puerto `3307`, usuario y contraseña de tu `.env`, esquema `sabitechDB`
+- MySQL Workbench: host `127.0.0.1`, puerto `3307`, usuario y contraseña de tu `.env`, esquema `sabitech_web`
 - Parar: `docker compose down`
 - Versión de Laravel: `docker compose exec web php artisan --version`
 
-### 4. Frontend React (en tu ordenador, necesita Node.js)
+### 4. Crear las tablas y cargar los datos de prueba
+La base de datos se crea con las **migraciones** de Laravel (`app/database/migrations`) y los datos ficticios con el **seeder** (`app/database/seeders`):
+
+```
+docker compose exec web php artisan migrate:fresh --seed
+```
+- `migrate:fresh` **borra todas las tablas** y las vuelve a crear; úsalo cuando quieras empezar de cero.
+- Contraseña de todos los usuarios de prueba: `Sabitech2026!` (por ejemplo `organizacion@sabitech.test`, `acceso@sabitech.test`, `ana@sabitech.test`).
+- `documents/sabitechDDBB.sql` es solo la **constancia del modelo en SQL puro** (para la memoria); ni Docker ni Laravel lo ejecutan.
+- Si ya tenías el proyecto creado con la base `sabitechDB`, cambia `MYSQL_DATABASE` a `sabitech_web` en tu `.env` y ejecuta `docker compose down -v` (borra el volumen de MySQL) antes de volver a levantar.
+
+### 5. Frontend React (en tu ordenador, necesita Node.js)
 ```
 cd frontend
 npm install
