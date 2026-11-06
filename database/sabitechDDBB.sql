@@ -1,5 +1,12 @@
 -- =====================================================================
 -- SABITECH WEB - Script de base de datos (MySQL 8 / InnoDB / utf8mb4)
+-- >>> REFERENCIA DEL MODELO. Docker ya NO carga este fichero. <<<
+-- La base de datos se crea con las migraciones de Laravel:
+--     php artisan migrate:fresh --seed
+-- (app/database/migrations y app/database/seeders). Este script es el
+-- equivalente en SQL puro, útil para la memoria y para mirar el modelo.
+-- Si cambias una migración, actualiza también este fichero.
+--
 -- Proyecto intermodular 2.º DAW
 -- Regla: solo se usa el tipo INT para los campos numéricos enteros.
 --
