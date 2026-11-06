@@ -31,6 +31,8 @@ function Registro({ registrar, cambiarPagina }) {
                 <label>Nombre completo</label>
                 <input
                     type="text"
+                    name="nombre"
+                    placeholder="Introduce nombre y apellidos..."
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
                     required
@@ -39,6 +41,8 @@ function Registro({ registrar, cambiarPagina }) {
                 <label>Correo electrónico</label>
                 <input
                     type="email"
+                    name="correo"
+                    placeholder="Introduce tu correo..."
                     value={correo}
                     onChange={(e) => setCorreo(e.target.value)}
                     required
@@ -47,6 +51,8 @@ function Registro({ registrar, cambiarPagina }) {
                 <label>Contraseña</label>
                 <input
                     type="password"
+                    name="contrasenya"
+                    placeholder="Introduce tu contraseña..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -55,6 +61,9 @@ function Registro({ registrar, cambiarPagina }) {
                 <label>Ciudad</label>
                 <input
                     type="text"
+                    name="ciudad"
+                    placeholder="Introduce tu ciudad..."
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÜüÑñ\s]+"
                     value={ciudad}
                     onChange={(e) => setCiudad(e.target.value)}
                     required
@@ -63,6 +72,10 @@ function Registro({ registrar, cambiarPagina }) {
                 <label>Código postal</label>
                 <input
                     type="text"
+                    name="codigoPostal"
+                    placeholder="Introduce tu código postal..."
+                    pattern="[0-9]{5}"
+                    maxLength="5"
                     value={codigoPostal}
                     onChange={(e) => setCodigoPostal(e.target.value)}
                     required
