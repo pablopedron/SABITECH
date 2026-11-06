@@ -110,7 +110,7 @@ docker compose ps
 - Laravel: http://localhost:8080
 - Mailpit (correos de prueba): http://localhost:8025
 - phpMyAdmin: http://localhost:8081 (usuario y contraseña de tu `.env`)
-- MySQL Workbench: host `127.0.0.1`, puerto `3307`, usuario y contraseña de tu `.env`, esquema `sabitech_web`
+- MySQL Workbench: host `127.0.0.1`, puerto `3307` (o el `MYSQL_HOST_PORT` de tu `.env`), usuario y contraseña de tu `.env`, esquema `sabitech_web`
 - Parar: `docker compose down`
 - Versión de Laravel: `docker compose exec web php artisan --version`
 
@@ -134,5 +134,6 @@ npm run dev
 Abre http://localhost:5173
 
 ### Notas
+- Si `docker compose up -d` dice *"ports are not available ... 3307"*, Windows tiene ese puerto reservado: añade `MYSQL_HOST_PORT=3310` a tu `.env` y vuelve a ejecutar `docker compose up -d`.
 - `.env`, `app/.env` y `app/vendor/` no se suben a GitHub (están en `.gitignore`).
 - Si `composer install` da un error de *timeout*, `COMPOSER_PROCESS_TIMEOUT=0` ya lo evita; puede tardar varios minutos.
