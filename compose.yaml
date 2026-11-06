@@ -7,11 +7,17 @@ services:
     ports:
       - "8080:80"
     environment:
+      # Nombres que lee Laravel (config/database.php)
+      DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      # Correo de laboratorio: Mailpit (bandeja en http://localhost:8025)
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
     volumes:
       - ./app:/var/www/html
     depends_on:
@@ -30,6 +36,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+      # Crea las tablas y carga los datos ficticios la PRIMERA vez que arranca el volumen.
+      # Para recargarlos: docker compose down -v && docker compose up -d
+      - ./database/sabitechDDBB.sql:/docker-entrypoint-initdb.d/01_sabitech.sql:ro
     healthcheck:
       # Comprueba que MySQL ya está listo antes de arrancar la web
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]
@@ -45,6 +54,13 @@ services:
       - "8081:80"
     depends_on:
       - db
+
+  # 4) Mailpit: buzón de laboratorio para ver los correos de confirmación
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # interfaz web
+      - "1025:1025"   # SMTP
 
 volumes:
   mysql_data:
