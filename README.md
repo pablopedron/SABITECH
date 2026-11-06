@@ -122,7 +122,7 @@ docker compose exec web php artisan migrate:fresh --seed
 ```
 - `migrate:fresh` **borra todas las tablas** y las vuelve a crear; úsalo cuando quieras empezar de cero.
 - Contraseña de todos los usuarios de prueba: `Sabitech2026!` (por ejemplo `organizacion@sabitech.test`, `acceso@sabitech.test`, `ana@sabitech.test`).
-- `database/sabitechDDBB.sql` es solo la **referencia del modelo en SQL puro** (para la memoria); Docker no lo carga.
+- `documents/sabitechDDBB.sql` es solo la **constancia del modelo en SQL puro** (para la memoria); ni Docker ni Laravel lo ejecutan.
 - Si ya tenías el proyecto creado con la base `sabitechDB`, cambia `MYSQL_DATABASE` a `sabitech_web` en tu `.env` y ejecuta `docker compose down -v` (borra el volumen de MySQL) antes de volver a levantar.
 
 ### 5. Frontend React (en tu ordenador, necesita Node.js)
