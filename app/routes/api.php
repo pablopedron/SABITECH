@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TalkController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-// --- Catálogo (feature/catalogo) ---
+// --- Catálogo (feature/catalogo): público, sin token ---
+Route::get('/talks', [TalkController::class, 'index']);
+Route::get('/talks/{id}', [TalkController::class, 'show'])->whereNumber('id');

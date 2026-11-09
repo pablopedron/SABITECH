@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Reserva (inscripción) de un usuario a una charla. Tabla talk_user.
- * La relación con Talk se añade cuando se mergee el modelo Talk (feature/catalogo).
  */
 class TalkUser extends Model
 {
@@ -35,5 +34,10 @@ class TalkUser extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function talk(): BelongsTo
+    {
+        return $this->belongsTo(Talk::class);
     }
 }
