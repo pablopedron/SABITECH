@@ -91,21 +91,41 @@ function App() {
     }
 
     // Confirmar una reserva.
-    function confirmarReserva(reservaNueva) {
+   function confirmarReserva(reservaNueva) {
 
-        if (!usuario) {
-            alert("Debes iniciar sesión para reservar una cita.");
-            setPagina("login");
-            return;
-        }
-
-        setReservas([...reservas, reservaNueva]);
-
-        alert("¡Tu reserva se ha realizado correctamente!");
-
-        setPagina("cuenta");
+    if (!usuario) {
+        alert("Debes iniciar sesión para reservar una cita.");
+        setPagina("login");
+        return;
     }
 
+    // Comprobar si el usuario ya tiene reservada esta charla.
+    const reservaExistente = reservas.find(
+        (reserva) =>
+            reserva.usuario === usuario.correo &&
+            reserva.charlaId === reservaNueva.charlaId
+    );
+
+    if (reservaExistente) {
+        alert(
+            "Ya tienes una reserva para esta charla. " +
+            "Cancela tu reserva actual antes de volver a reservar."
+        );
+        return;
+    }
+
+    // Guardar la nueva reserva.
+    const nuevaReserva = {
+        ...reservaNueva,
+        usuario: usuario.correo
+    };
+
+    setReservas([...reservas, nuevaReserva]);
+
+    alert("¡Tu reserva se ha realizado correctamente!");
+
+    setPagina("cuenta");
+}
     // Cancelar una reserva.
     function cancelarReserva(indice) {
 

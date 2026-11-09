@@ -32,9 +32,11 @@ const estilos = {
     },
     tarjetas: {
         display: "flex",
-        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "stretch",
         gap: "20px",
-        marginTop: "25px"
+        width: "100%",
+        margin: "0 auto"
     }
 };
 
