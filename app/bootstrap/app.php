@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Es una API: un usuario sin autenticar nunca se redirige a una página de login (no existe),
+        // se responde 401 en JSON aunque la petición no lleve la cabecera Accept.
+        $middleware->redirectGuestsTo(fn (Request $request) => null);
+
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
         ]);
