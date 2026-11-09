@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import charlas from "../data/charlas";
 
@@ -8,60 +7,38 @@ function Reserva({ charlaSeleccionada, confirmarReserva }) {
         charlaSeleccionada ? String(charlaSeleccionada.id) : ""
     );
 
-    const [fecha, setFecha] = useState("");
-    const [hora, setHora] = useState("");
-    const [lugar, setLugar] = useState("");
-
-    // Buscar la charla seleccionada.
     const charla = charlas.find(
         (item) => item.id === Number(charlaId)
     );
 
-    // Buscar las horas correspondientes a la fecha.
-    const fechaSeleccionada = charla?.fechasDisponibles.find(
-        (item) => item.fecha === fecha
-    );
-
-    const horasDisponibles = fechaSeleccionada
-        ? fechaSeleccionada.horas
-        : [];
-
-    // Enviar la reserva.
     function enviarReserva(e) {
         e.preventDefault();
 
-        if (!charla || !fecha || !hora || !lugar) {
-            alert("Debes completar todos los campos.");
+        if (!charla) {
+            alert("Selecciona una charla.");
             return;
         }
 
         confirmarReserva({
             charla: charla.titulo,
             charlaId: charla.id,
-            fecha: fecha,
-            hora: hora,
-            lugar: lugar
+            fecha: charla.fechasDisponibles[0].fecha,
+            hora: charla.fechasDisponibles[0].horas[0],
+            lugar: charla.lugar
         });
     }
 
     return (
         <main style={estilos.contenedor}>
-
             <h2>Reserva tu cita</h2>
 
             <form onSubmit={enviarReserva} style={estilos.formulario}>
 
-                {/* SELECCIONAR CHARLA */}
                 <label>Selecciona una charla</label>
 
                 <select
                     value={charlaId}
-                    onChange={(e) => {
-                        setCharlaId(e.target.value);
-                        setFecha("");
-                        setHora("");
-                        setLugar("");
-                    }}
+                    onChange={(e) => setCharlaId(e.target.value)}
                     required
                 >
                     <option value="">Elige una charla</option>
@@ -73,62 +50,28 @@ function Reserva({ charlaSeleccionada, confirmarReserva }) {
                     ))}
                 </select>
 
-                {/* SELECCIONAR FECHA */}
-                <label>Selecciona una fecha</label>
+                {charla && (
+                    <>
+                        <p>
+                            <strong>Fecha:</strong>{" "}
+                            {charla.fechasDisponibles[0].fecha}
+                        </p>
 
-                <select
-                    value={fecha}
-                    onChange={(e) => {
-                        setFecha(e.target.value);
-                        setHora("");
-                    }}
-                    disabled={!charla}
-                    required
-                >
-                    <option value="">Elige una fecha</option>
+                        <p>
+                            <strong>Hora:</strong>{" "}
+                            {charla.fechasDisponibles[0].horas[0]}
+                        </p>
 
-                    {charla?.fechasDisponibles.map((item) => (
-                        <option key={item.fecha} value={item.fecha}>
-                            {item.fecha}
-                        </option>
-                    ))}
-                </select>
+                        <p>
+                            <strong>Lugar:</strong> {charla.lugar}
+                        </p>
 
-                {/* SELECCIONAR HORA */}
-                <label>Selecciona una hora</label>
-
-                <select
-                    value={hora}
-                    onChange={(e) => setHora(e.target.value)}
-                    disabled={!fecha}
-                    required
-                >
-                    <option value="">Elige una hora</option>
-
-                    {horasDisponibles.map((item) => (
-                        <option key={item} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
-
-                {/* SELECCIONAR LUGAR */}
-                <label>Selecciona un lugar</label>
-
-                <select
-                    value={lugar}
-                    onChange={(e) => setLugar(e.target.value)}
-                    disabled={!charla}
-                    required
-                >
-                    <option value="">Elige un lugar</option>
-
-                    {charla?.lugaresDisponibles.map((item) => (
-                        <option key={item} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
+                        <p>
+                            <strong>Plazas disponibles:</strong>{" "}
+                            {charla.plazasDisponibles}
+                        </p>
+                    </>
+                )}
 
                 <button type="submit">
                     CONFIRMAR RESERVA
@@ -141,21 +84,20 @@ function Reserva({ charlaSeleccionada, confirmarReserva }) {
 
 const estilos = {
     contenedor: {
-        width: "100%",
         maxWidth: "450px",
+        width: "100%",
         margin: "40px auto",
         padding: "25px",
-        textAlign: "center",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        textAlign: "center"
     },
-
     formulario: {
         backgroundColor: "#ffffff",
         borderRadius: "12px",
         display: "flex",
         flexDirection: "column",
         gap: "12px",
-        padding: "30px",
+        padding: "25px",
         boxSizing: "border-box"
     }
 };

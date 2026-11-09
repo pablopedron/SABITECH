@@ -1,33 +1,47 @@
-
 function TarjetaCharla({ charla, reservar }) {
+
+    const fechaDisponible = charla.fechasDisponibles?.[0];
 
     return (
         <article style={estilos.tarjeta}>
-
-            <div style={estilos.imagen}>
-                {charla.imagen}
-            </div>
-
             <h3>{charla.titulo}</h3>
 
             <p>{charla.descripcion}</p>
 
-            <p><strong>Días disponibles:</strong></p>
+            <p>
+                <strong>Categoría:</strong> {charla.categoria || "No disponible"}
+            </p>
 
-            {charla.fechasDisponibles.map((item) => (
-                <div key={item.fecha}>
+            <p>
+                <strong>Ponente:</strong> {charla.ponente || "No disponible"}
+            </p>
 
-                    <p>{item.fecha}</p>
+            <p>
+                <strong>Empresa:</strong> {charla.empresaPonente || "No disponible"}
+            </p>
 
-                    <p>
-                        <strong>Horas:</strong>{" "}
-                        {item.horas.join(", ")}
-                    </p>
+            <p>
+                <strong>Fecha:</strong>{" "}
+                {fechaDisponible?.fecha || "No disponible"}
+            </p>
 
-                </div>
-            ))}
+            <p>
+                <strong>Hora:</strong>{" "}
+                {fechaDisponible?.horas?.[0] || "No disponible"}
+            </p>
 
-            <p><strong>Lugar:</strong> Valencia</p>
+            <p>
+                <strong>Lugar:</strong> {charla.lugar || "No disponible"}
+            </p>
+
+            <p>
+                <strong>Dirección:</strong> {charla.direccion || "No disponible"}
+            </p>
+
+            <p>
+                <strong>Plazas disponibles:</strong>{" "}
+                {charla.plazasDisponibles ?? "No disponible"}
+            </p>
 
             <button
                 style={estilos.boton}
@@ -35,35 +49,28 @@ function TarjetaCharla({ charla, reservar }) {
             >
                 PIDE CITA
             </button>
-
         </article>
     );
 }
 
 const estilos = {
     tarjeta: {
-        backgroundColor: "white",
-        padding: "20px",
+        backgroundColor: "#ffffff",
         borderRadius: "12px",
-        boxShadow: "0 2px 8px #cccccc",
-        textAlign: "center",
+        padding: "20px",
         width: "100%",
         maxWidth: "280px",
-        flex: "1 1 250px",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
     },
-
-    imagen: {
-        fontSize: "55px"
-    },
-
     boton: {
         backgroundColor: "#5f137b",
         color: "white",
         border: "none",
-        padding: "12px 20px",
+        padding: "12px",
         borderRadius: "6px",
-        cursor: "pointer"
+        cursor: "pointer",
+        width: "100%"
     }
 };
 
