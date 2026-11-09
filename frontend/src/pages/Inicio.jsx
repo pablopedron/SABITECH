@@ -81,7 +81,12 @@ const estilos = {
     tarjetas: {
         display: "flex",
         flexWrap: "wrap",
-        gap: "20px"
+        justifyContent: "center",
+        alignItems: "stretch",
+        gap: "20px",
+        width: "100%",
+        margin: "0 auto"
+
     },
     boton: {
         backgroundColor: "#110707",
