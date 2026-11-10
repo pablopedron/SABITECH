@@ -9,6 +9,7 @@ import Charlas from "./pages/Charlas";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Reserva from "./pages/Reserva";
+import Detalle from "./pages/Detalle";
 import Cuenta from "./pages/Cuenta";
 import Admin from "./pages/Admin";
 
@@ -45,6 +46,9 @@ function App() {
 
     // Charla seleccionada desde una tarjeta.
     const [charlaSeleccionada, setCharlaSeleccionada] = useState(null);
+
+    // Id de la charla cuyo detalle se está viendo.
+    const [charlaDetalleId, setCharlaDetalleId] = useState(null);
 
     // Mensaje para el usuario: { tipo: "ok" | "error", texto }.
     const [aviso, setAviso] = useState(null);
@@ -118,6 +122,13 @@ function App() {
         setAviso(null);
         setCharlaSeleccionada(charla);
         setPagina("reserva");
+    }
+
+    // Abrir la pantalla de detalle de una charla.
+    function verDetalle(charla) {
+        setAviso(null);
+        setCharlaDetalleId(charla.id);
+        setPagina("detalle");
     }
 
     // El login y el registro devuelven pocos datos; /me trae el perfil completo (código postal...).
@@ -250,13 +261,23 @@ function App() {
                     <Inicio
                         catalogo={catalogo}
                         reservar={reservar}
+                        verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
                     />
                 );
 
             case "charlas":
                 return (
-                    <Charlas catalogo={catalogo} reservar={reservar} />
+                    <Charlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
+                );
+
+            case "detalle":
+                return (
+                    <Detalle
+                        charlaId={charlaDetalleId}
+                        reservar={reservar}
+                        volver={() => cambiarPagina("charlas")}
+                    />
                 );
 
             case "login":
@@ -304,6 +325,7 @@ function App() {
                         <Inicio
                             catalogo={catalogo}
                             reservar={reservar}
+                            verDetalle={verDetalle}
                             cambiarPagina={cambiarPagina}
                         />
                     );
@@ -318,6 +340,7 @@ function App() {
                     <Inicio
                         catalogo={catalogo}
                         reservar={reservar}
+                        verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
                     />
                 );

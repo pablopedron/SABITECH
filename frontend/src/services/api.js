@@ -177,6 +177,12 @@ export async function obtenerCharlas() {
     return datos.data.map((charla) => Charla.fromJSON(charla));
 }
 
+// Una sola charla (pantalla de detalle). Si no existe o no está publicada, la API responde 404.
+export async function obtenerCharla(id) {
+    const datos = await peticion(`/talks/${id}`);
+    return Charla.fromJSON(datos.data);
+}
+
 // --- Reservas (necesitan sesión) ---
 
 export async function reservarCharla(charlaId) {

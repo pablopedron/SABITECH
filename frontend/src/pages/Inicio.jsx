@@ -1,6 +1,6 @@
 import ListaCharlas from "../components/ListaCharlas";
 
-function Inicio({ catalogo, reservar, cambiarPagina }) {
+function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
 
     return (
         <main style={estilos.contenedor}>
@@ -35,7 +35,7 @@ function Inicio({ catalogo, reservar, cambiarPagina }) {
             <section>
                 <h2 style={estilos.titulo}>NUESTRAS CHARLAS</h2>
 
-                <ListaCharlas catalogo={catalogo} reservar={reservar} />
+                <ListaCharlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
             </section>
 
             <section style={estilos.final}>
