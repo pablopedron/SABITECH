@@ -73,7 +73,6 @@ const estilos = {
         borderRadius: "12px",
         padding: "20px",
         width: "100%",
-        maxWidth: "280px",
         boxSizing: "border-box",
         boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
     },

@@ -1,12 +1,12 @@
 function Header({ cambiarPagina, usuario }) {
 
     return (
-        <header style={estilos.header}>
+        <header className="site-header" style={estilos.header}>
             <h1 onClick={() => cambiarPagina("inicio")} style={estilos.logo}>
                 SABITECH
             </h1>
 
-            <nav style={estilos.nav}>
+            <nav className="site-nav" style={estilos.nav}>
                 <button onClick={() => cambiarPagina("inicio")}>
                     Inicio
                 </button>
