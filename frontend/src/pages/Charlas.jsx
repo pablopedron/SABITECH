@@ -1,7 +1,6 @@
-import TarjetaCharla from "../components/TarjetaCharla";
-import charlas from "../data/charlas";
+import ListaCharlas from "../components/ListaCharlas";
 
-function Charlas({ reservar }) {
+function Charlas({ catalogo, reservar }) {
 
     return (
         <main style={estilos.contenedor}>
@@ -11,15 +10,7 @@ function Charlas({ reservar }) {
                 Consulta la información de cada charla y reserva tu plaza.
             </p>
 
-            <div style={estilos.tarjetas}>
-                {charlas.map((charla) => (
-                    <TarjetaCharla
-                        key={charla.id}
-                        charla={charla}
-                        reservar={reservar}
-                    />
-                ))}
-            </div>
+            <ListaCharlas catalogo={catalogo} reservar={reservar} />
         </main>
     );
 }
@@ -29,14 +20,6 @@ const estilos = {
         padding: "30px",
         maxWidth: "1200px",
         margin: "auto"
-    },
-    tarjetas: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "stretch",
-        gap: "20px",
-        width: "100%",
-        margin: "0 auto"
     }
 };
 

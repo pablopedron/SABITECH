@@ -4,16 +4,27 @@ function Login({ iniciarSesion, cambiarPagina }) {
 
     const [correo, setCorreo] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [enviando, setEnviando] = useState(false);
 
-    function enviarFormulario(e) {
+    async function enviarFormulario(e) {
         e.preventDefault();
 
         if (correo === "" || password === "") {
-            alert("Rellena todos los campos");
+            setError("Rellena todos los campos.");
             return;
         }
 
-        iniciarSesion(correo);
+        setError("");
+        setEnviando(true);
+
+        // iniciarSesion devuelve el mensaje de error, o null si ha ido bien.
+        const mensaje = await iniciarSesion(correo, password);
+
+        if (mensaje) {
+            setError(mensaje);
+            setEnviando(false);
+        }
     }
 
     return (
@@ -22,9 +33,10 @@ function Login({ iniciarSesion, cambiarPagina }) {
 
             <form onSubmit={enviarFormulario} style={estilos.formulario}>
 
-                <label>Correo electrónico</label>
+                <label htmlFor="login-correo">Correo electrónico</label>
 
                 <input
+                    id="login-correo"
                     type="email"
                     name="correo"
                     placeholder="Introduce tu correo..."
@@ -33,9 +45,10 @@ function Login({ iniciarSesion, cambiarPagina }) {
                     required
                 />
 
-                <label>Contraseña</label>
+                <label htmlFor="login-password">Contraseña</label>
 
                 <input
+                    id="login-password"
                     type="password"
                     name="contrasenya"
                     placeholder="Introduce tu contraseña..."
@@ -44,7 +57,11 @@ function Login({ iniciarSesion, cambiarPagina }) {
                     required
                 />
 
-                <button type="submit">Entrar</button>
+                {error && <p role="alert" style={estilos.error}>{error}</p>}
+
+                <button type="submit" disabled={enviando}>
+                    {enviando ? "Entrando..." : "Entrar"}
+                </button>
 
             </form>
 
@@ -72,6 +89,10 @@ const estilos = {
         flexDirection: "column",
         gap: "12px",
         padding: "50px"
+    },
+    error: {
+        color: "#b00020",
+        margin: 0
     }
 };
 
