@@ -17,7 +17,7 @@ function Charlas({ catalogo, reservar, verDetalle }) {
 
 const estilos = {
     contenedor: {
-        padding: "30px",
+        padding: "clamp(16px, 5vw, 30px)",
         maxWidth: "1200px",
         margin: "auto"
     }
