@@ -54,14 +54,14 @@ const estilos = {
         margin: "auto",
     },
     portada: {
-        backgroundColor: "#777780",
+        backgroundColor: "#b9b9c4",
         color: "#111111",
         textAlign: "center",
         padding: "70px 20px",
         borderRadius: "12px",
     },
     info: {
-        backgroundColor: "#777780",
+        backgroundColor: "#b9b9c4",
         color: "#111111",
         borderRadius: "12px",
         textAlign: "center",
@@ -72,8 +72,8 @@ const estilos = {
         marginTop: "40px"
     },
     boton: {
-        backgroundColor: "#777780",
-        color: "#111111",
+        backgroundColor: "#110707",
+        color: "#ffffff",
         padding: "15px 25px",
         border: "none",
         borderRadius: "6px",
@@ -81,7 +81,7 @@ const estilos = {
     },
     final: {
         textAlign: "center",
-        backgroundColor: "#777780",
+        backgroundColor: "#b9b9c4",
         color: "#111111",
         padding: "35px",
         marginTop: "40px",
