@@ -22,7 +22,7 @@ function ListaCharlas({ catalogo, reservar }) {
     }
 
     return (
-        <div style={estilos.tarjetas}>
+        <div className="charlas-grid">
             {catalogo.charlas.map((charla) => (
                 <TarjetaCharla
                     key={charla.id}
@@ -34,16 +34,5 @@ function ListaCharlas({ catalogo, reservar }) {
     );
 }
 
-const estilos = {
-    tarjetas: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "stretch",
-        gap: "20px",
-        width: "100%",
-        margin: "0 auto"
-    }
-};
 
 export default ListaCharlas;
