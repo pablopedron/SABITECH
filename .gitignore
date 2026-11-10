@@ -17,7 +17,7 @@ credentials.json
 *.pfx
 
 # --- Bases de Datos ---
-# Los .sql de esquema y datos de prueba SÍ se suben (database/); se ignoran copias y volcados reales
+# El .sql de constancia del modelo SÍ se sube (documents/); se ignoran copias y volcados reales
 *.sqlite
 *.db
 backups/

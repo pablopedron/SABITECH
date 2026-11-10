@@ -7,11 +7,17 @@ services:
     ports:
       - "8080:80"
     environment:
+      # Nombres que lee Laravel (config/database.php)
+      DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      # Correo de laboratorio: Mailpit (bandeja en http://localhost:8025)
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
     volumes:
       - ./app:/var/www/html
     depends_on:
@@ -21,8 +27,13 @@ services:
   # 2) Base de datos: MySQL
   db:
     image: mysql:8.4
+    # Permite que las migraciones de Laravel creen triggers con un usuario normal
+    # (sin esto MySQL da el error 1419 porque el log binario está activado)
+    command: --log-bin-trust-function-creators=1
     ports:
-      - "127.0.0.1:3307:3306"   # solo para MySQL Workbench desde tu PC
+      # Solo para MySQL Workbench desde tu PC. Si Windows da error con el puerto 3307,
+      # pon otro en tu .env, por ejemplo MYSQL_HOST_PORT=3310
+      - "127.0.0.1:${MYSQL_HOST_PORT:-3307}:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -45,6 +56,13 @@ services:
       - "8081:80"
     depends_on:
       - db
+
+  # 4) Mailpit: buzón de laboratorio para ver los correos de confirmación
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # interfaz web
+      - "1025:1025"   # SMTP
 
 volumes:
   mysql_data:
