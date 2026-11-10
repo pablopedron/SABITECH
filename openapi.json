@@ -3,7 +3,7 @@
   "info": {
     "title": "SABITECH WEB API",
     "description": "Contrato del frontend de SABITECH WEB (PGD Technologies S.L.): jornadas tecnológicas con inscripción, control de aforo y asistencia por QR.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "contact": {
       "name": "PGD Technologies S.L."
     }
@@ -21,7 +21,11 @@
     },
     {
       "name": "Talks",
-      "description": "Catálogo, inscripción y cancelación"
+      "description": "Catálogo público de charlas"
+    },
+    {
+      "name": "Reservas",
+      "description": "Reservar, consultar y cancelar plazas"
     },
     {
       "name": "Attendances",
@@ -260,33 +264,40 @@
         }
       }
     },
-    "/talks/inscribe": {
+    "/talks/{id}/inscribe": {
       "post": {
         "tags": [
-          "Talks"
+          "Reservas"
         ],
-        "summary": "Inscribirse en una charla",
-        "description": "Crea el registro en talk_user con estado 'confirmada' e incrementa seats_taken de forma atómica. El usuario se toma del token. [PENDIENTE de implementar: se cierra en una versión posterior del contrato]",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InscribeRequest"
-              },
-              "example": {
-                "talk_id": 3
-              }
+        "summary": "Reservar una plaza",
+        "description": "Requiere token. Se ejecuta en una transacción con la charla bloqueada, de modo que la última plaza no puede concederse dos veces. 404: charla inexistente o borrador. 409: ya tienes reserva, no quedan plazas o la charla ya ha empezado. Si la reserva había sido cancelada, se reactiva con una referencia nueva de QR.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
-        },
+        ],
         "responses": {
           "201": {
-            "description": "Inscripción confirmada",
+            "description": "Reserva confirmada",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Registration"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Reservation"
+                    }
+                  }
                 }
               }
             }
@@ -303,34 +314,87 @@
         }
       }
     },
-    "/talks/cancel": {
+    "/me/reservations": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Mis reservas",
+        "description": "Reservas del usuario autenticado (confirmadas y canceladas), ordenadas por fecha de la charla.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de reservas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Reservation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/reservations/{id}/cancel": {
       "post": {
         "tags": [
-          "Talks"
+          "Reservas"
         ],
-        "summary": "Cancelar la inscripción a una charla",
-        "description": "Pasa el estado a 'cancelada', libera una plaza y guarda el motivo analítico, que es obligatorio. [PENDIENTE de implementar]",
+        "summary": "Cancelar una reserva",
+        "description": "Solo el dueño de la reserva (la de otra persona responde 404). Libera la plaza. 409 si ya estaba cancelada o la charla ya ha empezado.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CancelRequest"
-              },
-              "example": {
-                "talk_id": 3,
-                "cancellation_reason": "Incompatibilidad de horario"
+                "$ref": "#/components/schemas/CancelReservationRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Inscripción cancelada",
+            "description": "Reserva cancelada",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Registration"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Reservation"
+                    }
+                  }
                 }
               }
             }
@@ -340,6 +404,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
           },
           "422": {
             "$ref": "#/components/responses/Unprocessable"
@@ -592,66 +659,6 @@
           }
         }
       },
-      "InscribeRequest": {
-        "type": "object",
-        "required": [
-          "talk_id"
-        ],
-        "properties": {
-          "talk_id": {
-            "type": "integer",
-            "minimum": 1
-          }
-        }
-      },
-      "CancelRequest": {
-        "type": "object",
-        "required": [
-          "talk_id",
-          "cancellation_reason"
-        ],
-        "properties": {
-          "talk_id": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "cancellation_reason": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 255,
-            "description": "Dato analítico: motivo de cancelación"
-          }
-        }
-      },
-      "Registration": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "user_id": {
-            "type": "integer"
-          },
-          "talk_id": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "confirmada",
-              "cancelada"
-            ]
-          },
-          "cancellation_reason": {
-            "type": "string",
-            "nullable": true
-          },
-          "registered_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "RateRequest": {
         "type": "object",
         "required": [
@@ -781,6 +788,54 @@
             }
           }
         ]
+      },
+      "Reservation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 12
+          },
+          "reference": {
+            "type": "string",
+            "example": "SBT-7K2Q9X",
+            "description": "Referencia legible de la reserva (aparecerá en el correo)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmada",
+              "cancelada"
+            ]
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelled_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancellation_reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "talk": {
+            "$ref": "#/components/schemas/Talk"
+          }
+        }
+      },
+      "CancelReservationRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "description": "Motivo de la cancelación (opcional)"
+          }
+        }
       }
     },
     "responses": {

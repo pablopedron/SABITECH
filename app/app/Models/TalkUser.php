@@ -17,7 +17,7 @@ class TalkUser extends Model
 
     protected $fillable = [
         'reference', 'user_id', 'talk_id', 'status', 'qr_secret',
-        'cancellation_reason', 'cancelled_at',
+        'cancellation_reason', 'cancelled_at', 'registered_at',
     ];
 
     // El secreto del QR nunca debe salir en una respuesta JSON
