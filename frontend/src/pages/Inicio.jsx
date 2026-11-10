@@ -1,7 +1,6 @@
-import TarjetaCharla from "../components/TarjetaCharla";
-import charlas from "../data/charlas";
+import ListaCharlas from "../components/ListaCharlas";
 
-function Inicio({ reservar, cambiarPagina }) {
+function Inicio({ catalogo, reservar, cambiarPagina }) {
 
     return (
         <main style={estilos.contenedor}>
@@ -36,15 +35,7 @@ function Inicio({ reservar, cambiarPagina }) {
             <section>
                 <h2 style={estilos.titulo}>NUESTRAS CHARLAS</h2>
 
-                <div style={estilos.tarjetas}>
-                    {charlas.map((charla) => (
-                        <TarjetaCharla
-                            key={charla.id}
-                            charla={charla}
-                            reservar={reservar}
-                        />
-                    ))}
-                </div>
+                <ListaCharlas catalogo={catalogo} reservar={reservar} />
             </section>
 
             <section style={estilos.final}>
@@ -77,16 +68,6 @@ const estilos = {
     titulo: {
         textAlign: "center",
         marginTop: "40px"
-    },
-    tarjetas: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "stretch",
-        gap: "20px",
-        width: "100%",
-        margin: "0 auto"
-
     },
     boton: {
         backgroundColor: "#110707",

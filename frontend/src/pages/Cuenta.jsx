@@ -1,5 +1,9 @@
 function Cuenta({ usuario, reservas, cancelarReserva, cerrarSesion }) {
 
+    // Las canceladas se muestran aparte, sin botón de cancelar.
+    const confirmadas = reservas.filter((reserva) => reserva.estado === "confirmada");
+    const canceladas = reservas.filter((reserva) => reserva.estado === "cancelada");
+
     return (
         <main style={estilos.contenedor}>
             <h2>Mi cuenta</h2>
@@ -9,30 +13,45 @@ function Cuenta({ usuario, reservas, cancelarReserva, cerrarSesion }) {
 
                 <p><strong>Nombre:</strong> {usuario.nombre}</p>
                 <p><strong>Correo:</strong> {usuario.correo}</p>
-                <p><strong>Ciudad:</strong> {usuario.ciudad}</p>
-                <p><strong>Código postal:</strong> {usuario.codigoPostal}</p>
+                <p><strong>Código postal:</strong> {usuario.codigoPostal || "No indicado"}</p>
             </section>
 
             <section style={estilos.caja}>
                 <h3>Mis citas</h3>
 
-                {reservas.length === 0 ? (
+                {confirmadas.length === 0 ? (
                     <p>No tienes ninguna reserva.</p>
                 ) : (
-                    reservas.map((reserva, index) => (
-                        <div key={index} style={estilos.reserva}>
-                            <p><strong>Charla:</strong> {reserva.charla}</p>
-                            <p><strong>Fecha:</strong> {reserva.fecha}</p>
-                            <p><strong>Hora:</strong> {reserva.hora}</p>
-                            <p><strong>Lugar:</strong> {reserva.lugar}</p>
+                    confirmadas.map((reserva) => (
+                        <div key={reserva.id} style={estilos.reserva}>
+                            <p><strong>Referencia:</strong> {reserva.referencia}</p>
+                            <p><strong>Charla:</strong> {reserva.charla.titulo}</p>
+                            <p><strong>Fecha:</strong> {reserva.charla.fechasDisponibles[0].fecha}</p>
+                            <p><strong>Hora:</strong> {reserva.charla.fechasDisponibles[0].horas[0]}</p>
+                            <p><strong>Lugar:</strong> {reserva.charla.lugar}</p>
 
-                            <button onClick={() => cancelarReserva(index)}>
+                            <button onClick={() => cancelarReserva(reserva.id)}>
                                 Cancelar reserva
                             </button>
                         </div>
                     ))
                 )}
             </section>
+
+            {canceladas.length > 0 && (
+                <section style={estilos.caja}>
+                    <h3>Reservas canceladas</h3>
+
+                    {canceladas.map((reserva) => (
+                        <div key={reserva.id} style={estilos.reserva}>
+                            <p>
+                                <strong>{reserva.charla.titulo}</strong>{" "}
+                                ({reserva.referencia}) - cancelada
+                            </p>
+                        </div>
+                    ))}
+                </section>
+            )}
 
             <button
                 style={estilos.boton}

@@ -1,83 +1,102 @@
 import { useState } from "react";
-import charlas from "../data/charlas";
 
-function Reserva({ charlaSeleccionada, confirmarReserva }) {
+function Reserva({ catalogo, charlaSeleccionada, confirmarReserva }) {
+
+    const charlas = catalogo.charlas;
 
     const [charlaId, setCharlaId] = useState(
         charlaSeleccionada ? String(charlaSeleccionada.id) : ""
     );
+    const [enviando, setEnviando] = useState(false);
 
     const charla = charlas.find(
         (item) => item.id === Number(charlaId)
     );
 
-    function enviarReserva(e) {
+    async function enviarReserva(e) {
         e.preventDefault();
 
         if (!charla) {
-            alert("Selecciona una charla.");
             return;
         }
 
-        confirmarReserva({
-            charla: charla.titulo,
-            charlaId: charla.id,
-            fecha: charla.fechasDisponibles[0].fecha,
-            hora: charla.fechasDisponibles[0].horas[0],
-            lugar: charla.lugar
-        });
+        setEnviando(true);
+
+        // App muestra el resultado (reserva hecha o error) y cambia de página si ha ido bien.
+        await confirmarReserva(charla.id);
+
+        setEnviando(false);
     }
 
     return (
         <main style={estilos.contenedor}>
             <h2>Reserva tu cita</h2>
 
-            <form onSubmit={enviarReserva} style={estilos.formulario}>
+            {catalogo.estado === "cargando" && (
+                <p role="status">Cargando charlas...</p>
+            )}
 
-                <label>Selecciona una charla</label>
+            {catalogo.estado === "error" && (
+                <div role="alert">
+                    <p>No se han podido cargar las charlas. {catalogo.error}</p>
+                    <button onClick={catalogo.recargar}>Reintentar</button>
+                </div>
+            )}
 
-                <select
-                    value={charlaId}
-                    onChange={(e) => setCharlaId(e.target.value)}
-                    required
-                >
-                    <option value="">Elige una charla</option>
+            {catalogo.estado === "listo" && (
+                <form onSubmit={enviarReserva} style={estilos.formulario}>
 
-                    {charlas.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.titulo}
-                        </option>
-                    ))}
-                </select>
+                    <label htmlFor="reserva-charla">Selecciona una charla</label>
 
-                {charla && (
-                    <>
-                        <p>
-                            <strong>Fecha:</strong>{" "}
-                            {charla.fechasDisponibles[0].fecha}
-                        </p>
+                    <select
+                        id="reserva-charla"
+                        value={charlaId}
+                        onChange={(e) => setCharlaId(e.target.value)}
+                        required
+                    >
+                        <option value="">Elige una charla</option>
 
-                        <p>
-                            <strong>Hora:</strong>{" "}
-                            {charla.fechasDisponibles[0].horas[0]}
-                        </p>
+                        {charlas.map((item) => (
+                            <option
+                                key={item.id}
+                                value={item.id}
+                                disabled={item.plazasDisponibles === 0}
+                            >
+                                {item.titulo}
+                                {item.plazasDisponibles === 0 ? " (sin plazas)" : ""}
+                            </option>
+                        ))}
+                    </select>
 
-                        <p>
-                            <strong>Lugar:</strong> {charla.lugar}
-                        </p>
+                    {charla && (
+                        <>
+                            <p>
+                                <strong>Fecha:</strong>{" "}
+                                {charla.fechasDisponibles[0].fecha}
+                            </p>
 
-                        <p>
-                            <strong>Plazas disponibles:</strong>{" "}
-                            {charla.plazasDisponibles}
-                        </p>
-                    </>
-                )}
+                            <p>
+                                <strong>Hora:</strong>{" "}
+                                {charla.fechasDisponibles[0].horas[0]}
+                            </p>
 
-                <button type="submit">
-                    CONFIRMAR RESERVA
-                </button>
+                            <p>
+                                <strong>Lugar:</strong> {charla.lugar}
+                            </p>
 
-            </form>
+                            <p>
+                                <strong>Plazas disponibles:</strong>{" "}
+                                {charla.plazasDisponibles}
+                            </p>
+                        </>
+                    )}
+
+                    <button type="submit" disabled={enviando}>
+                        {enviando ? "RESERVANDO..." : "CONFIRMAR RESERVA"}
+                    </button>
+
+                </form>
+            )}
         </main>
     );
 }
