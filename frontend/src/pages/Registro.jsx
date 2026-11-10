@@ -5,21 +5,28 @@ function Registro({ registrar, cambiarPagina }) {
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
     const [password, setPassword] = useState("");
-    const [ciudad, setCiudad] = useState("");
     const [codigoPostal, setCodigoPostal] = useState("");
+    const [errores, setErrores] = useState([]);
+    const [enviando, setEnviando] = useState(false);
 
-    function enviarFormulario(e) {
+    async function enviarFormulario(e) {
         e.preventDefault();
 
-        const usuario = {
+        setErrores([]);
+        setEnviando(true);
+
+        // registrar devuelve una lista con los mensajes de error, o null si ha ido bien.
+        const problemas = await registrar({
             nombre: nombre,
             correo: correo,
-            ciudad: ciudad,
-            codigoPostal: codigoPostal,
-            rol: "usuario"
-        };
+            password: password,
+            codigoPostal: codigoPostal
+        });
 
-        registrar(usuario);
+        if (problemas) {
+            setErrores(problemas);
+            setEnviando(false);
+        }
     }
 
     return (
@@ -28,8 +35,9 @@ function Registro({ registrar, cambiarPagina }) {
 
             <form onSubmit={enviarFormulario} style={estilos.formulario}>
 
-                <label>Nombre completo</label>
+                <label htmlFor="registro-nombre">Nombre completo</label>
                 <input
+                    id="registro-nombre"
                     type="text"
                     name="nombre"
                     placeholder="Introduce nombre y apellidos..."
@@ -38,8 +46,9 @@ function Registro({ registrar, cambiarPagina }) {
                     required
                 />
 
-                <label>Correo electrónico</label>
+                <label htmlFor="registro-correo">Correo electrónico</label>
                 <input
+                    id="registro-correo"
                     type="email"
                     name="correo"
                     placeholder="Introduce tu correo..."
@@ -48,29 +57,21 @@ function Registro({ registrar, cambiarPagina }) {
                     required
                 />
 
-                <label>Contraseña</label>
+                <label htmlFor="registro-password">Contraseña (mínimo 8 caracteres)</label>
                 <input
+                    id="registro-password"
                     type="password"
                     name="contrasenya"
                     placeholder="Introduce tu contraseña..."
+                    minLength="8"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
 
-                <label>Ciudad</label>
+                <label htmlFor="registro-cp">Código postal</label>
                 <input
-                    type="text"
-                    name="ciudad"
-                    placeholder="Introduce tu ciudad..."
-                    pattern="[A-Za-zÁÉÍÓÚáéíóúÜüÑñ\s]+"
-                    value={ciudad}
-                    onChange={(e) => setCiudad(e.target.value)}
-                    required
-                />
-
-                <label>Código postal</label>
-                <input
+                    id="registro-cp"
                     type="text"
                     name="codigoPostal"
                     placeholder="Introduce tu código postal..."
@@ -81,7 +82,17 @@ function Registro({ registrar, cambiarPagina }) {
                     required
                 />
 
-                <button type="submit">Registrarme</button>
+                {errores.length > 0 && (
+                    <ul role="alert" style={estilos.errores}>
+                        {errores.map((mensaje, indice) => (
+                            <li key={indice}>{mensaje}</li>
+                        ))}
+                    </ul>
+                )}
+
+                <button type="submit" disabled={enviando}>
+                    {enviando ? "Registrando..." : "Registrarme"}
+                </button>
 
             </form>
 
@@ -109,6 +120,11 @@ const estilos = {
         flexDirection: "column",
         gap: "10px",
         padding:"50px"
+    },
+    errores: {
+        color: "#b00020",
+        textAlign: "left",
+        margin: 0
     }
 };
 

@@ -2,6 +2,9 @@ function TarjetaCharla({ charla, reservar }) {
 
     const fechaDisponible = charla.fechasDisponibles?.[0];
 
+    // Con 0 plazas libres no se puede reservar (el servidor también lo comprueba).
+    const sinPlazas = charla.plazasDisponibles === 0;
+
     return (
         <article style={estilos.tarjeta}>
             <h3>{charla.titulo}</h3>
@@ -44,10 +47,14 @@ function TarjetaCharla({ charla, reservar }) {
             </p>
 
             <button
-                style={estilos.boton}
+                style={{
+                    ...estilos.boton,
+                    ...(sinPlazas ? estilos.botonDesactivado : {})
+                }}
                 onClick={() => reservar(charla)}
+                disabled={sinPlazas}
             >
-                PIDE CITA
+                {sinPlazas ? "SIN PLAZAS" : "PIDE CITA"}
             </button>
         </article>
     );
@@ -71,6 +78,10 @@ const estilos = {
         borderRadius: "6px",
         cursor: "pointer",
         width: "100%"
+    },
+    botonDesactivado: {
+        backgroundColor: "#6b6b6b",
+        cursor: "not-allowed"
     }
 };
 

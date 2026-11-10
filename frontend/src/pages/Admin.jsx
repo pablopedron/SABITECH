@@ -1,55 +1,38 @@
-import charlas from "../data/charlas";
-
-function Admin({ usuarios }) {
-
-    // Contamos cuántos usuarios hay en cada ciudad.
-    const ciudades = {};
-
-    usuarios.forEach((usuario) => {
-        if (usuario.ciudad) {
-            if (ciudades[usuario.ciudad]) {
-                ciudades[usuario.ciudad]++;
-            } else {
-                ciudades[usuario.ciudad] = 1;
-            }
-        }
-    });
+function Admin({ catalogo }) {
 
     return (
         <main style={estilos.contenedor}>
             <h2>Panel de administrador</h2>
 
             <section style={estilos.caja}>
-                <h3>Usuarios por ciudad</h3>
+                <h3>Estadísticas de usuarios</h3>
 
-                {Object.keys(ciudades).length === 0 ? (
-                    <p>No hay usuarios registrados.</p>
-                ) : (
-                    Object.keys(ciudades).map((ciudad) => (
-                        <div key={ciudad} style={estilos.fila}>
-                            <p>{ciudad}: {ciudades[ciudad]} usuarios</p>
-
-                            <div style={estilos.fondoBarra}>
-                                <div
-                                    style={{
-                                        ...estilos.barra,
-                                        width: `${ciudades[ciudad] * 20}%`
-                                    }}
-                                ></div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                <p>
+                    Las estadísticas (por ejemplo, usuarios por código postal) se
+                    mostrarán cuando el backend ofrezca esos datos a organización.
+                </p>
             </section>
 
             <section style={estilos.caja}>
                 <h3>Todas las charlas</h3>
 
-                {charlas.map((charla) => (
+                {catalogo.estado === "cargando" && <p role="status">Cargando charlas...</p>}
+
+                {catalogo.estado === "error" && (
+                    <div role="alert">
+                        <p>No se han podido cargar las charlas. {catalogo.error}</p>
+                        <button onClick={catalogo.recargar}>Reintentar</button>
+                    </div>
+                )}
+
+                {catalogo.estado === "listo" && catalogo.charlas.map((charla) => (
                     <div key={charla.id} style={estilos.charla}>
                         <h4>{charla.titulo}</h4>
                         <p>{charla.descripcion}</p>
-                        <p>{charla.fecha} - {charla.hora}</p>
+                        <p>
+                            {charla.fechasDisponibles[0].fecha} - {charla.fechasDisponibles[0].horas[0]}
+                            {" "}({charla.plazasDisponibles} de {charla.capacidad} plazas libres)
+                        </p>
                     </div>
                 ))}
             </section>
@@ -68,19 +51,6 @@ const estilos = {
         padding: "20px",
         borderRadius: "10px",
         marginBottom: "25px"
-    },
-    fila: {
-        marginBottom: "15px"
-    },
-    fondoBarra: {
-        backgroundColor: "#ddd",
-        height: "15px",
-        borderRadius: "10px"
-    },
-    barra: {
-        backgroundColor: "#0077b6",
-        height: "15px",
-        borderRadius: "10px"
     },
     charla: {
         backgroundColor: "white",
