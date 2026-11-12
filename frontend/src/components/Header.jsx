@@ -1,12 +1,18 @@
 function Header({ cambiarPagina, usuario }) {
 
     return (
-        <header style={estilos.header}>
-            <h1 onClick={() => cambiarPagina("inicio")} style={estilos.logo}>
-                SABITECH
+        <header className="site-header" style={estilos.header}>
+            <h1 style={estilos.logo}>
+                <button
+                    onClick={() => cambiarPagina("inicio")}
+                    style={estilos.botonLogo}
+                    aria-label="SABITECH, ir al inicio"
+                >
+                    SABITECH
+                </button>
             </h1>
 
-            <nav style={estilos.nav}>
+            <nav className="site-nav" style={estilos.nav}>
                 <button onClick={() => cambiarPagina("inicio")}>
                     Inicio
                 </button>
@@ -53,8 +59,17 @@ const estilos = {
         gap: "15px"
     },
     logo: {
-        cursor: "pointer",
-        margin: 0
+        margin: 0,
+        color: "white"
+    },
+    botonLogo: {
+        background: "none",
+        border: "none",
+        padding: 0,
+        color: "white",
+        font: "inherit",
+        letterSpacing: "inherit",
+        cursor: "pointer"
     },
     nav: {
         display: "flex",

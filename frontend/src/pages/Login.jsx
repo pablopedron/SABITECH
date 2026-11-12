@@ -88,7 +88,9 @@ const estilos = {
         display: "flex",
         flexDirection: "column",
         gap: "12px",
-        padding: "50px"
+        padding: "clamp(16px, 5vw, 30px)",
+        boxSizing: "border-box",
+        width: "100%"
     },
     error: {
         color: "#b00020",
