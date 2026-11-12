@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ReservationResource;
 use App\Models\Talk;
 use App\Models\TalkUser;
+use App\Services\CorreoReserva;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ReservationController extends Controller
      * bloqueada (lockForUpdate): si dos personas piden la última plaza a la vez, la segunda
      * espera a que termine la primera, ve que ya no quedan plazas y recibe 409.
      */
-    public function store(Request $request, int $id): JsonResponse
+    public function store(Request $request, int $id, CorreoReserva $correo): JsonResponse
     {
         $user = $request->user();
 
@@ -78,6 +79,10 @@ class ReservationController extends Controller
             // Red de seguridad: la restricción única (user_id, talk_id) de la base de datos
             abort(409, 'Ya tienes una reserva para esta charla.');
         }
+
+        // El correo se envía cuando la reserva ya está guardada (fuera de la transacción):
+        // si el correo falla, la reserva no se pierde y el fallo queda en email_logs.
+        $correo->enviarConfirmacion($reservation);
 
         $reservation->load(['talk.category', 'talk.location']);
 
