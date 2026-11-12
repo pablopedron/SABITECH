@@ -1,6 +1,6 @@
 import ListaCharlas from "../components/ListaCharlas";
 
-function Charlas({ catalogo, reservar }) {
+function Charlas({ catalogo, reservar, verDetalle }) {
 
     return (
         <main style={estilos.contenedor}>
@@ -10,14 +10,14 @@ function Charlas({ catalogo, reservar }) {
                 Consulta la información de cada charla y reserva tu plaza.
             </p>
 
-            <ListaCharlas catalogo={catalogo} reservar={reservar} />
+            <ListaCharlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
         </main>
     );
 }
 
 const estilos = {
     contenedor: {
-        padding: "30px",
+        padding: "clamp(16px, 5vw, 30px)",
         maxWidth: "1200px",
         margin: "auto"
     }
