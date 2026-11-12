@@ -1,16 +1,39 @@
-# React + Vite
+# SABITECH WEB · Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend en **React 19 + Vite**. Consume la API de Laravel del backend.
 
-Currently, two official plugins are available:
+## Arrancar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Necesita Node.js y que el backend esté levantado con Docker (ver el README principal).
 
-## React Compiler
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Por defecto llama a la API en `http://localhost:8080/api`. Para cambiarla, copia `.env.example` como `.env` y edita `VITE_API_URL`.
 
-## Expanding the Oxlint configuration
+Otros comandos:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm run build      # versión para publicar, en dist/
+npm run lint       # revisión del código con oxlint
+```
+
+## Organización
+
+| Carpeta / fichero | Qué contiene |
+|---|---|
+| `src/App.jsx` | Estado de la aplicación (pantalla actual, usuario, charlas, reservas) y navegación |
+| `src/services/api.js` | Todas las peticiones a la API, el token de sesión y los errores |
+| `src/data/charlas.js` | Clase `Charla`: convierte el JSON de la API al formato del frontend |
+| `src/utils/charlas.js` | Formato de fechas y estado de plazas |
+| `src/components/` | Cabecera, pie, avisos, tarjeta y lista de charlas |
+| `src/pages/` | Una por pantalla: Inicio, Charlas, Detalle, Reserva, Login, Registro, Cuenta y Admin |
+| `src/index.css` | Todos los estilos |
+| `src/assets/logos/`, `public/` | Logos, favicon e icono de móvil |
+
+## Estilos
+
+Antes de tocar el diseño, consulta la **guía de estilos**: `documents/Diseno_Interfaces/guia-estilos.md`. Las comprobaciones de responsive y accesibilidad están en `documents/Diseno_Interfaces/RESPONSIVE.md`.
