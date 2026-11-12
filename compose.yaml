@@ -41,6 +41,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+      # Scripts que se ejecutan al crear el volumen (crea la base de datos de pruebas)
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       # Comprueba que MySQL ya está listo antes de arrancar la web
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]
