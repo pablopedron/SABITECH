@@ -175,11 +175,7 @@ La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`
 ### 5. Pruebas automáticas del backend
 Los tests están en `app/tests/Feature` y usan **MySQL**, en una base de datos propia (`sabitech_test`), **nunca la de desarrollo**. Si la configuración apuntara a otra base de datos, los tests se paran antes de tocar nada.
 
-| Fichero | Qué comprueba |
-|---|---|
-| `BaseDeDatosTest.php` | Las reglas de MySQL: UNIQUE, CHECK, claves foráneas y triggers rechazan los datos incorrectos |
-| `ReservasTest.php` | API de reservas: reserva válida, repetida, sin plazas, última plaza, charla empezada, cancelar y volver a reservar |
-| `AuthTest.php` | Registro, login, perfil y cierre de sesión |
+`ReservasTest.php` comprueba lo mínimo del checkpoint: reserva válida, reserva repetida (409), charla sin plazas (409) y que la reserva sigue guardada al volver a consultarla.
 
 **Primera vez** (la base de datos `sabitech_test` hay que crearla una vez; si acabas de crear el volumen con `docker compose down -v`, ya la crea Docker solo):
 ```
