@@ -175,7 +175,7 @@ La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`
 ### 5. Pruebas automáticas del backend
 Los tests están en `app/tests/Feature` y usan **MySQL**, en una base de datos propia (`sabitech_test`), **nunca la de desarrollo**. Si la configuración apuntara a otra base de datos, los tests se paran antes de tocar nada.
 
-`ReservasTest.php` comprueba lo mínimo del checkpoint: reserva válida, reserva repetida (409), charla sin plazas (409) y que la reserva sigue guardada al volver a consultarla.
+`ReservasTest.php` comprueba lo mínimo del checkpoint: reserva válida, reserva repetida (409), charla sin plazas (409) y que la reserva sigue guardada al volver a consultarla. También las primeras pruebas de permisos: sin sesión no se puede reservar (401), nadie puede cancelar una reserva ajena (404) y cancelar libera la plaza.
 
 **Primera vez** (la base de datos `sabitech_test` hay que crearla una vez; si acabas de crear el volumen con `docker compose down -v`, ya la crea Docker solo):
 ```
@@ -196,6 +196,10 @@ npm install
 npm run dev
 ```
 Abre http://localhost:5173
+
+El frontend habla con la API del backend, así que **Docker debe estar levantado** (`docker compose up -d`) y la base de datos cargada (paso 1.7). Por defecto usa `http://localhost:8080/api`. Si tu API está en otra dirección, copia `frontend/.env.example` como `frontend/.env`, cambia `VITE_API_URL` y reinicia `npm run dev`.
+
+Cuentas para probar (contraseña `Sabitech2026!`): `ana@sabitech.test` (asistente) y `organizacion@sabitech.test` (panel de organización).
 
 ### 7. Problemas frecuentes
 
