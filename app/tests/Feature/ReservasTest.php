@@ -12,6 +12,8 @@ use Tests\TestCase;
 /**
  * Pruebas mínimas del checkpoint (semana 5 del enunciado):
  * reserva válida, reserva repetida, charla sin plazas y que la reserva queda guardada.
+ * Además, primeras pruebas de permisos: sin sesión no se reserva y nadie cancela
+ * reservas ajenas; y que cancelar libera la plaza.
  */
 class ReservasTest extends TestCase
 {
@@ -110,5 +112,49 @@ class ReservasTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.talk.id', $charla->id);
+    }
+
+    public function test_sin_sesion_no_se_puede_reservar(): void
+    {
+        $charla = $this->charla(10);
+
+        $this->postJson("/api/talks/{$charla->id}/inscribe")->assertUnauthorized();
+
+        $this->assertSame(0, $this->plazasOcupadas($charla));
+        $this->assertDatabaseCount('talk_user', 0);
+    }
+
+    public function test_cancelar_libera_la_plaza(): void
+    {
+        $usuario = $this->asistente();
+        $charla = $this->charla(10);
+
+        Sanctum::actingAs($usuario);
+        $reserva = $this->postJson("/api/talks/{$charla->id}/inscribe")->assertCreated()->json('data.id');
+
+        $this->postJson("/api/reservations/{$reserva}/cancel", ['reason' => 'No puedo asistir'])
+            ->assertOk()
+            ->assertJsonPath('data.status', 'cancelada')
+            ->assertJsonPath('data.cancellation_reason', 'No puedo asistir');
+
+        $this->assertDatabaseHas('talk_user', ['id' => $reserva, 'status' => 'cancelada']);
+        $this->assertSame(0, $this->plazasOcupadas($charla));
+    }
+
+    public function test_no_se_puede_cancelar_la_reserva_de_otra_persona(): void
+    {
+        $duena = $this->asistente();
+        $otra = $this->asistente();
+        $charla = $this->charla(10);
+
+        Sanctum::actingAs($duena);
+        $reserva = $this->postJson("/api/talks/{$charla->id}/inscribe")->assertCreated()->json('data.id');
+
+        // 404 y no 403: así no se revela que esa reserva existe
+        Sanctum::actingAs($otra);
+        $this->postJson("/api/reservations/{$reserva}/cancel")->assertNotFound();
+
+        $this->assertDatabaseHas('talk_user', ['id' => $reserva, 'status' => 'confirmada']);
+        $this->assertSame(1, $this->plazasOcupadas($charla));
     }
 }
