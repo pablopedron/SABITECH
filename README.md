@@ -170,7 +170,7 @@ Notas importantes:
 - Cuando alguien cambie una migración, hay que ejecutar `migrate:fresh --seed` para ver el cambio.
 
 ### 4. Base de datos
-La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`app/database/migrations`) y los datos ficticios con el seeder (`app/database/seeders/DatabaseSeeder.php`). `documents/sabitechDDBB.sql` es solo la **constancia del modelo en SQL puro** para la memoria; ni Docker ni Laravel lo ejecutan. Si cambia una migración, hay que actualizar también ese fichero.
+La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`app/database/migrations`) y los datos ficticios con el seeder (`app/database/seeders/DatabaseSeeder.php`). `documents/Desarrollo_Servidor/sabitechDDBB.sql` es solo la **constancia del modelo en SQL puro** para la memoria; ni Docker ni Laravel lo ejecutan. Si cambia una migración, hay que actualizar también ese fichero.
 
 ### 5. Pruebas automáticas del backend
 Los tests están en `app/tests/Feature` y usan **MySQL**, en una base de datos propia (`sabitech_test`), **nunca la de desarrollo**. Si la configuración apuntara a otra base de datos, los tests se paran antes de tocar nada.
@@ -239,7 +239,15 @@ Los contenedores no están arrancados. Ejecuta `docker compose up -d` y mira `do
 SABITECH/
 ├── app/            Backend Laravel (API, migraciones, seeders)
 ├── frontend/       Frontend React + Vite
-├── documents/      Documentación (constancia del modelo en SQL, etc.)
+├── documents/      Documentación, una carpeta por módulo:
+│   ├── Desarrollo_Cliente/      Frontend
+│   ├── Desarrollo_Servidor/     Diccionario de datos y modelo en SQL
+│   ├── Despliegue/              Diagrama de arquitectura y plan de publicación
+│   ├── Diseno_Interfaces/       Prototipos y responsive
+│   ├── IPE/                     Empresa PGD
+│   ├── Digitalizacion/
+│   ├── Ingles/                  Informe de vídeos sobre IA
+│   └── Proyecto_Intermodular/   Memoria, Gantt e informe de IA
 ├── docker/         Configuración de Apache (web) y script que crea la BD de pruebas (MySQL)
 ├── compose.yaml    Servicios de Docker
 ├── dockerfile      Imagen del contenedor web (PHP 8.4 + Apache)
