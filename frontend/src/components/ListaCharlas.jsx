@@ -2,7 +2,7 @@ import TarjetaCharla from "./TarjetaCharla";
 
 // Muestra las tarjetas de charlas con sus tres estados: cargando, error y lista vacía.
 // "catalogo" viene de App: { charlas, estado, error, recargar }.
-function ListaCharlas({ catalogo, reservar }) {
+function ListaCharlas({ catalogo, reservar, verDetalle }) {
 
     if (catalogo.estado === "cargando") {
         return <p role="status">Cargando charlas...</p>;
@@ -22,28 +22,18 @@ function ListaCharlas({ catalogo, reservar }) {
     }
 
     return (
-        <div style={estilos.tarjetas}>
+        <div className="charlas-grid">
             {catalogo.charlas.map((charla) => (
                 <TarjetaCharla
                     key={charla.id}
                     charla={charla}
                     reservar={reservar}
+                    verDetalle={verDetalle}
                 />
             ))}
         </div>
     );
 }
 
-const estilos = {
-    tarjetas: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "stretch",
-        gap: "20px",
-        width: "100%",
-        margin: "0 auto"
-    }
-};
 
 export default ListaCharlas;

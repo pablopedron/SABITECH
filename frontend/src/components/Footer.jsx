@@ -17,25 +17,25 @@ function Footer() {
 
             <div style={estilos.redes}>
 
-                <a href="https://www.instagram.com/"
+                <a style={estilos.enlace} href="https://www.instagram.com/"
                     target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faInstagram} />
-                </a> Instagram
+                    <FontAwesomeIcon icon={faInstagram} /> Instagram
+                </a>
 
-                <a href="https://www.facebook.com/"
+                <a style={estilos.enlace} href="https://www.facebook.com/"
                     target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faFacebook} />
-                </a> Facebook
+                    <FontAwesomeIcon icon={faFacebook} /> Facebook
+                </a>
 
-                <a href="https://www.tiktok.com/"
+                <a style={estilos.enlace} href="https://www.tiktok.com/"
                     target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faTiktok} />
-                </a> Tik Tok
+                    <FontAwesomeIcon icon={faTiktok} /> Tik Tok
+                </a>
 
-                <a href="https://x.com/"
+                <a style={estilos.enlace} href="https://x.com/"
                     target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faXTwitter} />
-                </a> X
+                    <FontAwesomeIcon icon={faXTwitter} /> X
+                </a>
 
             </div>
 
@@ -44,6 +44,9 @@ function Footer() {
 }
 
 const estilos = {
+    enlace: {
+        color: "white"
+    },
     footer: {
         backgroundColor: "#5f137b",
         color: "white",
@@ -54,8 +57,9 @@ const estilos = {
 
      redes: {
         display: "flex",
+        flexWrap: "wrap",
         justifyContent: "center",
-        gap: "20px",
+        gap: "10px 20px",
         marginTop: "15px",
         fontSize: "15px"
     }

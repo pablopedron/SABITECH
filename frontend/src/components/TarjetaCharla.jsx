@@ -1,4 +1,4 @@
-function TarjetaCharla({ charla, reservar }) {
+function TarjetaCharla({ charla, reservar, verDetalle }) {
 
     const fechaDisponible = charla.fechasDisponibles?.[0];
 
@@ -47,6 +47,13 @@ function TarjetaCharla({ charla, reservar }) {
             </p>
 
             <button
+                style={{ ...estilos.boton, ...estilos.botonSecundario }}
+                onClick={() => verDetalle(charla)}
+            >
+                VER DETALLE
+            </button>
+
+            <button
                 style={{
                     ...estilos.boton,
                     ...(sinPlazas ? estilos.botonDesactivado : {})
@@ -66,7 +73,6 @@ const estilos = {
         borderRadius: "12px",
         padding: "20px",
         width: "100%",
-        maxWidth: "280px",
         boxSizing: "border-box",
         boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
     },
@@ -78,6 +84,12 @@ const estilos = {
         borderRadius: "6px",
         cursor: "pointer",
         width: "100%"
+    },
+    botonSecundario: {
+        backgroundColor: "#ffffff",
+        color: "#5f137b",
+        border: "2px solid #5f137b",
+        marginBottom: "8px"
     },
     botonDesactivado: {
         backgroundColor: "#6b6b6b",

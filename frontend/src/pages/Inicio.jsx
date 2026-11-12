@@ -1,6 +1,6 @@
 import ListaCharlas from "../components/ListaCharlas";
 
-function Inicio({ catalogo, reservar, cambiarPagina }) {
+function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
 
     return (
         <main style={estilos.contenedor}>
@@ -35,7 +35,7 @@ function Inicio({ catalogo, reservar, cambiarPagina }) {
             <section>
                 <h2 style={estilos.titulo}>NUESTRAS CHARLAS</h2>
 
-                <ListaCharlas catalogo={catalogo} reservar={reservar} />
+                <ListaCharlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
             </section>
 
             <section style={estilos.final}>
@@ -54,13 +54,15 @@ const estilos = {
         margin: "auto",
     },
     portada: {
-        backgroundColor: "#8e8e94",
+        backgroundColor: "#b9b9c4",
+        color: "#111111",
         textAlign: "center",
         padding: "70px 20px",
         borderRadius: "12px",
     },
     info: {
         backgroundColor: "#b9b9c4",
+        color: "#111111",
         borderRadius: "12px",
         textAlign: "center",
         padding: "25px"
@@ -71,7 +73,7 @@ const estilos = {
     },
     boton: {
         backgroundColor: "#110707",
-        color: "white",
+        color: "#ffffff",
         padding: "15px 25px",
         border: "none",
         borderRadius: "6px",
@@ -79,7 +81,8 @@ const estilos = {
     },
     final: {
         textAlign: "center",
-        backgroundColor: "#8e8e94",
+        backgroundColor: "#b9b9c4",
+        color: "#111111",
         padding: "35px",
         marginTop: "40px",
         borderRadius: "12px"
