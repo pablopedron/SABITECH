@@ -10,6 +10,13 @@
   --morado-claro: #f3ecf7;
   --lavanda: #b9b9c4;
 
+  /* Degradado del logo (solo decorativo: franja de la cabecera y portada) */
+  --logo-turquesa: #47d8ca;
+  --logo-morado: #7820d0;
+  --logo-rosa: #f71284;
+  --logo-naranja: #f54538;
+  --degradado-logo: linear-gradient(90deg, var(--logo-turquesa), var(--logo-morado) 35%, var(--logo-rosa) 70%, var(--logo-naranja));
+
   /* Texto y superficies */
   --texto: #1d1724;
   --texto-suave: #5c5566;
@@ -322,9 +329,17 @@ a {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--morado);
-  color: var(--blanco);
-  box-shadow: 0 2px 10px rgba(29, 23, 36, 0.2);
+  background: var(--blanco);
+  color: var(--texto);
+  box-shadow: 0 2px 10px rgba(29, 23, 36, 0.08);
+}
+
+/* Franja con el degradado del logo bajo la cabecera */
+.cabecera::after {
+  content: "";
+  display: block;
+  height: 4px;
+  background: var(--degradado-logo);
 }
 
 .cabecera__barra {
@@ -338,37 +353,28 @@ a {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 0;
+  flex-shrink: 0;
+  padding: 4px;
   border: none;
+  border-radius: var(--radio-pequeno);
   background: none;
-  color: var(--blanco);
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
   cursor: pointer;
 }
 
-.logo__marca {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: var(--blanco);
-  color: var(--morado);
-  font-size: 1rem;
-  letter-spacing: 0;
+.logo img {
+  display: block;
+  width: auto;
+  height: 46px;
 }
 
 .menu-boton {
   display: none;
   min-height: 44px;
   padding: 8px 14px;
-  border: 2px solid rgba(255, 255, 255, 0.7);
+  border: 2px solid var(--morado);
   border-radius: var(--radio-pequeno);
   background: transparent;
-  color: var(--blanco);
+  color: var(--morado);
   font-weight: 600;
   cursor: pointer;
 }
@@ -398,24 +404,26 @@ a {
   border: none;
   border-radius: var(--radio-pequeno);
   background: transparent;
-  color: var(--blanco);
+  color: var(--texto);
   font-weight: 600;
   cursor: pointer;
 }
 
 .nav-enlace:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--morado-claro);
+  color: var(--morado);
 }
 
 .nav-enlace[aria-current="page"] {
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 -3px 0 var(--blanco);
+  background: var(--morado-claro);
+  color: var(--morado);
+  box-shadow: inset 0 -3px 0 var(--morado);
 }
 
 .saludo {
   margin: 0 8px 0 0;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--texto-suave);
 }
 
 /* ---------- Avisos ---------- */
@@ -467,13 +475,26 @@ a {
 /* ---------- Portada (inicio) ---------- */
 
 .portada {
+  position: relative;
+  overflow: hidden;
   background:
     radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.14), transparent 40%),
     linear-gradient(135deg, var(--morado) 0%, var(--morado-oscuro) 100%);
   color: var(--blanco);
 }
 
+.portada__marca {
+  position: absolute;
+  right: -60px;
+  bottom: -70px;
+  width: 360px;
+  height: auto;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
 .portada__contenido {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: 40px;
@@ -1161,6 +1182,12 @@ a {
   margin: 0 0 8px;
 }
 
+.pie__logo img {
+  display: block;
+  width: auto;
+  height: 44px;
+}
+
 .pie__lista {
   display: grid;
   gap: 6px;
@@ -1203,7 +1230,18 @@ a {
    ========================================================= */
 
 @media (max-width: 1024px) {
-  .portada__contenido {
+  .portada__marca {
+  position: absolute;
+  right: -60px;
+  bottom: -70px;
+  width: 360px;
+  height: auto;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.portada__contenido {
+  position: relative;
     grid-template-columns: 1fr;
   }
 
@@ -1238,8 +1276,9 @@ a {
     gap: 8px;
     margin: 0;
     padding: 12px 16px 20px;
-    background: var(--morado);
-    box-shadow: 0 10px 20px rgba(29, 23, 36, 0.25);
+    background: var(--blanco);
+    border-top: 1px solid var(--borde);
+    box-shadow: 0 10px 20px rgba(29, 23, 36, 0.15);
   }
 
   .navegacion--abierta {
@@ -1254,7 +1293,7 @@ a {
 
   .navegacion__cuenta {
     padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-top: 1px solid var(--borde);
   }
 
   .nav-enlace,
@@ -1282,6 +1321,14 @@ a {
 }
 
 @media (max-width: 600px) {
+  .logo img {
+    height: 34px;
+  }
+
+  .portada__marca {
+    width: 240px;
+  }
+
   .portada__datos {
     grid-template-columns: 1fr;
   }

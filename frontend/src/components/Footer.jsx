@@ -6,6 +6,8 @@ import {
     faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 
+import logoClaro from "../assets/logos/logo-sabitech-claro.webp";
+
 // Pie del prototipo: información y redes sociales.
 function Footer({ cambiarPagina }) {
 
@@ -14,7 +16,9 @@ function Footer({ cambiarPagina }) {
             <div className="contenedor pie__columnas">
 
                 <section>
-                    <h2>SABITECH</h2>
+                    <h2 className="pie__logo">
+                        <img src={logoClaro} alt="SABITECH" width="172" height="44" loading="lazy" />
+                    </h2>
                     <p>
                         Jornadas de charlas tecnológicas para estudiantes, profesionales
                         y cualquier persona con ganas de aprender.

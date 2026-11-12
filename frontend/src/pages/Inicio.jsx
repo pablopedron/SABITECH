@@ -2,6 +2,7 @@ import { useRef } from "react";
 
 import ListaCharlas from "../components/ListaCharlas";
 import { yaEmpezada } from "../utils/charlas";
+import icono from "../assets/logos/icono-sabitech.webp";
 
 // Inicio del prototipo: información, botón "Pide tu cita" y carrusel con las charlas.
 function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
@@ -25,6 +26,7 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
     return (
         <main>
             <section className="portada" aria-labelledby="portada-titulo">
+                <img className="portada__marca" src={icono} alt="" aria-hidden="true" width="192" height="192" />
                 <div className="contenedor portada__contenido">
                     <div>
                         <span className="antetitulo">Jornadas tecnológicas</span>

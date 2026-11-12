@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import logo from "../assets/logos/logo-sabitech.webp";
+
 // Cabecera del prototipo: logo, Inicio y Charlas a la izquierda;
 // a la derecha, Iniciar sesión / Registrarse o, con sesión, "Bienvenid@", Mi cuenta y Cerrar sesión.
 // En móvil la navegación se pliega en un menú.
@@ -24,8 +26,7 @@ function Header({ pagina, cambiarPagina, usuario, cerrarSesion }) {
             <div className="contenedor cabecera__barra">
 
                 <button className="logo" onClick={() => ir("inicio")} aria-label="SABITECH, ir al inicio">
-                    <span className="logo__marca" aria-hidden="true">S</span>
-                    SABITECH
+                    <img src={logo} alt="" width="180" height="46" />
                 </button>
 
                 <button
@@ -66,7 +67,7 @@ function Header({ pagina, cambiarPagina, usuario, cerrarSesion }) {
                                 </li>
                                 <li>
                                     <button
-                                        className="boton boton--borde-claro"
+                                        className="boton boton--secundario"
                                         onClick={() => {
                                             setMenuAbierto(false);
                                             cerrarSesion();
@@ -84,7 +85,7 @@ function Header({ pagina, cambiarPagina, usuario, cerrarSesion }) {
                                     </button>
                                 </li>
                                 <li>
-                                    <button className="boton boton--claro" onClick={() => ir("registro")}>
+                                    <button className="boton" onClick={() => ir("registro")}>
                                         Registrarse
                                     </button>
                                 </li>
