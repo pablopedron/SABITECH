@@ -1,64 +1,88 @@
-# 🚀 SABITECH WEB | PGD Technologies S.L.
+<p align="center">
+  <img src=".github/readme/portada.jpg" alt="SABITECH WEB: gestión de jornadas de charlas de Salud, Business y Tech. Captura de la web en un navegador y en un móvil." width="100%">
+</p>
 
-> Plataforma tecnológica avanzada para la gestión integral de eventos, control de aforos y optimización de flujos de asistencia, desarrollada bajo un enfoque estricto *Data-Driven* y rigurosos estándares de arquitectura de software, ciberseguridad y gestión empresarial.
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white" alt="PHP 8.4">
+  <img src="https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white" alt="Laravel 13">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19">
+  <img src="https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white" alt="MySQL 8.4">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white" alt="Docker Compose">
+  <img src="https://img.shields.io/badge/tests-24%20en%20verde-2e7d32" alt="24 tests en verde">
+</p>
 
----
+# SABITECH WEB
 
-## 🏢 Sobre la Empresa: PGD Technologies S.L.
+**SABITECH** son unas jornadas de charlas sobre tres áreas que forman su nombre: **SA**lud, **BI** (Business) y **TECH**. **SABITECH WEB** es la aplicación web para organizarlas: el público consulta el programa y reserva su plaza, recibe la confirmación por correo y entra a la charla con un **código QR que cambia cada 30 segundos**. La organización ve quién se ha inscrito y quién ha asistido.
 
-**PGD Technologies S.L.** es una microempresa de base tecnológica constituida legalmente bajo la forma de **Sociedad Limitada**, con sede estratégica en **Paterna (Valencia)**. El accionariado y la dirección se estructuran de forma equitativa entre tres socios fundadores (33,3% cada uno):
-* **G:** Project Manager, Arquitecto de Sistemas y Diseñador de Bases de Datos.
-* **P:** Lead Backend Developer (Lógica de servidor, API REST y Seguridad).
-* **D:** Lead Frontend Developer & UI/UX (Interfaces, maquetación y Accesibilidad Web).
+Es el proyecto intermodular de 2.º de Desarrollo de Aplicaciones Web (XTART Valencia, curso 2026-2027). Lo desarrolla **PGD Technologies S.L.**, la empresa ficticia que hemos creado para el encargo.
 
-### ⚖️ Marco Legal, Laboral y Financiero
-* **Régimen de Cotización:** Encuadramiento de los socios bajo el régimen especial de **autónomos societarios (RETA)**, diferenciando formalmente las responsabilidades de administración, gerencia y desarrollo técnico.
-* **Estructura Financiera:** Capital social inicial de 3.000 € complementado mediante mecanismos de financiación interna (préstamos de socios) para optimizar la tesorería de puesta en marcha.
-* **Apoyo Institucional:** Empresa alineada con los planes de dinamización local, contemplando el acceso a iniciativas como el *Cheque Emprendedor/a del Ayuntamiento de Paterna*.
+## Índice
 
----
-
-## 🎯 ¿En qué consiste SABITECH WEB?
-
-**SABITECH WEB** es nuestro producto de referencia, concebido como solución digital integral para resolver los retos operativos en la organización de congresos, ponencias y eventos corporativos:
-* **Catálogo y Transparencia:** Consulta centralizada de ponencias, categorización avanzada y horarios.
-* **Inscripción y Control de Aforo:** Sistema de registro unificado con restricciones estrictas de plazas para prevenir aglomeraciones y desbordamientos de sala.
-* **Control de Accesos Inteligente:** Validación de asistencia física mediante códigos QR dinámicos temporales sincronizados con el servidor.
-* **Enfoque *Data-Driven* Avanzado:** Incorporación de campos analíticos de alto valor en la base de datos para medir la satisfacción de los asistentes (`rating`), motivos de cancelación (`cancellation_reason`), control de marcas de tiempo de entrada (`checked_in_at`) y necesidades de accesibilidad (`accessibility_needs`).
-
----
-
-## 🛠️ Stack Tecnológico y Arquitectura
-
-El desarrollo técnico se apoya en tecnologías modernas y robustas de la industria:
-
-* **Backend:** PHP (Framework Laravel), estructurado bajo el patrón MVC, con APIs RESTful seguras y control estricto de sesiones.
-* **Frontend:** Interfaces interactivas de alto rendimiento con maquetación *Responsive* (Mobile-First) y cumplimiento estricto de accesibilidad universal (WCAG).
-* **Base de Datos:** MySQL / MariaDB con un modelo relacional normalizado de 11 tablas optimizado para la explotación analítica.
-* **Contenedores y Entorno:** Orquestación local mediante **Docker Compose**, desacoplando totalmente las credenciales del código fuente.
-* **DevOps y Control de Versiones:** Metodología estricta de *GitHub Flow* con ramas temporales (`feature/...`), revisiones mediante *Pull Requests* y un sistema de seguridad blindado en el `.gitignore`.
+- [Qué hace](#qué-hace)
+- [Capturas](#capturas)
+- [Arquitectura y tecnologías](#arquitectura-y-tecnologías)
+- [Cómo arrancar el proyecto](#-cómo-arrancar-el-proyecto)
+- [API](#api)
+- [Documentación por módulo](#documentación-por-módulo)
+- [Equipo y empresa](#equipo-y-empresa)
+- [Flujo de trabajo con Git](#flujo-de-trabajo-con-git)
 
 ---
 
-## 🔒 Seguridad y Buenas Prácticas (*Security by Design*)
+## Qué hace
 
-Siguiendo las directrices de ciberseguridad del ciclo formativo y los estándares corporativos:
-* **Credenciales Ocultas:** El repositorio cuenta con un archivo `.gitignore` avanzado que bloquea de forma recursiva variantes de ficheros de entorno (`.env.*`), claves privadas (`*.key`, `*.pem`) y credenciales.
-* **Plantilla de Configuración:** Se incluye el fichero `.env.example` en la raíz para facilitar un despliegue local seguro en las máquinas de los desarrolladores (**P** y **D**).
+| Funcionalidad | Perfil | Estado |
+|---|---|---|
+| Consultar el programa, filtrar por área (Salud, Business, Tech) y ver el detalle de cada charla | Visitante | ✅ Hecho |
+| Registrarse, iniciar y cerrar sesión | Todos | ✅ Hecho |
+| Reservar plaza sin superar el aforo, aunque dos personas pidan la última a la vez | Asistente | ✅ Hecho |
+| Ver mis reservas y cancelarlas (libera la plaza) | Asistente | ✅ Hecho |
+| Correo de confirmación con la referencia de la reserva | Asistente | 🧪 Prototipo en el backend |
+| QR que cambia cada 30 s, validado por el servidor | Asistente / personal de acceso | 🧪 Prototipo en el backend |
+| Ver las inscripciones y asistencias de una charla | Organización | 🧪 Prototipo en el backend |
+| Validación manual de la asistencia y gestión de charlas | Personal de acceso / organización | ⏳ Pendiente |
+
+🧪 **Prototipo en el backend:** la API ya lo hace y tiene tests, pero falta la pantalla. Los requisitos completos están en [`documents/Proyecto_Intermodular`](documents/Proyecto_Intermodular).
+
+**Reglas que comprueba siempre el servidor:**
+- Una sola reserva por persona y charla.
+- No se reserva una charla llena ni una que ya ha empezado.
+- Solo puedes cancelar tus propias reservas.
+- Un QR caducado o manipulado se rechaza.
+- La asistencia no se registra dos veces.
+- Cada perfil solo accede a lo suyo.
 
 ---
 
-## 👥 Equipo de Desarrollo y Colaboradores
+## Capturas
 
-* **G** — Project Manager & Lead Architect
-* **P** — Backend Developer
-* **D** — Frontend & UI/UX Developer
+| Programa con filtro por área | Detalle de una charla |
+|---|---|
+| ![Página de charlas con tarjetas de Salud, Business y Tech y el filtro por área](.github/readme/captura-charlas.jpg) | ![Detalle de una charla con la fecha, el horario, el lugar, el aforo y el botón Pedir cita](.github/readme/captura-detalle.jpg) |
+| **Mi cuenta: mis citas** | **Panel de organización** |
+| ![Mi cuenta con los datos del usuario y sus citas, con los botones Info y Darse de baja](.github/readme/captura-cuenta.jpg) | ![Panel de organización con la tabla de charlas y su ocupación](.github/readme/captura-admin.jpg) |
+
+**En el móvil:** el menú se pliega, las tarjetas pasan a una columna y el carrusel se desliza con el dedo.
+
+![Tres pantallas de la web en el móvil: inicio, áreas y programa de charlas](.github/readme/captura-movil.jpg)
 
 ---
 
-## 📄 Licencia y Propiedad Intelectual
+## Arquitectura y tecnologías
 
-Desarrollado en el marco del proyecto intermodular del ciclo superior de Desarrollo de Aplicaciones Web (DAW) por **PGD Technologies S.L.** Todos los derechos reservados © 2026.
+![Diagrama: el navegador carga el frontend React y este llama a la API Laravel, que guarda los datos en MySQL y envía los correos a Mailpit. Todo el backend corre en Docker Compose.](.github/readme/arquitectura.png)
+
+| Parte | Tecnología | Para qué |
+|---|---|---|
+| Frontend | React 19 + Vite | Las pantallas. Llama a la API con `fetch` y guarda el token de sesión |
+| Backend | PHP 8.4, Laravel 13, Sanctum | API REST con las reglas de negocio: aforo, permisos, correo y QR |
+| Base de datos | MySQL 8.4 | 11 tablas, creadas con migraciones y cargadas con datos ficticios |
+| Correo de pruebas | Mailpit | Recibe los correos de confirmación sin enviarlos a nadie real |
+| Entorno | Docker Compose | Levanta web, base de datos, phpMyAdmin y Mailpit con un solo comando |
+| Pruebas | PHPUnit (24 tests) y Postman | Reglas de reserva, permisos, correo y QR |
+
+Más detalle en el [diagrama de arquitectura](documents/Despliegue) y el [plan de publicación](documents/Despliegue).
 
 ---
 
@@ -87,7 +111,7 @@ Solo hay que hacerlo **una vez en cada ordenador**. Hay ficheros que no se suben
 ```
 git clone https://github.com/pablopedron/SABITECH.git
 cd SABITECH
-git checkout develop/backend
+git checkout MainPruebasV3
 ```
 
 **1.2. Variables de Docker.** Copia la plantilla y cambia las contraseñas:
@@ -134,7 +158,7 @@ Deben salir 10 migraciones con `DONE` y al final `Seeding database`.
 
 **1.7. Comprobar que todo funciona**
 - http://localhost:8080/api/health debe mostrar `{"estado":"ok","base_de_datos":"sabitech_web"}`.
-- `docker compose exec web php artisan db:show --counts` lista las tablas con sus filas (por ejemplo `users` 8, `talks` 5, `talk_user` 11).
+- `docker compose exec web php artisan db:show --counts` lista las tablas con sus filas (por ejemplo `users` 8, `talks` 10, `talk_user` 11).
 - En phpMyAdmin (http://localhost:8081, usuario y contraseña de tu `.env`) aparece la base `sabitech_web` con 11 tablas.
 
 ### 2. Datos de prueba
@@ -147,7 +171,17 @@ Todos los datos son ficticios. **Contraseña de todos los usuarios: `Sabitech202
 | Ana, Bruno, Carla, Diego, Elena | `ana@`, `bruno@`, `carla@`, `diego@`, `elena@` + `sabitech.test` | asistente |
 | Fabio Inactivo | `fabio@sabitech.test` | asistente (cuenta desactivada) |
 
-Casos que cubren las 5 charlas de prueba: una charla pasada con asistencias, una con plazas libres, una **completa** (para probar "reserva sin plazas"), un borrador no publicado y una publicada sin reservas. También hay correos de prueba en estado enviado, fallido y pendiente.
+Hay **10 charlas** repartidas en las tres áreas (**Salud**, **Business** y **Tech**; 9 publicadas). Algunas están pensadas para probar casos concretos:
+
+| Charla | Caso |
+|---|---|
+| 1 · Bienestar digital (Salud) | Ya celebrada, con reservas y asistencias |
+| 2 · Cómo validar una idea de negocio (Business) | Con plazas y reservas de Ana y Bruno |
+| 3 · Taller de seguridad web (Tech) | **Completa** (4 de 4), para probar «reserva sin plazas» |
+| 4 · Telemedicina (Salud) | Borrador: no aparece en la web |
+| 5 · IA generativa (Tech) | Con plazas libres y sin reservas |
+
+También hay correos de prueba en estado enviado, fallido y pendiente.
 
 ### 3. Día a día
 
@@ -175,7 +209,14 @@ La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`
 ### 5. Pruebas automáticas del backend
 Los tests están en `app/tests/Feature` y usan **MySQL**, en una base de datos propia (`sabitech_test`), **nunca la de desarrollo**. Si la configuración apuntara a otra base de datos, los tests se paran antes de tocar nada.
 
-`ReservasTest.php` comprueba lo mínimo del checkpoint: reserva válida, reserva repetida (409), charla sin plazas (409) y que la reserva sigue guardada al volver a consultarla. También las primeras pruebas de permisos: sin sesión no se puede reservar (401), nadie puede cancelar una reserva ajena (404) y cancelar libera la plaza.
+Hay **24 tests** en cuatro ficheros:
+
+| Fichero | Qué comprueba |
+|---|---|
+| `ReservasTest.php` (7) | Reserva válida, repetida (409), sin plazas (409), que sigue guardada al volver a consultar, que sin sesión no se puede reservar (401), que cancelar libera la plaza y que nadie cancela una reserva ajena (404) |
+| `CorreoTest.php` (3) | Se envía el correo al reservar, lleva los datos de la reserva y, si el correo falla, la reserva se guarda igual |
+| `QrTest.php` (10) | Código vigente, que cambia cada 30 s, caducado, manipulado, margen de 5 s, repetición sin duplicar, QR ajeno, reserva cancelada y que un asistente no puede escanear |
+| `PermisosTest.php` (4) | Solo la organización ve las inscripciones (asistente 403, personal de acceso 403, sin sesión 401) |
 
 **Primera vez** (la base de datos `sabitech_test` hay que crearla una vez; si acabas de crear el volumen con `docker compose down -v`, ya la crea Docker solo):
 ```
@@ -199,7 +240,7 @@ Abre http://localhost:5173
 
 El frontend habla con la API del backend, así que **Docker debe estar levantado** (`docker compose up -d`) y la base de datos cargada (paso 1.7). Por defecto usa `http://localhost:8080/api`. Si tu API está en otra dirección, copia `frontend/.env.example` como `frontend/.env`, cambia `VITE_API_URL` y reinicia `npm run dev`.
 
-Cuentas para probar (contraseña `Sabitech2026!`): `ana@sabitech.test` (asistente) y `organizacion@sabitech.test` (panel de organización).
+Cuentas para probar (contraseña `Sabitech2026!`): `ana@sabitech.test` (asistente) y `organizacion@sabitech.test` (panel de organización). Más detalles del frontend en [`frontend/README.md`](frontend/README.md).
 
 ### 7. Problemas frecuentes
 
@@ -241,20 +282,88 @@ SABITECH/
 ├── frontend/       Frontend React + Vite
 ├── documents/      Documentación, una carpeta por módulo:
 │   ├── Desarrollo_Cliente/      Frontend
-│   ├── Desarrollo_Servidor/     Diccionario de datos y modelo en SQL
+│   ├── Desarrollo_Servidor/     Diccionario de datos, modelo en SQL y colección de Postman
 │   ├── Despliegue/              Diagrama de arquitectura y plan de publicación
 │   ├── Diseno_Interfaces/       Prototipos, guía de estilos, logos y responsive
 │   ├── IPE/                     Empresa PGD
 │   ├── Digitalizacion/
 │   ├── Ingles/                  Informe de vídeos sobre IA
-│   └── Proyecto_Intermodular/   Memoria, Gantt e informe de IA
+│   ├── Proyecto_Intermodular/   Memoria, Gantt e informe de IA
+│   └── rubricas_requerimientos/ Enunciado y rúbricas
 ├── docker/         Configuración de Apache (web) y script que crea la BD de pruebas (MySQL)
+├── .github/readme/ Imágenes de este README
 ├── compose.yaml    Servicios de Docker
 ├── dockerfile      Imagen del contenedor web (PHP 8.4 + Apache)
 ├── openapi.json    Contrato de la API
 └── .env.example    Plantilla de variables de Docker
 ```
 
-Ramas: `main` es la versión estable; `develop/backend` y `develop/frontend` son las ramas de integración de cada parte. El trabajo se hace en ramas `feature/...` (o `fix/...`, `docs/...`) creadas a partir de la `develop` correspondiente y se integra con un *Pull Request* revisado por otra persona del equipo.
 
-Los ficheros `.env`, `app/.env` y `app/vendor/` no se suben a GitHub (están en `.gitignore`).
+Los ficheros `.env`, `app/.env` y `app/vendor/` no se suben a GitHub (están en `.gitignore`). El flujo de ramas está en [Flujo de trabajo con Git](#flujo-de-trabajo-con-git).
+
+---
+
+## API
+
+Todas las rutas empiezan por `http://localhost:8080/api`. Las privadas necesitan la cabecera `Authorization: Bearer <token>`, con el token que devuelven `/login` o `/register`.
+
+| Método | Ruta | Quién | Para qué |
+|---|---|---|---|
+| GET | `/talks` (`?category_id=`) | Cualquiera | Charlas publicadas, con filtro por área (1 Salud, 2 Business, 3 Tech) |
+| GET | `/talks/{id}` | Cualquiera | Detalle de una charla |
+| POST | `/register` · `/login` | Cualquiera | Crear cuenta o iniciar sesión (devuelven el token) |
+| GET · POST | `/me` · `/logout` | Con sesión | Mis datos · cerrar sesión |
+| POST | `/talks/{id}/inscribe` | Con sesión | Reservar plaza (envía el correo) |
+| GET | `/me/reservations` | Con sesión | Mis reservas |
+| POST | `/reservations/{id}/cancel` | Dueño de la reserva | Cancelar y liberar la plaza |
+| GET | `/reservations/{id}/qr` | Dueño de la reserva | Código QR actual |
+| POST | `/attendances/scan` | Personal de acceso | Escanear el QR y registrar la asistencia |
+| GET | `/talks/{id}/reservations` | Organización | Inscripciones de una charla y quién ha asistido |
+
+- **Contrato completo:** [`openapi.json`](openapi.json), con las entradas, las respuestas y los errores.
+- **Colección de Postman:** [`documents/Desarrollo_Servidor/SABITECH_API.postman_collection.json`](documents/Desarrollo_Servidor). Tiene 32 peticiones ordenadas que recorren todo el flujo (registro → reserva → QR → organización → cancelación) y comprueban solas el resultado. Impórtala en Postman y ejecútala con *Run collection*.
+
+---
+
+## Documentación por módulo
+
+| Módulo | Carpeta | Qué hay |
+|---|---|---|
+| Desarrollo web en entorno cliente | [`Desarrollo_Cliente`](documents/Desarrollo_Cliente) | Eventos, estados y errores del frontend (en preparación) |
+| Desarrollo web en entorno servidor | [`Desarrollo_Servidor`](documents/Desarrollo_Servidor) | Diccionario de datos, modelo en SQL y colección de Postman |
+| Despliegue de aplicaciones web | [`Despliegue`](documents/Despliegue) | Diagrama de arquitectura y plan de publicación |
+| Diseño de interfaces web | [`Diseno_Interfaces`](documents/Diseno_Interfaces) | Prototipo, [guía de estilos](documents/Diseno_Interfaces/guia-estilos.md), logos y revisión de responsive y accesibilidad |
+| Itinerario personal para la empleabilidad II | [`IPE`](documents/IPE) | Plan de empresa de PGD Technologies |
+| Digitalización | [`Digitalizacion`](documents/Digitalizacion) | Gestión manual frente a digital |
+| Inglés Oral | [`Ingles`](documents/Ingles) | Informe de vídeos sobre IA en programación |
+| Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | Requisitos, Gantt, reparto, memoria e informe de uso de IA |
+
+El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](documents/rubricas_requerimientos).
+
+---
+
+## Equipo y empresa
+
+| Integrante | GitHub | Responsabilidad principal |
+|---|---|---|
+| **Pablo Pedrón** | [@pablopedron](https://github.com/pablopedron) | Backend (Laravel), base de datos, Docker y despliegue |
+| **Alejandro Gutierrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Backend (Laravel) y empresa PGD |
+| **David Clemente** | [@Daclus](https://github.com/Daclus) | Frontend (React), interfaces, Digitalización e Inglés |
+
+**PGD Technologies S.L.** es la empresa **ficticia** que recibe el encargo de SABITECH: una microempresa de desarrollo web con sede en Paterna (Valencia), organizada como sociedad limitada y con tres socios al 33,3 %. Su plan de empresa (forma jurídica, organigrama, costes y tarifas) está en [`documents/IPE`](documents/IPE).
+
+---
+
+## Flujo de trabajo con Git
+
+- **`MainPruebasV3`:** versión de trabajo del equipo. Pasará a ser `main`.
+- **`develop/backendV3` y `develop/frontendV4`:** ramas de integración del backend y del frontend.
+- **Ramas de tarea:** cada tarea se hace en una rama `feature/...` (o `fix/...`, `docs/...`) creada desde la `develop` correspondiente. Se integra con un **Pull Request** que revisa otra persona del equipo.
+- **Ficheros que no se suben:** `.env`, `app/.env` y `app/vendor/` (están en `.gitignore`). Nunca se suben contraseñas: se usan las plantillas `.env.example`.
+
+---
+
+<p align="center">
+  Proyecto intermodular · 2.º DAW · XTART Valencia · 2026-2027<br>
+  Desarrollado por PGD Technologies S.L. (empresa ficticia del proyecto)
+</p>
