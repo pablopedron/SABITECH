@@ -1,4 +1,4 @@
-import { diaYMes, estadoPlazas, sePuedeReservar, yaEmpezada } from "../utils/charlas";
+import { areaDe, diaYMes, estadoPlazas, sePuedeReservar, yaEmpezada } from "../utils/charlas";
 
 // Tarjeta de charla del prototipo: datos principales y los botones "Info" y "Pedir cita".
 function TarjetaCharla({ charla, reservar, verDetalle }) {
@@ -20,7 +20,7 @@ function TarjetaCharla({ charla, reservar, verDetalle }) {
         <article className={`tarjeta ${pasada ? "tarjeta--pasada" : ""}`} aria-labelledby={idTitulo}>
 
             <div className="tarjeta__cabecera">
-                <span className="etiqueta">{charla.categoria}</span>
+                <span className={`etiqueta etiqueta--${areaDe(charla)}`}>{charla.categoria}</span>
 
                 <p className="fecha-bloque" aria-label={`Día ${dia} de ${mes}`}>
                     <span className="fecha-bloque__dia" aria-hidden="true">{dia}</span>

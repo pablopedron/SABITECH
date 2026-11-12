@@ -10,7 +10,9 @@ Todo lo que describe esta guía ya está aplicado en `frontend/src/index.css`. S
 
 ## 1. Identidad visual
 
-SABITECH usa una identidad tecnológica sencilla. El **morado** es el color de marca: aparece en la portada, el pie y las acciones principales. El **logo** aporta un degradado de colores que se usa solo como detalle decorativo. Las tarjetas y formularios son blancos sobre un fondo lavanda muy claro.
+SABITECH son unas jornadas de charlas sobre tres áreas, que forman su nombre: **SA**lud, **BI** (Business) y **TECH**. Cada área tiene su color, que se usa en las etiquetas, el filtro del programa y la sección de áreas del inicio.
+
+La identidad es sencilla. El **morado** es el color de marca: aparece en la portada, el pie y las acciones principales. El **logo** aporta un degradado de colores que se usa solo como detalle decorativo. Las tarjetas y formularios son blancos sobre un fondo lavanda muy claro.
 
 ### 1.1. Logos
 
@@ -51,6 +53,16 @@ Todos los colores están definidos como variables al principio de `index.css`. E
 | Correcto (texto y borde / fondo) | `--ok` / `--ok-fondo` | `#2e7d32` / `#e3f6e8` |
 | Últimas plazas (texto / fondo) | `--aviso` / `--aviso-fondo` | `#8a5a00` / `#fff4dc` |
 | Botón desactivado | `--desactivado` | `#6b6b6b` |
+
+**Colores de las áreas** (texto sobre su fondo claro; contraste ≥ 6:1):
+
+| Área | Texto / borde | Fondo claro | Contraste |
+|---|---|---|---|
+| Salud | `--salud` `#0b6157` (verde azulado) | `--salud-fondo` `#dff7f3` | 6,5:1 |
+| Business | `--business` `#a12a1a` (rojo teja) | `--business-fondo` `#ffe8e3` | 6,3:1 |
+| Tech | `--tech` = morado `#5f137b` | `--tech-fondo` = `#f3ecf7` | 9,7:1 |
+
+Salen del degradado del logo (turquesa y naranja), oscurecidos para que el texto se lea bien. Se usan **solo** para identificar el área de una charla; nunca para botones de acción.
 
 **Colores del logo** (solo decorativos):
 
@@ -164,7 +176,7 @@ Reglas:
 
 Siguen las tarjetas del prototipo («charla · info · pedir cita»):
 
-1. Arriba: la **categoría** (etiqueta) y la **fecha en forma de calendario** (día y mes).
+1. Arriba: el **área** (etiqueta con el color de Salud, Business o Tech: clases `.etiqueta--salud`, `--business`, `--tech`) y la **fecha en forma de calendario** (día y mes).
 2. Título y ponente con su empresa.
 3. Hora y lugar en una lista de datos (`<dl>`).
 4. **Estado de plazas** en forma de píldora, con texto y color:
@@ -188,7 +200,12 @@ Es el «esto gira con las charlas» del prototipo.
 - Muestra 3 tarjetas en escritorio, 2 en tableta y 1 y un trozo de la siguiente en móvil, para que se note que se puede deslizar.
 - Solo muestra las charlas que no han empezado.
 
-### 3.6. Formularios
+### 3.6. Áreas (inicio) y filtro por área (charlas)
+
+- **Sección «Qué significa SABITECH»** del inicio: el titular **SA · BI · TECH** con cada sigla en el color de su área y tres tarjetas (`.area--salud`, `--business`, `--tech`). Cada tarjeta muestra la sigla, el nombre, una descripción, cuántas próximas charlas tiene y el botón «Ver charlas», que abre el programa ya filtrado.
+- **Filtro del programa:** botones en forma de píldora «Todas», «Salud», «Business» y «Tech» (`.filtro`), agrupados con `role="group"`. El activo se marca con `aria-pressed="true"`, se rellena con el color de su área y lleva «✓» delante, para que no dependa solo del color. Debajo, el número de resultados («3 charlas de Salud») con `role="status"`, para que lo anuncien los lectores de pantalla.
+
+### 3.7. Formularios
 
 - Cada campo va en un `.campo`: `<label>` visible encima, asociado con `htmlFor` e `id`.
 - Campos de 46 px de alto con borde de 2 px; el borde se vuelve morado al recibir el foco.
@@ -198,7 +215,7 @@ Es el «esto gira con las charlas» del prototipo.
 - Los errores aparecen encima del botón de envío, con fondo rojo claro y `role="alert"`.
 - El botón de envío ocupa todo el ancho y se desactiva mientras se envía.
 
-### 3.7. Avisos (`Aviso.jsx`)
+### 3.8. Avisos (`Aviso.jsx`)
 
 - Aparecen bajo la cabecera, con un borde izquierdo grueso.
 - **Correcto:** fondo verde claro, borde verde, empieza por «Hecho:» y lleva `role="status"`.
@@ -206,7 +223,7 @@ Es el «esto gira con las charlas» del prototipo.
 - Se cierran con el botón «✕» (`aria-label="Cerrar el mensaje"`).
 - Mensajes breves que digan qué ha pasado y cómo seguir: «¡Tu reserva se ha realizado correctamente! Referencia: SBT-7K2Q9M».
 
-### 3.8. Estados de carga, vacío y error
+### 3.9. Estados de carga, vacío y error
 
 Clase `.estado`: una caja con borde discontinuo y el texto centrado.
 
@@ -214,7 +231,7 @@ Clase `.estado`: una caja con borde discontinuo y el texto centrado.
 - Vacío: «Todavía no tienes ninguna reserva.»
 - Error (`.estado--error`): fondo rojo claro, el mensaje y un botón «Reintentar».
 
-### 3.9. Paneles, Mi cuenta y organización
+### 3.10. Paneles, Mi cuenta y organización
 
 - `.panel`: caja blanca con borde, radio de 12 px y sombra suave. Se usa para formularios, fichas y bloques de Mi cuenta.
 - **Mi cuenta** (prototipo «mi cuenta»): a la izquierda, la tarjeta de perfil con la inicial, los datos y «Cerrar sesión»; a la derecha, **Mis citas** en tarjetas con la referencia, la fecha, la hora, el lugar, «Info» y «Darse de baja». En móvil se apilan.
@@ -264,15 +281,19 @@ Criterios:
   | Error `#b00020` sobre `#fde8e8` | 6,2:1 |
   | «Últimas plazas» `#8a5a00` sobre `#fff4dc` | 5,4:1 |
   | «Plazas libres» `#2e7d32` sobre `#e3f6e8` | 4,5:1 (justo en el límite: no aclarar este verde) |
+  | Área Salud `#0b6157` sobre `#dff7f3` | 6,5:1 |
+  | Área Business `#a12a1a` sobre `#ffe8e3` | 6,3:1 |
+  | Blanco sobre el filtro activo de Salud / Business | 7,3:1 / 7,3:1 |
 - **Menos movimiento:** si el sistema tiene activado «reducir movimiento» (`prefers-reduced-motion`), se quitan las animaciones y el desplazamiento suave.
 
 ---
 
 ## 6. Contenido y tono
 
-Claro, directo, cercano pero profesional y orientado a la acción. Pensado para estudiantes, trabajadores y cualquier persona interesada en la tecnología.
+Claro, directo, cercano pero profesional y orientado a la acción. Pensado para estudiantes, trabajadores y cualquier persona interesada en la salud, los negocios o la tecnología. Las áreas se escriben siempre igual: **Salud**, **Business** y **Tech**.
 
 - «Consulta el programa y reserva tu plaza en un minuto.»
+- «Charlas para cuidarte, emprender y entender la tecnología.»
 - «Tu plaza en tres pasos.»
 - «28 plazas libres» / «Completa» / «Charla ya celebrada».
 - «No se han podido cargar las charlas.» + «Reintentar».
@@ -289,7 +310,7 @@ Evitar textos largos en botones y mensajes técnicos dirigidos al usuario («Err
 | `src/index.css` | **Todos los estilos**: variables (colores, radios, sombras), estilos base, clases de componentes y responsive al final |
 | `src/components/` | Piezas que se repiten: `Header`, `Footer`, `Aviso`, `TarjetaCharla`, `ListaCharlas` |
 | `src/pages/` | Una por pantalla: `Inicio`, `Charlas`, `Detalle`, `Reserva`, `Login`, `Registro`, `Cuenta`, `Admin` |
-| `src/utils/charlas.js` | Formato de fechas («Jueves, 10 de diciembre de 2026») y estado de plazas y de la charla |
+| `src/utils/charlas.js` | Formato de fechas («Jueves, 10 de diciembre de 2026»), estado de plazas y de la charla, y las tres áreas (`AREAS`, `areaDe`) |
 | `src/assets/logos/` | Logos en WebP |
 | `public/` | Favicon e icono de móvil |
 

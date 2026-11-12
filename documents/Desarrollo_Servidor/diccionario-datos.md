@@ -17,7 +17,7 @@ Base de datos MySQL 8.4 (`sabitech_web`). Se crea con las migraciones de Laravel
 | `roles` | Perfiles de la aplicación | N:M con `users` a través de `role_user` |
 | `role_user` | Qué roles tiene cada usuario | Tabla intermedia `users` ↔ `roles` |
 | `locations` | Salas donde se dan las charlas | 1:N con `talks` |
-| `categories` | Temáticas de las charlas | 1:N con `talks` |
+| `categories` | Áreas de las charlas: Salud, Business y Tech | 1:N con `talks` |
 | `talks` | Charlas de las jornadas | N:1 con `locations`, `categories` y `users` (creador) |
 | `talk_user` | Reservas (inscripciones) | N:1 con `users` y `talks` |
 | `user_talk_qr` | Asistencias registradas y valoraciones | N:1 con una reserva de `talk_user` |
@@ -73,7 +73,7 @@ La clave primaria (`user_id`, `role_id`) impide asignar dos veces el mismo rol a
 | Campo | Tipo | Restricciones | Descripción |
 |---|---|---|---|
 | `id` | INT | PK | Identificador |
-| `name` | VARCHAR(100) | NN, UQ `uq_categories_name` | Temática (IA, Ciberseguridad…) |
+| `name` | VARCHAR(100) | NN, UQ `uq_categories_name` | Área: `Salud`, `Business` o `Tech` (las tres del nombre SA·BI·TECH). El frontend usa este nombre para el color y el filtro, así que hay que escribirlo exactamente así |
 
 ## talks
 

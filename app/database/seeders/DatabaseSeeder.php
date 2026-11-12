@@ -52,12 +52,11 @@ class DatabaseSeeder extends Seeder
             DB::table('role_user')->insert(['user_id' => $userId, 'role_id' => $roles[$rol]]);
         }
 
+        // Las tres áreas de las jornadas: SAlud, BusIness y TECH (de ahí el nombre SABITECH)
         DB::table('categories')->insert([
-            ['id' => 1, 'name' => 'Inteligencia artificial'],
-            ['id' => 2, 'name' => 'Ciberseguridad'],
-            ['id' => 3, 'name' => 'Cloud y DevOps'],
-            ['id' => 4, 'name' => 'Desarrollo web'],
-            ['id' => 5, 'name' => 'Datos'],
+            ['id' => 1, 'name' => 'Salud'],
+            ['id' => 2, 'name' => 'Business'],
+            ['id' => 3, 'name' => 'Tech'],
         ]);
 
         DB::table('locations')->insert([
@@ -67,31 +66,32 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // seats_taken coincide con las reservas 'confirmada' de talk_user
+        // Casos de prueba: 1 = ya celebrada, 3 = completa, 4 = borrador, 5 = con plazas libres
         DB::table('talks')->insert([
             [
                 'id' => 1, 'location_id' => 1, 'created_by' => 1, 'category_id' => 1,
-                'title' => 'IA generativa en el desarrollo de software',
-                'description' => 'Casos reales de uso de asistentes de código.',
-                'speaker_name' => 'Sara Ficticia', 'speaker_company' => 'Empresa Demo SL',
-                'speaker_bio' => 'Ingeniera de software (perfil ficticio).',
+                'title' => 'Bienestar digital: desconectar para rendir más',
+                'description' => 'Hábitos sencillos para cuidar la salud mental cuando trabajamos y estudiamos rodeados de pantallas y notificaciones.',
+                'speaker_name' => 'Sara Ficticia', 'speaker_company' => 'Clínica Demo',
+                'speaker_bio' => 'Psicóloga especializada en salud laboral (perfil ficticio).',
                 'speaker_photo' => 'ponentes/sara.webp', 'speaker_photo_alt' => 'Retrato de Sara Ficticia sonriendo',
                 'starts_at' => '2026-10-20 10:00:00', 'ends_at' => '2026-10-20 11:00:00',
                 'capacity' => 100, 'seats_taken' => 3, 'is_published' => 1,
             ],
             [
-                'id' => 2, 'location_id' => 2, 'created_by' => 1, 'category_id' => 4,
-                'title' => 'Angular o React: cómo elegir',
-                'description' => 'Comparativa práctica para proyectos medianos.',
-                'speaker_name' => 'Pablo Muestra', 'speaker_company' => 'Frontend Co',
-                'speaker_bio' => 'Desarrollador frontend (perfil ficticio).',
+                'id' => 2, 'location_id' => 2, 'created_by' => 1, 'category_id' => 2,
+                'title' => 'Cómo validar una idea de negocio en una semana',
+                'description' => 'Método práctico para comprobar si una idea tiene clientes antes de invertir tiempo y dinero: entrevistas, prototipo y primeras métricas.',
+                'speaker_name' => 'Pablo Muestra', 'speaker_company' => 'Startup Demo',
+                'speaker_bio' => 'Emprendedor y mentor de proyectos (perfil ficticio).',
                 'speaker_photo' => null, 'speaker_photo_alt' => null,
                 'starts_at' => '2026-12-10 10:00:00', 'ends_at' => '2026-12-10 11:00:00',
                 'capacity' => 30, 'seats_taken' => 2, 'is_published' => 1,
             ],
             [
-                'id' => 3, 'location_id' => 3, 'created_by' => 1, 'category_id' => 2,
+                'id' => 3, 'location_id' => 3, 'created_by' => 1, 'category_id' => 3,
                 'title' => 'Taller de seguridad web',
-                'description' => 'Taller práctico con aforo reducido.',
+                'description' => 'Taller práctico con aforo reducido: los errores de seguridad más comunes en aplicaciones web y cómo evitarlos.',
                 'speaker_name' => 'Irene Test', 'speaker_company' => 'SecLab',
                 'speaker_bio' => 'Auditora de seguridad (perfil ficticio).',
                 'speaker_photo' => null, 'speaker_photo_alt' => null,
@@ -99,23 +99,74 @@ class DatabaseSeeder extends Seeder
                 'capacity' => 4, 'seats_taken' => 4, 'is_published' => 1,
             ],
             [
-                'id' => 4, 'location_id' => 2, 'created_by' => 1, 'category_id' => 3,
-                'title' => 'Despliegue con contenedores (borrador)',
+                'id' => 4, 'location_id' => 2, 'created_by' => 1, 'category_id' => 1,
+                'title' => 'Telemedicina: retos y oportunidades (borrador)',
                 'description' => 'Pendiente de confirmar ponente.',
                 'speaker_name' => 'Por confirmar', 'speaker_company' => null,
-                'speaker_bio' => null, 'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'speaker_bio' => null,
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
                 'starts_at' => '2026-12-11 09:00:00', 'ends_at' => '2026-12-11 10:00:00',
                 'capacity' => 30, 'seats_taken' => 0, 'is_published' => 0,
             ],
             [
-                'id' => 5, 'location_id' => 1, 'created_by' => 1, 'category_id' => 5,
-                'title' => 'Introducción al análisis de datos',
-                'description' => 'De hoja de cálculo a dashboard.',
+                'id' => 5, 'location_id' => 1, 'created_by' => 1, 'category_id' => 3,
+                'title' => 'IA generativa: de la idea al producto',
+                'description' => 'Casos reales de uso de la inteligencia artificial generativa en empresas y cómo pasar de una prueba a un producto que funcione.',
                 'speaker_name' => 'Tomás Ejemplo', 'speaker_company' => 'Datos Demo',
-                'speaker_bio' => 'Analista de datos (perfil ficticio).',
+                'speaker_bio' => 'Ingeniero de datos e IA (perfil ficticio).',
                 'speaker_photo' => null, 'speaker_photo_alt' => null,
                 'starts_at' => '2026-12-11 11:00:00', 'ends_at' => '2026-12-11 12:00:00',
                 'capacity' => 80, 'seats_taken' => 0, 'is_published' => 1,
+            ],
+            [
+                'id' => 6, 'location_id' => 2, 'created_by' => 1, 'category_id' => 1,
+                'title' => 'Ergonomía y salud para quien trabaja con pantallas',
+                'description' => 'Postura, pausas activas y ejercicios para prevenir dolores de espalda, cuello y vista en el trabajo de oficina.',
+                'speaker_name' => 'Lucas Prueba', 'speaker_company' => 'Fisioterapia Demo',
+                'speaker_bio' => 'Fisioterapeuta (perfil ficticio).',
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'starts_at' => '2026-12-10 16:00:00', 'ends_at' => '2026-12-10 17:00:00',
+                'capacity' => 30, 'seats_taken' => 0, 'is_published' => 1,
+            ],
+            [
+                'id' => 7, 'location_id' => 1, 'created_by' => 1, 'category_id' => 2,
+                'title' => 'Finanzas para emprendedores: del Excel al cuadro de mando',
+                'description' => 'Cómo controlar ingresos, gastos y tesorería de un proyecto pequeño y convertir una hoja de cálculo en un cuadro de mando.',
+                'speaker_name' => 'Marta Ejemplo', 'speaker_company' => 'Asesoría Demo',
+                'speaker_bio' => 'Asesora financiera de pymes (perfil ficticio).',
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'starts_at' => '2026-12-11 16:00:00', 'ends_at' => '2026-12-11 17:00:00',
+                'capacity' => 60, 'seats_taken' => 0, 'is_published' => 1,
+            ],
+            [
+                'id' => 8, 'location_id' => 1, 'created_by' => 1, 'category_id' => 1,
+                'title' => 'Inteligencia artificial en el diagnóstico médico',
+                'description' => 'Dónde ayuda ya la IA a los profesionales sanitarios, qué límites tiene y por qué la decisión final sigue siendo humana.',
+                'speaker_name' => 'Nuria Demo', 'speaker_company' => 'Hospital Demo',
+                'speaker_bio' => 'Médica e investigadora en salud digital (perfil ficticio).',
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'starts_at' => '2026-12-12 10:00:00', 'ends_at' => '2026-12-12 11:00:00',
+                'capacity' => 100, 'seats_taken' => 0, 'is_published' => 1,
+            ],
+            [
+                'id' => 9, 'location_id' => 2, 'created_by' => 1, 'category_id' => 2,
+                'title' => 'Marketing digital para pymes',
+                'description' => 'Redes sociales, web y correo: qué funciona de verdad cuando tienes poco presupuesto y cómo medir los resultados.',
+                'speaker_name' => 'Jorge Muestra', 'speaker_company' => 'Agencia Demo',
+                'speaker_bio' => 'Consultor de marketing digital (perfil ficticio).',
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'starts_at' => '2026-12-12 12:00:00', 'ends_at' => '2026-12-12 13:00:00',
+                'capacity' => 25, 'seats_taken' => 0, 'is_published' => 1,
+            ],
+            [
+                'id' => 10, 'location_id' => 2, 'created_by' => 1, 'category_id' => 3,
+                'title' => 'Tu primera aplicación web con React y Laravel',
+                'description' => 'Recorrido completo por una aplicación real: frontend en React, API en Laravel y base de datos MySQL con Docker.',
+                'speaker_name' => 'Ana Código', 'speaker_company' => 'PGD Technologies',
+                'speaker_bio' => 'Desarrolladora full stack (perfil ficticio).',
+                'speaker_photo' => null, 'speaker_photo_alt' => null,
+                'starts_at' => '2026-12-12 16:00:00', 'ends_at' => '2026-12-12 17:30:00',
+                'capacity' => 30, 'seats_taken' => 0, 'is_published' => 1,
             ],
         ]);
 

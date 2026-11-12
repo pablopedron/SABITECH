@@ -44,6 +44,9 @@ function App() {
     const [estadoCharlas, setEstadoCharlas] = useState("cargando");
     const [errorCharlas, setErrorCharlas] = useState("");
 
+    // Área elegida en la página de charlas: "todas", "salud", "business" o "tech".
+    const [filtroArea, setFiltroArea] = useState("todas");
+
     // Charla seleccionada desde una tarjeta.
     const [charlaSeleccionada, setCharlaSeleccionada] = useState(null);
 
@@ -120,6 +123,12 @@ function App() {
     function cambiarPagina(nombrePagina) {
         setAviso(null);
         setPagina(nombrePagina);
+    }
+
+    // Ir a la página de charlas mostrando solo un área (desde el inicio).
+    function verCharlasDe(area) {
+        setFiltroArea(area);
+        cambiarPagina("charlas");
     }
 
     // Seleccionar una charla para reservarla.
@@ -268,12 +277,19 @@ function App() {
                         reservar={reservar}
                         verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
+                        verCharlasDe={verCharlasDe}
                     />
                 );
 
             case "charlas":
                 return (
-                    <Charlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
+                    <Charlas
+                        catalogo={catalogo}
+                        reservar={reservar}
+                        verDetalle={verDetalle}
+                        filtroArea={filtroArea}
+                        cambiarFiltroArea={setFiltroArea}
+                    />
                 );
 
             case "detalle":
@@ -335,6 +351,7 @@ function App() {
                             reservar={reservar}
                             verDetalle={verDetalle}
                             cambiarPagina={cambiarPagina}
+                            verCharlasDe={verCharlasDe}
                         />
                     );
                 }
@@ -350,6 +367,7 @@ function App() {
                         reservar={reservar}
                         verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
+                        verCharlasDe={verCharlasDe}
                     />
                 );
         }
