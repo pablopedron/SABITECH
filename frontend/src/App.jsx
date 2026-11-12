@@ -69,6 +69,11 @@ function App() {
         restaurarSesion();
     }, []);
 
+    // Al cambiar de pantalla, volvemos arriba (en móvil se quedaría a mitad de página).
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pagina]);
+
     // Pide las charlas a la API.
     async function cargarCharlas() {
 
@@ -302,6 +307,8 @@ function App() {
                         catalogo={catalogo}
                         charlaSeleccionada={charlaSeleccionada}
                         confirmarReserva={confirmarReserva}
+                        usuario={usuario}
+                        cambiarPagina={cambiarPagina}
                     />
                 );
 
@@ -316,6 +323,7 @@ function App() {
                         reservas={reservas}
                         cancelarReserva={cancelarReserva}
                         cerrarSesion={cerrarSesion}
+                        verDetalle={verDetalle}
                     />
                 );
 
@@ -332,7 +340,7 @@ function App() {
                 }
 
                 return (
-                    <Admin catalogo={catalogo} />
+                    <Admin catalogo={catalogo} usuario={usuario} cerrarSesion={cerrarSesion} />
                 );
 
             default:
@@ -349,31 +357,25 @@ function App() {
 
 
     return (
-        <div style={estilos.aplicacion}>
+        <>
+            <a className="salto" href="#contenido">Saltar al contenido</a>
 
             <Header
+                pagina={pagina}
                 cambiarPagina={cambiarPagina}
                 usuario={usuario}
+                cerrarSesion={cerrarSesion}
             />
 
             <Aviso aviso={aviso} cerrar={() => setAviso(null)} />
 
-            {mostrarPagina()}
+            <div id="contenido" className="contenido" tabIndex="-1">
+                {mostrarPagina()}
+            </div>
 
-            <Footer />
-
-        </div>
+            <Footer cambiarPagina={cambiarPagina} />
+        </>
     );
 }
-
-const estilos = {
-    aplicacion: {
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "Arial, sans-serif",
-        color: "#000000"
-    }
-};
 
 export default App;

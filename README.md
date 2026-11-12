@@ -243,7 +243,7 @@ SABITECH/
 │   ├── Desarrollo_Cliente/      Frontend
 │   ├── Desarrollo_Servidor/     Diccionario de datos y modelo en SQL
 │   ├── Despliegue/              Diagrama de arquitectura y plan de publicación
-│   ├── Diseno_Interfaces/       Prototipos y responsive
+│   ├── Diseno_Interfaces/       Prototipos, guía de estilos, logos y responsive
 │   ├── IPE/                     Empresa PGD
 │   ├── Digitalizacion/
 │   ├── Ingles/                  Informe de vídeos sobre IA
