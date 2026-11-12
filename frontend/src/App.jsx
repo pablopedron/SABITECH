@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Aviso from "./components/Aviso";
 
 import Inicio from "./pages/Inicio";
 import Charlas from "./pages/Charlas";
@@ -11,136 +12,233 @@ import Reserva from "./pages/Reserva";
 import Cuenta from "./pages/Cuenta";
 import Admin from "./pages/Admin";
 
+import {
+    borrarToken,
+    cancelarReservaApi,
+    cerrarSesionApi,
+    guardarToken,
+    iniciarSesionApi,
+    obtenerCharlas,
+    obtenerMisReservas,
+    obtenerPerfil,
+    obtenerToken,
+    registrarApi,
+    registrarManejadorSesionCaducada,
+    reservarCharla
+} from "./services/api";
+
 function App() {
 
     // Página que se está mostrando.
     const [pagina, setPagina] = useState("inicio");
 
-    // Usuario que ha iniciado sesión.
+    // Usuario que ha iniciado sesión (null si no hay sesión).
     const [usuario, setUsuario] = useState(null);
 
-    // Usuarios registrados.
-    const [usuarios, setUsuarios] = useState([]);
-
-    // Reservas realizadas.
+    // Reservas del usuario, tal y como las devuelve la API.
     const [reservas, setReservas] = useState([]);
+
+    // Charlas del catálogo y estado de su carga: "cargando", "listo" o "error".
+    const [charlas, setCharlas] = useState([]);
+    const [estadoCharlas, setEstadoCharlas] = useState("cargando");
+    const [errorCharlas, setErrorCharlas] = useState("");
 
     // Charla seleccionada desde una tarjeta.
     const [charlaSeleccionada, setCharlaSeleccionada] = useState(null);
 
+    // Mensaje para el usuario: { tipo: "ok" | "error", texto }.
+    const [aviso, setAviso] = useState(null);
+
+    // Al abrir la web: cargamos el catálogo y, si había una sesión guardada, la recuperamos.
+    useEffect(() => {
+        registrarManejadorSesionCaducada(() => {
+            setUsuario(null);
+            setReservas([]);
+            setAviso({
+                tipo: "error",
+                texto: "Tu sesión ha caducado. Inicia sesión de nuevo."
+            });
+            setPagina("login");
+        });
+
+        cargarCharlas();
+        restaurarSesion();
+    }, []);
+
+    // Pide las charlas a la API.
+    async function cargarCharlas() {
+
+        // Si ya hay charlas mostradas no las ocultamos mientras se actualizan.
+        setEstadoCharlas((anterior) => (anterior === "listo" ? anterior : "cargando"));
+
+        try {
+            const lista = await obtenerCharlas();
+            setCharlas(lista);
+            setEstadoCharlas("listo");
+        } catch (error) {
+            setErrorCharlas(error.message);
+            setEstadoCharlas("error");
+        }
+    }
+
+    // Pide las reservas del usuario a la API.
+    async function cargarReservas() {
+        try {
+            setReservas(await obtenerMisReservas());
+        } catch (error) {
+            // El 401 ya lo gestiona el aviso de sesión caducada.
+            if (error.estado !== 401) {
+                setAviso({ tipo: "error", texto: error.message });
+            }
+        }
+    }
+
+    // Si hay un token guardado, comprobamos con la API quién es el usuario.
+    async function restaurarSesion() {
+        if (!obtenerToken()) {
+            return;
+        }
+
+        try {
+            setUsuario(await obtenerPerfil());
+            await cargarReservas();
+        } catch {
+            // Sin sesión válida seguimos como visitante.
+        }
+    }
+
     // Cambiar de página.
     function cambiarPagina(nombrePagina) {
+        setAviso(null);
         setPagina(nombrePagina);
     }
 
     // Seleccionar una charla para reservarla.
     function reservar(charla) {
+        setAviso(null);
         setCharlaSeleccionada(charla);
         setPagina("reserva");
     }
 
-    // Iniciar sesión.
-    function iniciarSesion(correo) {
-
-        // Usuario de prueba para acceder al administrador.
-        if (correo === "admin@sabitech.es") {
-            const administrador = {
-                nombre: "Administrador",
-                correo: correo,
-                ciudad: "Valencia",
-                codigoPostal: "46001",
-                rol: "admin"
-            };
-
-            setUsuario(administrador);
-            setPagina("admin");
-            return;
-        }
-
-        // Buscamos si el usuario está registrado.
-        const usuarioEncontrado = usuarios.find(
-            (item) => item.correo === correo
-        );
-
-        if (usuarioEncontrado) {
-            setUsuario(usuarioEncontrado);
-            setPagina("cuenta");
-        } else {
-            alert("No existe una cuenta con ese correo. Regístrate primero.");
+    // El login y el registro devuelven pocos datos; /me trae el perfil completo (código postal...).
+    async function perfilCompleto(usuarioApi) {
+        try {
+            return await obtenerPerfil();
+        } catch {
+            return usuarioApi;
         }
     }
 
-    // Registrar un usuario nuevo.
-    function registrar(usuarioNuevo) {
+    // Iniciar sesión. Devuelve el mensaje de error, o null si ha ido bien.
+    async function iniciarSesion(correo, password) {
+        try {
+            const { usuario: usuarioApi, token } = await iniciarSesionApi(correo, password);
 
-        const existe = usuarios.find(
-            (item) => item.correo === usuarioNuevo.correo
-        );
+            guardarToken(token);
 
-        if (existe) {
-            alert("Este correo ya está registrado.");
-            return;
+            const perfil = await perfilCompleto(usuarioApi);
+            setUsuario(perfil);
+            setAviso(null);
+            await cargarReservas();
+
+            // La organización va a su panel; el resto, a su cuenta.
+            setPagina(perfil.rol === "admin" ? "admin" : "cuenta");
+
+            return null;
+        } catch (error) {
+            return error.message;
         }
+    }
 
-        setUsuarios([...usuarios, usuarioNuevo]);
-        setUsuario(usuarioNuevo);
+    // Registrar un usuario nuevo. Devuelve una lista de errores, o null si ha ido bien.
+    async function registrar(datos) {
+        try {
+            const { usuario: usuarioApi, token } = await registrarApi(datos);
 
-        alert("Registro realizado correctamente.");
+            guardarToken(token);
+            setUsuario(await perfilCompleto(usuarioApi));
+            setReservas([]);
+            setAviso({ tipo: "ok", texto: "Registro realizado correctamente." });
+            setPagina("cuenta");
 
-        setPagina("cuenta");
+            return null;
+        } catch (error) {
+            // Con errores de validación (422) mostramos cada uno; si no, el mensaje general.
+            const detalles = Object.values(error.errores ?? {}).flat();
+            return detalles.length > 0 ? detalles : [error.message];
+        }
     }
 
     // Confirmar una reserva.
-   function confirmarReserva(reservaNueva) {
+    async function confirmarReserva(charlaId) {
 
-    if (!usuario) {
-        alert("Debes iniciar sesión para reservar una cita.");
-        setPagina("login");
-        return;
+        if (!usuario) {
+            setAviso({ tipo: "error", texto: "Debes iniciar sesión para reservar una cita." });
+            setPagina("login");
+            return;
+        }
+
+        try {
+            const reserva = await reservarCharla(charlaId);
+
+            // Actualizamos reservas y plazas disponibles con lo que ha guardado el servidor.
+            await Promise.all([cargarReservas(), cargarCharlas()]);
+
+            setAviso({
+                tipo: "ok",
+                texto: `¡Tu reserva se ha realizado correctamente! Referencia: ${reserva.referencia}`
+            });
+            setPagina("cuenta");
+        } catch (error) {
+            if (error.estado === 401) {
+                return;
+            }
+
+            setAviso({ tipo: "error", texto: error.message });
+
+            // Si no quedaban plazas, refrescamos para mostrar la disponibilidad real.
+            if (error.estado === 409) {
+                cargarCharlas();
+            }
+        }
     }
 
-    // Comprobar si el usuario ya tiene reservada esta charla.
-    const reservaExistente = reservas.find(
-        (reserva) =>
-            reserva.usuario === usuario.correo &&
-            reserva.charlaId === reservaNueva.charlaId
-    );
-
-    if (reservaExistente) {
-        alert(
-            "Ya tienes una reserva para esta charla. " +
-            "Cancela tu reserva actual antes de volver a reservar."
-        );
-        return;
-    }
-
-    // Guardar la nueva reserva.
-    const nuevaReserva = {
-        ...reservaNueva,
-        usuario: usuario.correo
-    };
-
-    setReservas([...reservas, nuevaReserva]);
-
-    alert("¡Tu reserva se ha realizado correctamente!");
-
-    setPagina("cuenta");
-}
     // Cancelar una reserva.
-    function cancelarReserva(indice) {
+    async function cancelarReserva(reservaId) {
+        try {
+            await cancelarReservaApi(reservaId);
+            await Promise.all([cargarReservas(), cargarCharlas()]);
 
-        const nuevasReservas = reservas.filter(
-            (reserva, index) => index !== indice
-        );
-
-        setReservas(nuevasReservas);
+            setAviso({ tipo: "ok", texto: "Reserva cancelada. La plaza ha quedado libre." });
+        } catch (error) {
+            if (error.estado !== 401) {
+                setAviso({ tipo: "error", texto: error.message });
+            }
+        }
     }
 
     // Cerrar sesión.
-    function cerrarSesion() {
+    async function cerrarSesion() {
+        try {
+            await cerrarSesionApi();
+        } catch {
+            // Aunque el servidor no responda, cerramos la sesión en este navegador.
+        }
+
+        borrarToken();
         setUsuario(null);
+        setReservas([]);
+        setAviso(null);
         setPagina("inicio");
     }
+
+    // Datos del catálogo que reciben las páginas.
+    const catalogo = {
+        charlas: charlas,
+        estado: estadoCharlas,
+        error: errorCharlas,
+        recargar: cargarCharlas
+    };
 
     // Mostramos la página correspondiente.
     function mostrarPagina() {
@@ -150,6 +248,7 @@ function App() {
             case "inicio":
                 return (
                     <Inicio
+                        catalogo={catalogo}
                         reservar={reservar}
                         cambiarPagina={cambiarPagina}
                     />
@@ -157,7 +256,7 @@ function App() {
 
             case "charlas":
                 return (
-                    <Charlas reservar={reservar} />
+                    <Charlas catalogo={catalogo} reservar={reservar} />
                 );
 
             case "login":
@@ -179,6 +278,7 @@ function App() {
             case "reserva":
                 return (
                     <Reserva
+                        catalogo={catalogo}
                         charlaSeleccionada={charlaSeleccionada}
                         confirmarReserva={confirmarReserva}
                     />
@@ -200,16 +300,23 @@ function App() {
 
             case "admin":
                 if (!usuario || usuario.rol !== "admin") {
-                    return <Inicio reservar={reservar} cambiarPagina={cambiarPagina} />;
+                    return (
+                        <Inicio
+                            catalogo={catalogo}
+                            reservar={reservar}
+                            cambiarPagina={cambiarPagina}
+                        />
+                    );
                 }
 
                 return (
-                    <Admin usuarios={usuarios} />
+                    <Admin catalogo={catalogo} />
                 );
 
             default:
                 return (
                     <Inicio
+                        catalogo={catalogo}
                         reservar={reservar}
                         cambiarPagina={cambiarPagina}
                     />
@@ -225,6 +332,8 @@ function App() {
                 cambiarPagina={cambiarPagina}
                 usuario={usuario}
             />
+
+            <Aviso aviso={aviso} cerrar={() => setAviso(null)} />
 
             {mostrarPagina()}
 

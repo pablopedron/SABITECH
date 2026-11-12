@@ -180,6 +180,10 @@ npm run dev
 ```
 Abre http://localhost:5173
 
+El frontend habla con la API del backend, así que **Docker debe estar levantado** (`docker compose up -d`) y la base de datos cargada (paso 1.7). Por defecto usa `http://localhost:8080/api`. Si tu API está en otra dirección, copia `frontend/.env.example` como `frontend/.env`, cambia `VITE_API_URL` y reinicia `npm run dev`.
+
+Cuentas para probar (contraseña `Sabitech2026!`): `ana@sabitech.test` (asistente) y `organizacion@sabitech.test` (panel de organización).
+
 ### 6. Problemas frecuentes
 
 **`ports are not available ... 3307` al hacer `docker compose up -d`**
