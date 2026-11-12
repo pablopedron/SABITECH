@@ -172,7 +172,28 @@ Notas importantes:
 ### 4. Base de datos
 La base de datos se crea **solo con Laravel**: las tablas con las migraciones (`app/database/migrations`) y los datos ficticios con el seeder (`app/database/seeders/DatabaseSeeder.php`). `documents/sabitechDDBB.sql` es solo la **constancia del modelo en SQL puro** para la memoria; ni Docker ni Laravel lo ejecutan. Si cambia una migración, hay que actualizar también ese fichero.
 
-### 5. Frontend React (en tu ordenador, necesita Node.js)
+### 5. Pruebas automáticas del backend
+Los tests están en `app/tests/Feature` y usan **MySQL**, en una base de datos propia (`sabitech_test`), **nunca la de desarrollo**. Si la configuración apuntara a otra base de datos, los tests se paran antes de tocar nada.
+
+| Fichero | Qué comprueba |
+|---|---|
+| `BaseDeDatosTest.php` | Las reglas de MySQL: UNIQUE, CHECK, claves foráneas y triggers rechazan los datos incorrectos |
+| `ReservasTest.php` | API de reservas: reserva válida, repetida, sin plazas, última plaza, charla empezada, cancelar y volver a reservar |
+| `AuthTest.php` | Registro, login, perfil y cierre de sesión |
+
+**Primera vez** (la base de datos `sabitech_test` hay que crearla una vez; si acabas de crear el volumen con `docker compose down -v`, ya la crea Docker solo):
+```
+docker compose up -d
+docker compose exec db sh /docker-entrypoint-initdb.d/01-crear-bd-test.sh
+```
+
+**Ejecutar los tests:**
+```
+docker compose exec web php artisan test
+```
+Cada prueba se ejecuta dentro de una transacción que se deshace al terminar, así que no se mezclan datos. Para ejecutar solo un fichero: `docker compose exec web php artisan test --filter=ReservasTest`.
+
+### 6. Frontend React (en tu ordenador, necesita Node.js)
 ```
 cd frontend
 npm install
@@ -180,7 +201,7 @@ npm run dev
 ```
 Abre http://localhost:5173
 
-### 6. Problemas frecuentes
+### 7. Problemas frecuentes
 
 **`ports are not available ... 3307` al hacer `docker compose up -d`**
 Windows tiene ese puerto reservado. Añade `MYSQL_HOST_PORT=3310` a tu `.env` y vuelve a ejecutar `docker compose up -d`. Ese puerto solo se usa para MySQL Workbench; Laravel no lo necesita.
@@ -213,13 +234,13 @@ Cambia `MYSQL_DATABASE` a `sabitech_web` en tu `.env` y ejecuta `docker compose 
 **`ERROR: service "web" is not running` al ejecutar `docker compose exec web ...`**
 Los contenedores no están arrancados. Ejecuta `docker compose up -d` y mira `docker compose ps`.
 
-### 7. Organización del repositorio
+### 8. Organización del repositorio
 ```
 SABITECH/
 ├── app/            Backend Laravel (API, migraciones, seeders)
 ├── frontend/       Frontend React + Vite
 ├── documents/      Documentación (constancia del modelo en SQL, etc.)
-├── docker/         Configuración de Apache para el contenedor web
+├── docker/         Configuración de Apache (web) y script que crea la BD de pruebas (MySQL)
 ├── compose.yaml    Servicios de Docker
 ├── dockerfile      Imagen del contenedor web (PHP 8.4 + Apache)
 ├── openapi.json    Contrato de la API
