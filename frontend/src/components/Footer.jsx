@@ -20,8 +20,8 @@ function Footer({ cambiarPagina }) {
                         <img src={logoClaro} alt="SABITECH" width="172" height="44" loading="lazy" />
                     </h2>
                     <p>
-                        Jornadas de charlas tecnológicas para estudiantes, profesionales
-                        y cualquier persona con ganas de aprender.
+                        Jornadas de charlas sobre salud, negocio y tecnología para estudiantes,
+                        profesionales y cualquier persona con ganas de aprender.
                     </p>
                 </section>
 

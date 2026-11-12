@@ -57,3 +57,31 @@ export function estadoPlazas(charla) {
 export function sePuedeReservar(charla) {
     return !yaEmpezada(charla) && charla.plazasDisponibles > 0;
 }
+
+// Las tres áreas de SABITECH: SAlud, BusIness y TECH.
+export const AREAS = [
+    {
+        id: "salud",
+        nombre: "Salud",
+        letras: "SA",
+        descripcion: "Bienestar, prevención y cómo la tecnología está cambiando la atención sanitaria."
+    },
+    {
+        id: "business",
+        nombre: "Business",
+        letras: "BI",
+        descripcion: "Emprendimiento, finanzas y marketing para poner en marcha y hacer crecer un proyecto."
+    },
+    {
+        id: "tech",
+        nombre: "Tech",
+        letras: "TECH",
+        descripcion: "Desarrollo web, inteligencia artificial, datos y seguridad, con casos prácticos."
+    }
+];
+
+// "Salud" → "salud": sirve para elegir el color de la etiqueta de cada área.
+export function areaDe(charla) {
+    const nombre = (charla.categoria || "").toLowerCase();
+    return AREAS.find((area) => area.id === nombre)?.id ?? "otra";
+}

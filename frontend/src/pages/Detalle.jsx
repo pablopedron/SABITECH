@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { obtenerCharla } from "../services/api";
-import { estadoPlazas, fechaLarga, sePuedeReservar, yaEmpezada } from "../utils/charlas";
+import { areaDe, estadoPlazas, fechaLarga, sePuedeReservar, yaEmpezada } from "../utils/charlas";
 
 // Pantalla de detalle: pide a la API (GET /talks/{id}) una sola charla.
 // Estados: "cargando", "listo", "noExiste" (404) y "error".
@@ -94,7 +94,7 @@ function FichaCharla({ charla, reservar }) {
         <article className="detalle">
 
             <div className="detalle__principal panel">
-                <span className="etiqueta">{charla.categoria}</span>
+                <span className={`etiqueta etiqueta--${areaDe(charla)}`}>{charla.categoria}</span>
                 <h1 style={{ marginTop: 14 }}>{charla.titulo}</h1>
                 <p className="detalle__descripcion">{charla.descripcion}</p>
 

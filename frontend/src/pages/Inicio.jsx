@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
 import ListaCharlas from "../components/ListaCharlas";
-import { yaEmpezada } from "../utils/charlas";
+import { AREAS, areaDe, yaEmpezada } from "../utils/charlas";
 import icono from "../assets/logos/icono-sabitech.webp";
 
 // Inicio del prototipo: información, botón "Pide tu cita" y carrusel con las charlas.
-function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
+function Inicio({ catalogo, reservar, verDetalle, cambiarPagina, verCharlasDe }) {
 
     const carrusel = useRef(null);
 
@@ -13,6 +13,11 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
     const proximas = catalogo.charlas.filter((charla) => !yaEmpezada(charla));
     const charlasCarrusel = proximas.length > 0 ? proximas : catalogo.charlas;
     const plazasLibres = proximas.reduce((total, charla) => total + charla.plazasDisponibles, 0);
+
+    // Cuántas próximas charlas hay de cada área (para las tarjetas de áreas).
+    function proximasDe(area) {
+        return proximas.filter((charla) => areaDe(charla) === area).length;
+    }
 
     // Las flechas mueven el carrusel una tarjeta a la izquierda o a la derecha.
     function mover(direccion) {
@@ -29,18 +34,18 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
                 <img className="portada__marca" src={icono} alt="" aria-hidden="true" width="192" height="192" />
                 <div className="contenedor portada__contenido">
                     <div>
-                        <span className="antetitulo">Jornadas tecnológicas</span>
-                        <h1 id="portada-titulo">Aprende, comparte y descubre la tecnología</h1>
+                        <span className="antetitulo">Salud · Business · Tech</span>
+                        <h1 id="portada-titulo">Charlas para cuidarte, emprender y entender la tecnología</h1>
                         <p className="portada__texto">
-                            En SABITECH organizamos charlas sobre inteligencia artificial, ciberseguridad,
-                            desarrollo web y datos. Consulta el programa y reserva tu plaza en un minuto.
+                            SABITECH reúne en unas mismas jornadas tres mundos que cada vez van más juntos:
+                            la salud, los negocios y la tecnología. Consulta el programa y reserva tu plaza en un minuto.
                         </p>
 
                         <div className="portada__acciones">
                             <button className="boton boton--claro" onClick={() => cambiarPagina("reserva")}>
                                 Pide tu cita
                             </button>
-                            <button className="boton boton--borde-claro" onClick={() => cambiarPagina("charlas")}>
+                            <button className="boton boton--borde-claro" onClick={() => verCharlasDe("todas")}>
                                 Ver todas las charlas
                             </button>
                         </div>
@@ -55,7 +60,7 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
                                 <strong>{plazasLibres}</strong> plazas libres
                             </li>
                             <li className="portada__dato">
-                                <strong>Gratis</strong> con tu cuenta
+                                <strong>3 áreas</strong> salud, business y tech
                             </li>
                         </ul>
                     )}
@@ -63,6 +68,47 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
             </section>
 
             <div className="contenedor">
+
+                <section className="seccion" aria-labelledby="areas-titulo">
+                    <div className="cabecera-pagina">
+                        <span className="antetitulo">Qué significa SABITECH</span>
+                        <h2 id="areas-titulo" aria-label="SABITECH: Salud, Business y Tech">
+                            <span className="sigla sigla--salud">SA</span>
+                            {" · "}
+                            <span className="sigla sigla--business">BI</span>
+                            {" · "}
+                            <span className="sigla sigla--tech">TECH</span>
+                        </h2>
+                        <p>
+                            <strong>Salud</strong>, <strong>Business</strong> y <strong>Tech</strong>: cada charla
+                            pertenece a una de estas tres áreas. Elige la que más te interese.
+                        </p>
+                    </div>
+
+                    <ul className="areas">
+                        {AREAS.map((area) => (
+                            <li key={area.id}>
+                                <article className={`area area--${area.id}`}>
+                                    <span className="area__letras" aria-hidden="true">{area.letras}</span>
+                                    <h3>{area.nombre}</h3>
+                                    <p>{area.descripcion}</p>
+                                    {catalogo.estado === "listo" && (
+                                        <p className="area__cuenta">
+                                            {proximasDe(area.id)} {proximasDe(area.id) === 1 ? "próxima charla" : "próximas charlas"}
+                                        </p>
+                                    )}
+                                    <button
+                                        className="boton boton--secundario"
+                                        onClick={() => verCharlasDe(area.id)}
+                                        aria-label={`Ver las charlas de ${area.nombre}`}
+                                    >
+                                        Ver charlas
+                                    </button>
+                                </article>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
 
                 <section className="seccion" aria-labelledby="como-titulo">
                     <div className="cabecera-pagina">
@@ -119,10 +165,10 @@ function Inicio({ catalogo, reservar, verDetalle, cambiarPagina }) {
 
                 <section className="seccion llamada" aria-labelledby="llamada-titulo">
                     <div>
-                        <h2 id="llamada-titulo">Descubre el mundo digital</h2>
+                        <h2 id="llamada-titulo">Salud, negocio y tecnología en un mismo lugar</h2>
                         <p>Participa en nuestras charlas y aprende con nosotros.</p>
                     </div>
-                    <button className="boton" onClick={() => cambiarPagina("charlas")}>
+                    <button className="boton" onClick={() => verCharlasDe("todas")}>
                         Ver el programa completo
                     </button>
                 </section>
