@@ -28,74 +28,58 @@ function Login({ iniciarSesion, cambiarPagina }) {
     }
 
     return (
-        <main style={estilos.contenedor}>
-            <h2>Iniciar sesión</h2>
+        <main className="pagina">
+            <div className="acceso">
+                <div className="acceso__cabecera">
+                    <h1>Iniciar sesión</h1>
+                    <p>Entra para reservar charlas y ver tus citas.</p>
+                </div>
 
-            <form onSubmit={enviarFormulario} style={estilos.formulario}>
+                <form onSubmit={enviarFormulario} className="panel formulario">
 
-                <label htmlFor="login-correo">Correo electrónico</label>
+                    <div className="campo">
+                        <label htmlFor="login-correo">Correo electrónico</label>
+                        <input
+                            id="login-correo"
+                            type="email"
+                            name="correo"
+                            autoComplete="email"
+                            placeholder="nombre@correo.com"
+                            value={correo}
+                            onChange={(e) => setCorreo(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <input
-                    id="login-correo"
-                    type="email"
-                    name="correo"
-                    placeholder="Introduce tu correo..."
-                    value={correo}
-                    onChange={(e) => setCorreo(e.target.value)}
-                    required
-                />
+                    <div className="campo">
+                        <label htmlFor="login-password">Contraseña</label>
+                        <input
+                            id="login-password"
+                            type="password"
+                            name="contrasenya"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <label htmlFor="login-password">Contraseña</label>
+                    {error && <p role="alert" className="error-campo">{error}</p>}
 
-                <input
-                    id="login-password"
-                    type="password"
-                    name="contrasenya"
-                    placeholder="Introduce tu contraseña..."
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                    <button type="submit" className="boton boton--ancho" disabled={enviando}>
+                        {enviando ? "Entrando..." : "Entrar"}
+                    </button>
+                </form>
 
-                {error && <p role="alert" style={estilos.error}>{error}</p>}
-
-                <button type="submit" disabled={enviando}>
-                    {enviando ? "Entrando..." : "Entrar"}
-                </button>
-
-            </form>
-
-            <p>
-                ¿No tienes cuenta?
-                <button onClick={() => cambiarPagina("registro")}>
-                    Registrarse
-                </button>
-            </p>
+                <p className="acceso__pie">
+                    ¿No tienes cuenta?{" "}
+                    <button className="boton boton--enlace" onClick={() => cambiarPagina("registro")}>
+                        Regístrate
+                    </button>
+                </p>
+            </div>
         </main>
     );
 }
-
-const estilos = {
-    contenedor: {
-        maxWidth: "400px",
-        margin: "50px auto",
-        padding: "25px",
-        textAlign: "center"
-    },
-    formulario: {
-        backgroundColor: "#ffffff",
-        borderRadius: "12px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        padding: "clamp(16px, 5vw, 30px)",
-        boxSizing: "border-box",
-        width: "100%"
-    },
-    error: {
-        color: "#b00020",
-        margin: 0
-    }
-};
 
 export default Login;

@@ -3,24 +3,16 @@ import ListaCharlas from "../components/ListaCharlas";
 function Charlas({ catalogo, reservar, verDetalle }) {
 
     return (
-        <main style={estilos.contenedor}>
-            <h2>Todas nuestras charlas</h2>
-
-            <p>
-                Consulta la información de cada charla y reserva tu plaza.
-            </p>
+        <main className="pagina">
+            <div className="cabecera-pagina">
+                <span className="antetitulo">Programa</span>
+                <h1>Todas nuestras charlas</h1>
+                <p>Consulta la información de cada charla y reserva tu plaza.</p>
+            </div>
 
             <ListaCharlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
         </main>
     );
 }
-
-const estilos = {
-    contenedor: {
-        padding: "clamp(16px, 5vw, 30px)",
-        maxWidth: "1200px",
-        margin: "auto"
-    }
-};
 
 export default Charlas;

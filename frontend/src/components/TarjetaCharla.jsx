@@ -1,100 +1,71 @@
+import { diaYMes, estadoPlazas, sePuedeReservar, yaEmpezada } from "../utils/charlas";
+
+// Tarjeta de charla del prototipo: datos principales y los botones "Info" y "Pedir cita".
 function TarjetaCharla({ charla, reservar, verDetalle }) {
 
-    const fechaDisponible = charla.fechasDisponibles?.[0];
+    const fecha = charla.fechasDisponibles[0];
+    const { dia, mes } = diaYMes(charla);
+    const plazas = estadoPlazas(charla);
+    const pasada = yaEmpezada(charla);
+    const idTitulo = `charla-${charla.id}-titulo`;
 
-    // Con 0 plazas libres no se puede reservar (el servidor también lo comprueba).
-    const sinPlazas = charla.plazasDisponibles === 0;
+    let textoBoton = "Pedir cita";
+    if (pasada) {
+        textoBoton = "Ya celebrada";
+    } else if (charla.plazasDisponibles === 0) {
+        textoBoton = "Sin plazas";
+    }
 
     return (
-        <article style={estilos.tarjeta}>
-            <h3>{charla.titulo}</h3>
+        <article className={`tarjeta ${pasada ? "tarjeta--pasada" : ""}`} aria-labelledby={idTitulo}>
 
-            <p>{charla.descripcion}</p>
+            <div className="tarjeta__cabecera">
+                <span className="etiqueta">{charla.categoria}</span>
 
-            <p>
-                <strong>Categoría:</strong> {charla.categoria || "No disponible"}
-            </p>
+                <p className="fecha-bloque" aria-label={`Día ${dia} de ${mes}`}>
+                    <span className="fecha-bloque__dia" aria-hidden="true">{dia}</span>
+                    <span className="fecha-bloque__mes" aria-hidden="true">{mes}</span>
+                </p>
+            </div>
 
-            <p>
-                <strong>Ponente:</strong> {charla.ponente || "No disponible"}
-            </p>
+            <div className="tarjeta__cuerpo">
+                <h3 className="tarjeta__titulo" id={idTitulo}>{charla.titulo}</h3>
 
-            <p>
-                <strong>Empresa:</strong> {charla.empresaPonente || "No disponible"}
-            </p>
+                <p className="tarjeta__ponente">
+                    {charla.ponente}
+                    {charla.empresaPonente && ` · ${charla.empresaPonente}`}
+                </p>
 
-            <p>
-                <strong>Fecha:</strong>{" "}
-                {fechaDisponible?.fecha || "No disponible"}
-            </p>
+                <dl className="datos">
+                    <dt>Hora</dt>
+                    <dd>{fecha.horas[0]} - {fecha.horaFin}</dd>
+                    <dt>Lugar</dt>
+                    <dd>{charla.lugar}</dd>
+                </dl>
 
-            <p>
-                <strong>Hora:</strong>{" "}
-                {fechaDisponible?.horas?.[0] || "No disponible"}
-            </p>
+                <p className={`plazas plazas--${plazas.tipo}`}>{plazas.texto}</p>
+            </div>
 
-            <p>
-                <strong>Lugar:</strong> {charla.lugar || "No disponible"}
-            </p>
+            <div className="tarjeta__acciones">
+                <button
+                    className="boton boton--secundario"
+                    onClick={() => verDetalle(charla)}
+                    aria-label={`Ver información de ${charla.titulo}`}
+                >
+                    Info
+                </button>
 
-            <p>
-                <strong>Dirección:</strong> {charla.direccion || "No disponible"}
-            </p>
-
-            <p>
-                <strong>Plazas disponibles:</strong>{" "}
-                {charla.plazasDisponibles ?? "No disponible"}
-            </p>
-
-            <button
-                style={{ ...estilos.boton, ...estilos.botonSecundario }}
-                onClick={() => verDetalle(charla)}
-            >
-                VER DETALLE
-            </button>
-
-            <button
-                style={{
-                    ...estilos.boton,
-                    ...(sinPlazas ? estilos.botonDesactivado : {})
-                }}
-                onClick={() => reservar(charla)}
-                disabled={sinPlazas}
-            >
-                {sinPlazas ? "SIN PLAZAS" : "PIDE CITA"}
-            </button>
+                <button
+                    className="boton"
+                    onClick={() => reservar(charla)}
+                    disabled={!sePuedeReservar(charla)}
+                    aria-label={`${textoBoton}: ${charla.titulo}`}
+                >
+                    {textoBoton}
+                </button>
+            </div>
         </article>
     );
 }
-
-const estilos = {
-    tarjeta: {
-        backgroundColor: "#ffffff",
-        borderRadius: "12px",
-        padding: "20px",
-        width: "100%",
-        boxSizing: "border-box",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-    },
-    boton: {
-        backgroundColor: "#5f137b",
-        color: "white",
-        border: "none",
-        padding: "12px",
-        borderRadius: "6px",
-        cursor: "pointer",
-        width: "100%"
-    },
-    botonSecundario: {
-        backgroundColor: "#ffffff",
-        color: "#5f137b",
-        border: "2px solid #5f137b",
-        marginBottom: "8px"
-    },
-    botonDesactivado: {
-        backgroundColor: "#6b6b6b",
-        cursor: "not-allowed"
-    }
-};
 
 export default TarjetaCharla;

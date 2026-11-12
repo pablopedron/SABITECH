@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { obtenerCharla } from "../services/api";
+import { estadoPlazas, fechaLarga, sePuedeReservar, yaEmpezada } from "../utils/charlas";
 
 // Pantalla de detalle: pide a la API (GET /talks/{id}) una sola charla.
 // Estados: "cargando", "listo", "noExiste" (404) y "error".
@@ -46,102 +47,109 @@ function Detalle({ charlaId, reservar, volver }) {
         };
     }, [charlaId, intento]);
 
-    const fecha = charla?.fechasDisponibles[0];
-    const sinPlazas = charla?.plazasDisponibles === 0;
-
     return (
-        <main style={estilos.contenedor}>
+        <main className="pagina">
 
-            <button onClick={volver} style={estilos.volver}>
+            <button onClick={volver} className="boton boton--enlace volver">
                 ← Volver a las charlas
             </button>
 
             {estado === "cargando" && (
-                <p role="status">Cargando charla...</p>
+                <p role="status" className="estado">Cargando charla...</p>
             )}
 
             {estado === "noExiste" && (
-                <p role="alert">Esta charla no existe o ya no está disponible.</p>
+                <p role="alert" className="estado estado--error">
+                    Esta charla no existe o ya no está disponible.
+                </p>
             )}
 
             {estado === "error" && (
-                <div role="alert">
+                <div role="alert" className="estado estado--error">
                     <p>No se ha podido cargar la charla. {error}</p>
-                    <button onClick={reintentar}>Reintentar</button>
+                    <button className="boton" onClick={reintentar}>Reintentar</button>
                 </div>
             )}
 
-            {estado === "listo" && (
-                <article style={estilos.ficha}>
-                    <h2>{charla.titulo}</h2>
-
-                    <p><strong>Categoría:</strong> {charla.categoria}</p>
-
-                    <p>{charla.descripcion}</p>
-
-                    <h3>Cuándo y dónde</h3>
-                    <p><strong>Fecha:</strong> {fecha.fecha}</p>
-                    <p><strong>Horario:</strong> {fecha.horas[0]} - {fecha.horaFin}</p>
-                    <p><strong>Lugar:</strong> {charla.lugar}</p>
-                    <p><strong>Dirección:</strong> {charla.direccion}</p>
-
-                    <h3>Ponente</h3>
-                    <p><strong>{charla.ponente}</strong> · {charla.empresaPonente}</p>
-                    {charla.biografiaPonente && <p>{charla.biografiaPonente}</p>}
-
-                    <h3>Aforo</h3>
-                    <p>
-                        {charla.plazasDisponibles} plazas libres de {charla.capacidad}
-                    </p>
-
-                    <button
-                        style={{
-                            ...estilos.reservar,
-                            ...(sinPlazas ? estilos.sinPlazas : {})
-                        }}
-                        onClick={() => reservar(charla)}
-                        disabled={sinPlazas}
-                    >
-                        {sinPlazas ? "SIN PLAZAS" : "PIDE CITA"}
-                    </button>
-                </article>
-            )}
+            {estado === "listo" && <FichaCharla charla={charla} reservar={reservar} />}
         </main>
     );
 }
 
-const estilos = {
-    contenedor: {
-        maxWidth: "700px",
-        width: "100%",
-        margin: "30px auto",
-        padding: "0 20px",
-        boxSizing: "border-box"
-    },
-    volver: {
-        marginBottom: "16px",
-        cursor: "pointer"
-    },
-    ficha: {
-        backgroundColor: "#ffffff",
-        borderRadius: "12px",
-        padding: "25px",
-        boxSizing: "border-box",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-    },
-    reservar: {
-        backgroundColor: "#5f137b",
-        color: "white",
-        border: "none",
-        padding: "12px 24px",
-        borderRadius: "6px",
-        cursor: "pointer",
-        marginTop: "16px"
-    },
-    sinPlazas: {
-        backgroundColor: "#6b6b6b",
-        cursor: "not-allowed"
+function FichaCharla({ charla, reservar }) {
+
+    const fecha = charla.fechasDisponibles[0];
+    const plazas = estadoPlazas(charla);
+    const ocupadas = charla.capacidad - charla.plazasDisponibles;
+    const porcentaje = Math.round((ocupadas / charla.capacidad) * 100);
+
+    let textoBoton = "Pedir cita";
+    if (yaEmpezada(charla)) {
+        textoBoton = "Charla ya celebrada";
+    } else if (charla.plazasDisponibles === 0) {
+        textoBoton = "Sin plazas";
     }
-};
+
+    return (
+        <article className="detalle">
+
+            <div className="detalle__principal panel">
+                <span className="etiqueta">{charla.categoria}</span>
+                <h1 style={{ marginTop: 14 }}>{charla.titulo}</h1>
+                <p className="detalle__descripcion">{charla.descripcion}</p>
+
+                <section className="ponente" aria-labelledby="ponente-titulo">
+                    <span className="ponente__inicial" aria-hidden="true">
+                        {charla.ponente?.charAt(0)}
+                    </span>
+                    <div>
+                        <h2 id="ponente-titulo" className="solo-lector">Ponente</h2>
+                        <p><strong>{charla.ponente}</strong></p>
+                        {charla.empresaPonente && <p className="texto-suave">{charla.empresaPonente}</p>}
+                        {charla.biografiaPonente && <p>{charla.biografiaPonente}</p>}
+                    </div>
+                </section>
+            </div>
+
+            <aside className="detalle__lateral panel" aria-labelledby="cuando-titulo">
+                <h2 id="cuando-titulo" style={{ fontSize: "1.2rem" }}>Cuándo y dónde</h2>
+
+                <dl className="datos">
+                    <dt>Fecha</dt>
+                    <dd>{fechaLarga(charla)}</dd>
+                    <dt>Horario</dt>
+                    <dd>{fecha.horas[0]} - {fecha.horaFin}</dd>
+                    <dt>Lugar</dt>
+                    <dd>{charla.lugar}</dd>
+                    <dt>Dirección</dt>
+                    <dd>{charla.direccion}</dd>
+                </dl>
+
+                <h3 style={{ fontSize: "1rem", marginBottom: 0 }}>Aforo</h3>
+                <div
+                    className="ocupacion"
+                    role="img"
+                    aria-label={`${ocupadas} de ${charla.capacidad} plazas ocupadas`}
+                >
+                    <div className="ocupacion__relleno" style={{ width: `${porcentaje}%` }} />
+                </div>
+                <p className="texto-suave" style={{ fontSize: "0.9rem" }}>
+                    {charla.plazasDisponibles} plazas libres de {charla.capacidad}
+                </p>
+
+                <p className={`plazas plazas--${plazas.tipo}`} style={{ marginTop: 0 }}>{plazas.texto}</p>
+
+                <button
+                    className="boton boton--ancho"
+                    style={{ marginTop: 16 }}
+                    onClick={() => reservar(charla)}
+                    disabled={!sePuedeReservar(charla)}
+                >
+                    {textoBoton}
+                </button>
+            </aside>
+        </article>
+    );
+}
 
 export default Detalle;

@@ -6,63 +6,64 @@ import {
     faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 
-function Footer() {
+// Pie del prototipo: información y redes sociales.
+function Footer({ cambiarPagina }) {
 
     return (
-        <footer style={estilos.footer}>
+        <footer className="pie">
+            <div className="contenedor pie__columnas">
 
-            <p>© 2026 SABITECH - Todos los derechos reservados</p>
+                <section>
+                    <h2>SABITECH</h2>
+                    <p>
+                        Jornadas de charlas tecnológicas para estudiantes, profesionales
+                        y cualquier persona con ganas de aprender.
+                    </p>
+                </section>
 
-            <p>Consulta novedades en nuestras redes sociales:</p>
+                <nav aria-label="Enlaces del pie">
+                    <h2>La web</h2>
+                    <ul className="pie__lista">
+                        <li><button className="pie__enlace" onClick={() => cambiarPagina("inicio")}>Inicio</button></li>
+                        <li><button className="pie__enlace" onClick={() => cambiarPagina("charlas")}>Charlas</button></li>
+                        <li><button className="pie__enlace" onClick={() => cambiarPagina("reserva")}>Pide tu cita</button></li>
+                    </ul>
+                </nav>
 
-            <div style={estilos.redes}>
-
-                <a style={estilos.enlace} href="https://www.instagram.com/"
-                    target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faInstagram} /> Instagram
-                </a>
-
-                <a style={estilos.enlace} href="https://www.facebook.com/"
-                    target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faFacebook} /> Facebook
-                </a>
-
-                <a style={estilos.enlace} href="https://www.tiktok.com/"
-                    target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faTiktok} /> Tik Tok
-                </a>
-
-                <a style={estilos.enlace} href="https://x.com/"
-                    target="_blank" rel="noreferrer">
-                    <FontAwesomeIcon icon={faXTwitter} /> X
-                </a>
-
+                <section>
+                    <h2>Síguenos</h2>
+                    <ul className="pie__lista">
+                        <li>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                                <FontAwesomeIcon icon={faInstagram} /> Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+                                <FontAwesomeIcon icon={faFacebook} /> Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/" target="_blank" rel="noreferrer">
+                                <FontAwesomeIcon icon={faTiktok} /> TikTok
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/" target="_blank" rel="noreferrer">
+                                <FontAwesomeIcon icon={faXTwitter} /> X
+                            </a>
+                        </li>
+                    </ul>
+                </section>
             </div>
 
+            <div className="pie__legal">
+                <div className="contenedor">
+                    <p>© 2026 SABITECH · Web desarrollada por PGD Technologies S.L.</p>
+                </div>
+            </div>
         </footer>
     );
 }
-
-const estilos = {
-    enlace: {
-        color: "white"
-    },
-    footer: {
-        backgroundColor: "#5f137b",
-        color: "white",
-        textAlign: "center",
-        padding: "25px",
-        marginTop: "40px"
-    },
-
-     redes: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "10px 20px",
-        marginTop: "15px",
-        fontSize: "15px"
-    }
-};
 
 export default Footer;
