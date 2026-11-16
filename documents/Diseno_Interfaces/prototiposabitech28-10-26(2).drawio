@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Página-1" id="XYd_YJfrH1QFqbM3JsrL">
-    <mxGraphModel dx="3679" dy="1882" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2218" dy="1597" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -17,25 +17,25 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="SABITECH" vertex="1">
-          <mxGeometry height="30" width="60" x="384" y="80" as="geometry" />
+          <mxGeometry height="30" width="60" x="200" y="80" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="iniciar sesion" vertex="1">
-          <mxGeometry height="30" width="80" x="494" y="140" as="geometry" />
+          <mxGeometry height="30" width="80" x="504" y="80" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="registrarse" vertex="1">
-          <mxGeometry height="30" width="80" x="574" y="140" as="geometry" />
+          <mxGeometry height="30" width="80" x="574" y="80" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Inicio" vertex="1">
-          <mxGeometry height="30" width="80" x="180" y="140" as="geometry" />
+          <mxGeometry height="30" width="80" x="364" y="80" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="charlas" vertex="1">
-          <mxGeometry height="30" width="80" x="250" y="140" as="geometry" />
+          <mxGeometry height="30" width="80" x="430" y="80" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="INFO ............................." vertex="1">
-          <mxGeometry height="120" width="210" x="180" y="170" as="geometry" />
+          <mxGeometry height="120" width="210" x="180" y="140" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="PIDE TU CITA (BOTON)" vertex="1">
-          <mxGeometry height="80" width="200" x="174" y="260" as="geometry" />
+          <mxGeometry height="80" width="200" x="170" y="230" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="CHARLA 1" vertex="1">
           <mxGeometry height="80" width="200" x="160" y="340" as="geometry" />
@@ -48,15 +48,6 @@
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="CHARLA 4" vertex="1">
           <mxGeometry height="80" width="200" x="480" y="340" as="geometry" />
-        </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ESTO GIRA&amp;nbsp; CON LAS CHARLAS" vertex="1">
-          <mxGeometry height="30" width="60" x="80" y="330" as="geometry" />
-        </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-20" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="60.000000000000455" y="390" as="sourcePoint" />
-            <mxPoint x="160" y="390" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="FOOTER CON INFO Y REDES SOCIALES" vertex="1">
           <mxGeometry height="30" width="60" x="384" y="480" as="geometry" />
@@ -205,9 +196,6 @@
         <mxCell id="GeYPiS_2GoqhDDWoAex_-84" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
           <mxGeometry height="30" width="210" x="353" y="1645" as="geometry" />
         </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-85" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="POR DEFINIR LOS CAMPOS" vertex="1">
-          <mxGeometry height="30" width="60" x="270" y="1692.5" as="geometry" />
-        </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-86" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
           <mxGeometry height="30" width="210" x="350" y="1670" as="geometry" />
         </mxCell>
@@ -227,7 +215,7 @@
           <mxGeometry height="30" width="60" x="363.99999999999955" y="2010" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-92" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="BIENVENID@, XXXXX" vertex="1">
-          <mxGeometry height="30" width="80" x="414.99999999999955" y="2070" as="geometry" />
+          <mxGeometry height="30" width="80" x="179.99999999999955" y="2110" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-93" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Mi cuenta" vertex="1">
           <mxGeometry height="30" width="80" x="492.99999999999955" y="2070" as="geometry" />
@@ -297,9 +285,6 @@
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-112" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
           <mxGeometry height="360" width="550" x="119" y="2540" as="geometry" />
-        </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-113" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="cerrar sesion" vertex="1">
-          <mxGeometry height="30" width="80" x="560" y="2070" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-116" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=25;" value="mi cuenta" vertex="1">
           <mxGeometry height="30" width="60" x="650" y="2490" as="geometry" />
@@ -406,15 +391,6 @@
         <mxCell id="GeYPiS_2GoqhDDWoAex_-152" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="CHARLA 4" vertex="1">
           <mxGeometry height="80" width="200" x="1729.9999999999995" y="865" as="geometry" />
         </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-153" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ESTO GIRA&amp;nbsp; CON LAS CHARLAS" vertex="1">
-          <mxGeometry height="30" width="60" x="1329.9999999999995" y="855" as="geometry" />
-        </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-154" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="1310" y="915" as="sourcePoint" />
-            <mxPoint x="1409.9999999999995" y="915" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-155" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="FOOTER CON INFO Y REDES SOCIALES" vertex="1">
           <mxGeometry height="30" width="60" x="1633.9999999999995" y="1005" as="geometry" />
         </mxCell>
@@ -444,9 +420,6 @@
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-165" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="SALTA AVISO Y SE SUBEN LOS DATOS A MI CUENTA" vertex="1">
           <mxGeometry height="30" width="80" x="2060" y="670" as="geometry" />
-        </mxCell>
-        <mxCell id="GeYPiS_2GoqhDDWoAex_-166" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="pondremos ciudad y cod postal para guardar en una grafica" vertex="1">
-          <mxGeometry height="30" width="60" x="280" y="1780" as="geometry" />
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-168" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
           <mxGeometry height="360" width="550" x="790" y="2540" as="geometry" />
@@ -504,6 +477,78 @@
         </mxCell>
         <mxCell id="GeYPiS_2GoqhDDWoAex_-186" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=25;" value="cuenta usuario / cuenta admin" vertex="1">
           <mxGeometry height="30" width="60" x="750" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="VER TODAS LAS CHARLAS (BOTON)" vertex="1">
+          <mxGeometry height="80" width="200" x="350" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="INFO ............................." vertex="1">
+          <mxGeometry height="120" width="210" x="174" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="170" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="165" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="REPETICION DE CHARLAS" vertex="1">
+          <mxGeometry height="120" width="210" x="177" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CONCLUSION" vertex="1">
+          <mxGeometry height="120" width="210" x="164" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="DIVIDIDAS POR SECTORES SABITECH" vertex="1">
+          <mxGeometry height="30" width="146" x="174" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="VER TODAS LAS CHARLAS (BOTON)" vertex="1">
+          <mxGeometry height="80" width="200" x="1600" y="787.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="1420" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CONCLUSION" vertex="1">
+          <mxGeometry height="120" width="210" x="1400" y="965" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="REPETICION DE CHARLAS" vertex="1">
+          <mxGeometry height="120" width="210" x="1419" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="1405" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="no tienes una cuenta? Registrate" vertex="1">
+          <mxGeometry height="30" width="210" x="316" y="1435" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ESTO PROXIMAMENTE" vertex="1">
+          <mxGeometry height="30" width="60" x="911" y="2800" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CREA UNA CUENTA&lt;div&gt;...&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="148" x="330" y="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nombre completo" vertex="1">
+          <mxGeometry height="30" width="148" x="222" y="1645" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="correo" vertex="1">
+          <mxGeometry height="30" width="148" x="222" y="1675" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="contraseña" vertex="1">
+          <mxGeometry height="30" width="148" x="216" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="cod postal" vertex="1">
+          <mxGeometry height="30" width="148" x="212" y="1722.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="140" y="2130" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;labelBorderColor=default;" value="VER TODAS LAS CHARLAS (BOTON)" vertex="1">
+          <mxGeometry height="80" width="200" x="330" y="2190" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CASILLAS CON INFO" vertex="1">
+          <mxGeometry height="120" width="210" x="145" y="2310" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-31" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="REPETICION DE CHARLAS" vertex="1">
+          <mxGeometry height="120" width="210" x="154" y="2330" as="geometry" />
+        </mxCell>
+        <mxCell id="rsYev-xeBTKYJKSDhAVE-32" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="CONCLUSION" vertex="1">
+          <mxGeometry height="120" width="210" x="120" y="2350" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
