@@ -43,7 +43,7 @@ Es el proyecto intermodular de 2.º de Desarrollo de Aplicaciones Web (XTART Val
 | Ver las inscripciones y asistencias de una charla | Organización | 🧪 Prototipo en el backend |
 | Validación manual de la asistencia y gestión de charlas | Personal de acceso / organización | ⏳ Pendiente |
 
-🧪 **Prototipo en el backend:** la API ya lo hace y tiene tests, pero falta la pantalla. Los requisitos completos están en [`documents/Proyecto_Intermodular`](documents/Proyecto_Intermodular).
+🧪 **Prototipo en el backend:** la API ya lo hace y tiene tests, pero falta la pantalla. Los requisitos completos están en el [documento de requisitos y alcance](documents/Proyecto_Intermodular/SABITECH_Requisitos_Alcance.docx) y el uso de la web, en el [manual de usuario](documents/Proyecto_Intermodular/SABITECH_Manual_Usuario.docx).
 
 **Reglas que comprueba siempre el servidor:**
 - Una sola reserva por persona y charla.
@@ -286,9 +286,9 @@ SABITECH/
 │   ├── Despliegue/              Diagrama de arquitectura y plan de publicación
 │   ├── Diseno_Interfaces/       Prototipos, guía de estilos, logos y responsive
 │   ├── IPE/                     Empresa PGD
-│   ├── Digitalizacion/
+│   ├── Digitalizacion/          Gestión manual frente a digital
 │   ├── Ingles/                  Informe de vídeos sobre IA
-│   ├── Proyecto_Intermodular/   Memoria, Gantt e informe de IA
+│   ├── Proyecto_Intermodular/   Requisitos, manual de usuario, informe de IA y memoria
 │   └── rubricas_requerimientos/ Enunciado y rúbricas
 ├── docker/         Configuración de Apache (web) y script que crea la BD de pruebas (MySQL)
 ├── .github/readme/ Imágenes de este README
@@ -335,8 +335,8 @@ Todas las rutas empiezan por `http://localhost:8080/api`. Las privadas necesitan
 | Diseño de interfaces web | [`Diseno_Interfaces`](documents/Diseno_Interfaces) | Prototipo, [guía de estilos](documents/Diseno_Interfaces/guia-estilos.md), logos y revisión de responsive y accesibilidad |
 | Itinerario personal para la empleabilidad II | [`IPE`](documents/IPE) | Plan de empresa de PGD Technologies |
 | Digitalización | [`Digitalizacion`](documents/Digitalizacion) | Gestión manual frente a digital |
-| Inglés Oral | [`Ingles`](documents/Ingles) | Informe de vídeos sobre IA en programación |
-| Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | Requisitos, Gantt, reparto, memoria e informe de uso de IA |
+| Inglés Oral | [`Ingles`](documents/Ingles) | [Informe de vídeos sobre IA en programación](documents/Ingles/CHECKPOINT_ENGLISH.docx) |
+| Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | [Requisitos y alcance](documents/Proyecto_Intermodular/SABITECH_Requisitos_Alcance.docx), [manual de usuario](documents/Proyecto_Intermodular/SABITECH_Manual_Usuario.docx) e [informe del uso real de IA](documents/Proyecto_Intermodular/SABITECH_Informe_Uso_IA.docx). Gantt, seguimiento y memoria parcial, en preparación |
 
 El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](documents/rubricas_requerimientos).
 
@@ -356,8 +356,8 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 
 ## Flujo de trabajo con Git
 
-- **`MainPruebasV3`:** versión de trabajo del equipo. Pasará a ser `main`.
-- **`develop/backendV3` y `develop/frontendV4`:** ramas de integración del backend y del frontend.
+- **`MainPruebasV4`:** versión de trabajo del equipo. Pasará a ser `main`.
+- **`develop/backendV4` y `develop/frontendV4`:** ramas de integración del backend y del frontend.
 - **Ramas de tarea:** cada tarea se hace en una rama `feature/...` (o `fix/...`, `docs/...`) creada desde la `develop` correspondiente. Se integra con un **Pull Request** que revisa otra persona del equipo.
 - **Ficheros que no se suben:** `.env`, `app/.env` y `app/vendor/` (están en `.gitignore`). Nunca se suben contraseñas: se usan las plantillas `.env.example`.
 
