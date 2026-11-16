@@ -54,3 +54,6 @@ ehthumbs.db
 *.suo
 *.ntvs*
 *.njsproj
+
+# Archivos generados localmente (no se suben)
+Claude outputs/
