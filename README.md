@@ -82,7 +82,7 @@ Es el proyecto intermodular de 2.º de Desarrollo de Aplicaciones Web (XTART Val
 | Entorno | Docker Compose | Levanta web, base de datos, phpMyAdmin y Mailpit con un solo comando |
 | Pruebas | PHPUnit (24 tests) y Postman | Reglas de reserva, permisos, correo y QR |
 
-Más detalle en el [diagrama de arquitectura](documents/Despliegue) y el [plan de publicación](documents/Despliegue).
+Más detalle en el [diagrama de arquitectura](documents/Despliegue/SABITECH_Diagrama_Arquitectura.docx) y el [plan de publicación](documents/Despliegue/SABITECH_Plan_Publicacion.docx).
 
 ---
 
@@ -329,13 +329,13 @@ Todas las rutas empiezan por `http://localhost:8080/api`. Las privadas necesitan
 
 | Módulo | Carpeta | Qué hay |
 |---|---|---|
-| Desarrollo web en entorno cliente | [`Desarrollo_Cliente`](documents/Desarrollo_Cliente) | Eventos, estados y errores del frontend (en preparación) |
+| Desarrollo web en entorno cliente | [`Desarrollo_Cliente`](documents/Desarrollo_Cliente) | Tecnología, organización del código, eventos, estados, errores y pruebas del frontend |
 | Desarrollo web en entorno servidor | [`Desarrollo_Servidor`](documents/Desarrollo_Servidor) | Diccionario de datos, modelo en SQL y colección de Postman |
 | Despliegue de aplicaciones web | [`Despliegue`](documents/Despliegue) | Diagrama de arquitectura y plan de publicación |
 | Diseño de interfaces web | [`Diseno_Interfaces`](documents/Diseno_Interfaces) | Prototipo, [guía de estilos](documents/Diseno_Interfaces/guia-estilos.md), logos y revisión de responsive y accesibilidad |
-| Itinerario personal para la empleabilidad II | [`IPE`](documents/IPE) | Plan de empresa de PGD Technologies |
-| Digitalización | [`Digitalizacion`](documents/Digitalizacion) | Gestión manual frente a digital |
-| Inglés Oral | [`Ingles`](documents/Ingles) | [Informe de vídeos sobre IA en programación](documents/Ingles/CHECKPOINT_ENGLISH.docx) |
+| Itinerario personal para la empleabilidad II | [`IPE`](documents/IPE) | [Plan de empresa de PGD Technologies](documents/IPE/Empresa_PGD.docx) (APA 7, con validación con usuarios) |
+| Digitalización | [`Digitalizacion`](documents/Digitalizacion) | [Gestión manual frente a digital, datos, uso de IA, protección de datos y plan de transformación](documents/Digitalizacion/Parte%20de%20Digitalizaci%C3%B3n_definitivo.docx) |
+| Inglés Oral | [`Ingles`](documents/Ingles) | [Informe de vídeos sobre IA en programación](documents/Ingles/CHECKPOINT%20ENGLISH_definitivo.docx) |
 | Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | [Requisitos y alcance](documents/Proyecto_Intermodular/SABITECH_Requisitos_Alcance.docx), [manual de usuario](documents/Proyecto_Intermodular/SABITECH_Manual_Usuario.docx) e [informe del uso real de IA](documents/Proyecto_Intermodular/SABITECH_Informe_Uso_IA.docx). Gantt, seguimiento y memoria parcial, en preparación |
 
 El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](documents/rubricas_requerimientos).
