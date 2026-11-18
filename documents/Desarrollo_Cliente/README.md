@@ -18,13 +18,15 @@ Todo lo que se muestra se ejecuta en el navegador. Las reglas importantes (aforo
 
 ## 2. Cómo arrancarlo
 
+El frontend es un servicio más de Docker Compose (`frontend`, imagen `node:22-alpine`), así que se levanta con el resto desde la raíz del repositorio:
+
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose up -d
 ```
 
-La web se abre en `http://localhost:5173` y se conecta a la API en `http://localhost:8080/api` (los contenedores de Docker tienen que estar levantados). Para cambiar la dirección de la API se copia `frontend/.env.example` como `.env`.
+La primera vez el contenedor instala las dependencias (`npm install`) y después arranca Vite (`npm run dev`). La web se abre en `http://localhost:5173` y se conecta a la API en `http://localhost:8080/api`. Al guardar un fichero de `frontend/src` la página se recarga sola. Para cambiar la dirección de la API se copia `frontend/.env.example` como `.env` y se reinicia el contenedor (`docker compose restart frontend`).
+
+También se puede arrancar fuera de Docker con Node.js (`cd frontend`, `npm install`, `npm run dev`), parando antes el contenedor con `docker compose stop frontend`.
 
 ## 3. Organización del código
 

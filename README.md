@@ -71,7 +71,7 @@ Es el proyecto intermodular de 2.º de Desarrollo de Aplicaciones Web (XTART Val
 
 ## Arquitectura y tecnologías
 
-![Diagrama: el navegador carga el frontend React y este llama a la API Laravel, que guarda los datos en MySQL y envía los correos a Mailpit. Todo el backend corre en Docker Compose.](.github/readme/arquitectura.png)
+![Diagrama: el navegador carga el frontend React y este llama a la API Laravel, que guarda los datos en MySQL y envía los correos a Mailpit. Todo (frontend, backend, base de datos y correo) corre en Docker Compose.](.github/readme/arquitectura.png)
 
 | Parte | Tecnología | Para qué |
 |---|---|---|
@@ -79,7 +79,7 @@ Es el proyecto intermodular de 2.º de Desarrollo de Aplicaciones Web (XTART Val
 | Backend | PHP 8.4, Laravel 13, Sanctum | API REST con las reglas de negocio: aforo, permisos, correo y QR |
 | Base de datos | MySQL 8.4 | 11 tablas, creadas con migraciones y cargadas con datos ficticios |
 | Correo de pruebas | Mailpit | Recibe los correos de confirmación sin enviarlos a nadie real |
-| Entorno | Docker Compose | Levanta web, base de datos, phpMyAdmin y Mailpit con un solo comando |
+| Entorno | Docker Compose | Levanta frontend, web, base de datos, phpMyAdmin y Mailpit con un solo comando |
 | Pruebas | PHPUnit (24 tests) y Postman | Reglas de reserva, permisos, correo y QR |
 
 Más detalle en el [diagrama de arquitectura](documents/Despliegue/SABITECH_Diagrama_Arquitectura.docx) y el [plan de publicación](documents/Despliegue/SABITECH_Plan_Publicacion.docx).
