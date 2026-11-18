@@ -92,8 +92,8 @@ Guía pensada para levantar todo desde cero en Windows (PowerShell). En Linux o 
 
 ### 0. Qué necesitas antes de empezar
 - **Git** y **Docker Desktop** (abierto y en marcha antes de ejecutar nada).
-- **Node.js** (solo para el frontend React).
-- Estos puertos de tu ordenador libres: `8080`, `8081`, `8025`, `1025` y `3307`.
+- Ya **no hace falta Node.js**: el frontend React también corre en Docker.
+- Estos puertos de tu ordenador libres: `8080`, `8081`, `8025`, `1025`, `3307` y `5173`.
 
 Servicios de Docker (`compose.yaml`):
 
@@ -103,6 +103,7 @@ Servicios de Docker (`compose.yaml`):
 | `db` | MySQL 8.4 | solo por dentro de Docker (y `127.0.0.1:3307` para Workbench) |
 | `phpmyadmin` | Ver la base de datos en el navegador | http://localhost:8081 |
 | `mailpit` | Buzón de laboratorio: aquí llegan los correos de prueba | http://localhost:8025 |
+| `frontend` | React + Vite (las pantallas) | http://localhost:5173 |
 
 ### 1. Primera vez: preparar el proyecto
 Solo hay que hacerlo **una vez en cada ordenador**. Hay ficheros que no se suben a Git (`.env`, `app/.env`, `app/vendor/`, permisos de `storage`) y cada uno debe crearlos en su máquina.
@@ -230,15 +231,17 @@ docker compose exec web php artisan test
 ```
 Cada prueba se ejecuta dentro de una transacción que se deshace al terminar, así que no se mezclan datos. Para ejecutar solo un fichero: `docker compose exec web php artisan test --filter=ReservasTest`.
 
-### 6. Frontend React (en tu ordenador, necesita Node.js)
-```
-cd frontend
-npm install
-npm run dev
-```
-Abre http://localhost:5173
+### 6. Frontend React
+Se levanta solo con el resto al hacer `docker compose up -d`. Abre http://localhost:5173
 
-El frontend habla con la API del backend, así que **Docker debe estar levantado** (`docker compose up -d`) y la base de datos cargada (paso 1.7). Por defecto usa `http://localhost:8080/api`. Si tu API está en otra dirección, copia `frontend/.env.example` como `frontend/.env`, cambia `VITE_API_URL` y reinicia `npm run dev`.
+La **primera vez** tarda un poco más porque instala las dependencias (`npm install`) dentro del contenedor. Para ver cómo va: `docker compose logs -f frontend` (está listo cuando sale `VITE ... ready`). Al guardar un fichero de `frontend/src` la página se recarga sola.
+
+- Si alguien añade una dependencia nueva al `package.json`: `docker compose restart frontend`.
+- Si se queda algo raro en las dependencias: `docker compose down`, `docker volume rm sabitech_frontend_node_modules` y `docker compose up -d`.
+
+El frontend necesita la base de datos cargada (paso 1.7). Llama a la API en `http://localhost:8080/api`; si tu API está en otra dirección, copia `frontend/.env.example` como `frontend/.env`, cambia `VITE_API_URL` y haz `docker compose restart frontend`.
+
+Si prefieres arrancarlo fuera de Docker (con Node.js en tu ordenador), sigue funcionando igual: para el contenedor con `docker compose stop frontend` y ejecuta `cd frontend`, `npm install` y `npm run dev`.
 
 Cuentas para probar (contraseña `Sabitech2026!`): `ana@sabitech.test` (asistente) y `organizacion@sabitech.test` (panel de organización). Más detalles del frontend en [`frontend/README.md`](frontend/README.md).
 
