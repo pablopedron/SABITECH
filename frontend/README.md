@@ -4,7 +4,9 @@ Frontend en **React 19 + Vite**. Consume la API de Laravel del backend.
 
 ## Arrancar
 
-Necesita Node.js y que el backend esté levantado con Docker (ver el README principal).
+Se levanta con el resto del proyecto al hacer `docker compose up -d` desde la raíz (servicio `frontend` de `compose.yaml`) y queda en http://localhost:5173. No hace falta tener Node.js instalado.
+
+Sin Docker (con Node.js en tu ordenador; antes para el contenedor con `docker compose stop frontend`):
 
 ```bash
 cd frontend
