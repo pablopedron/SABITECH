@@ -1,0 +1,36 @@
+
+   PASS  Tests\Feature\CorreoTest
+  ✓ al reservar se envia el correo y queda registrado                   20.63s  
+  ✓ el correo lleva los datos de la reserva                              1.44s  
+  ✓ si falla el correo la reserva se guarda igual                        0.95s  
+
+   PASS  Tests\Feature\PermisosTest
+  ✓ un asistente no puede ver las inscripciones                          0.53s  
+  ✓ el personal de acceso tampoco puede verlas                           0.34s  
+  ✓ sin sesion responde 401                                              0.54s  
+  ✓ la organizacion ve las inscripciones de la charla                    0.52s  
+
+   PASS  Tests\Feature\QrTest
+  ✓ el asistente obtiene el codigo de su reserva                         0.57s  
+  ✓ el codigo cambia en la siguiente ventana                             0.41s  
+  ✓ nadie ve el qr de otra persona                                       0.41s  
+  ✓ un codigo vigente registra la asistencia                             0.63s  
+  ✓ repetir el escaneo no duplica la asistencia                          0.44s  
+  ✓ un codigo caducado se rechaza                                        0.42s  
+  ✓ en el cambio de ventana solo se aceptan 5 segundos de margen         0.47s  
+  ✓ un codigo manipulado se rechaza                                      0.40s  
+  ✓ una reserva cancelada no tiene qr                                    0.42s  
+  ✓ un asistente no puede escanear                                       0.42s  
+
+   PASS  Tests\Feature\ReservasTest
+  ✓ reserva valida                                                       0.41s  
+  ✓ reserva repetida da 409                                              0.42s  
+  ✓ charla sin plazas da 409                                             0.36s  
+  ✓ la reserva sigue guardada al volver a consultar                      0.44s  
+  ✓ sin sesion no se puede reservar                                      0.36s  
+  ✓ cancelar libera la plaza                                             0.45s  
+  ✓ no se puede cancelar la reserva de otra persona                      0.41s  
+
+  Tests:    24 passed (91 assertions)
+  Duration: 45.08s
+
