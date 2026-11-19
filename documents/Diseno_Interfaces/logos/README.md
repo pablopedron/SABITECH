@@ -26,4 +26,4 @@ Texto: azul marino `#060621`.
 
 ## Procedencia y licencia
 
-**Pendiente de completar por el equipo:** quién lo diseñó o con qué herramienta se generó, y con qué licencia se puede usar.
+Los logos los diseñamos nosotros a partir del logo de XTART: su «X» es la base del símbolo de SABITECH.
