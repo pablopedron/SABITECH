@@ -10,5 +10,5 @@ Documentos comunes del proyecto.
 | [Gantt adaptado](SABITECH_Gantt_Adaptado.xlsx) ([PDF](SABITECH_Gantt_Adaptado.pdf)) | ✅ Hecho |
 | [Reparto de tareas según el backlog de GitHub Projects](SABITECH_Reparto_Tareas.xlsx) ([PDF](SABITECH_Reparto_Tareas.pdf)) | ✅ Hecho |
 | [Avances e incidencias](SABITECH_Avances_Incidencias.xlsx) ([PDF](SABITECH_Avances_Incidencias.pdf)) | ✅ Hecho |
-| [Memoria técnica parcial](07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Memoria.docx) ([PDF](07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Memoria.pdf)) | ✅ Hecho (faltan la etiqueta de la versión y la licencia de los logos, marcadas en amarillo) |
-| [Presentación (PPT) del checkpoint](../Presentacion/Presentaci%C3%B3n_Sabitech.pptx) | ✅ Hecho |
+| [Memoria técnica parcial](07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Memoria.docx) ([PDF](07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Memoria.pdf)) | ✅ Hecho (falta la etiqueta de la versión, marcada en amarillo) |
+| [Presentación (PPT) del checkpoint](../Presentacion/07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Presentacion.pptx) | ✅ Hecho |

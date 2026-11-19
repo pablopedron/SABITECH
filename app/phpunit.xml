@@ -29,6 +29,11 @@
         <env name="DB_DATABASE" value="sabitech_test" force="true"/>
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array" force="true"/>
+        <!-- Docker pasa DB_DATABASE y MAIL_MAILER como variables del contenedor, y Laravel las lee primero de $_SERVER.
+             <env> no cambia $_SERVER, así que se fuerzan también aquí para que los tests usen sabitech_test -->
+        <server name="DB_CONNECTION" value="mysql" force="true"/>
+        <server name="DB_DATABASE" value="sabitech_test" force="true"/>
+        <server name="MAIL_MAILER" value="array" force="true"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
