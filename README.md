@@ -112,7 +112,7 @@ Solo hay que hacerlo **una vez en cada ordenador**. Hay ficheros que no se suben
 ```
 git clone https://github.com/pablopedron/SABITECH.git
 cd SABITECH
-git checkout MainPruebasV3
+git checkout MainPruebasV4
 ```
 
 **1.2. Variables de Docker.** Copia la plantilla y cambia las contraseñas:
@@ -360,8 +360,9 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 ## Flujo de trabajo con Git
 
 - **`MainPruebasV4`:** versión de trabajo del equipo. Pasará a ser `main`.
+- **Versión del checkpoint:** etiqueta [`v0.1-checkpoint`](https://github.com/pablopedron/SABITECH/tree/v0.1-checkpoint). Para verla tal como se entregó: `git checkout v0.1-checkpoint`.
 - **`develop/backendV4` y `develop/frontendV4`:** ramas de integración del backend y del frontend.
-- **Ramas de tarea:** cada tarea se hace en una rama `feature/...` (o `fix/...`, `docs/...`) creada desde la `develop` correspondiente. Se integra con un **Pull Request** que revisa otra persona del equipo.
+- **Ramas de tarea:** cada funcionalidad se hace en una rama `feature/...` creada desde la `develop` correspondiente. Los arreglos, cambios pequeños y documentos van en ramas `fix/...`, `update/...` y `docs/...` creadas desde `MainPruebasV4`. Todo se integra con un **Pull Request** que revisa otra persona del equipo.
 - **Ficheros que no se suben:** `.env`, `app/.env` y `app/vendor/` (están en `.gitignore`). Nunca se suben contraseñas: se usan las plantillas `.env.example`.
 
 ---
