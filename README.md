@@ -350,7 +350,7 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 | Integrante | GitHub | Responsabilidad principal |
 |---|---|---|
 | **Pablo Pedrón** | [@pablopedron](https://github.com/pablopedron) | Backend (Laravel), base de datos, Docker y despliegue |
-| **Alejandro Gutiérrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Backend (Laravel) y empresa PGD |
+| **Alejandro Gutiérrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Arquitectura del proyecto, gestión del repositorio de GitHub, backend (Laravel) y empresa PGD |
 | **David Clemente** | [@Daclus](https://github.com/Daclus) | Frontend (React), interfaces, Digitalización e Inglés |
 
 <p align="center">
