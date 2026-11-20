@@ -339,7 +339,7 @@ Todas las rutas empiezan por `http://localhost:8080/api`. Las privadas necesitan
 | Itinerario personal para la empleabilidad II | [`IPE`](documents/IPE) | [Plan de empresa de PGD Technologies](documents/IPE/Empresa_PGD.docx) (APA 7, con validación con usuarios) |
 | Digitalización | [`Digitalizacion`](documents/Digitalizacion) | [Gestión manual frente a digital, datos, uso de IA, protección de datos y plan de transformación](documents/Digitalizacion/Parte%20de%20Digitalizaci%C3%B3n_definitivo.docx) |
 | Inglés Oral | [`Ingles`](documents/Ingles) | [Informe de vídeos sobre IA en programación](documents/Ingles/CHECKPOINT%20ENGLISH_definitivo.docx) |
-| Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | [Requisitos y alcance](documents/Proyecto_Intermodular/SABITECH_Requisitos_Alcance.docx), [manual de usuario](documents/Proyecto_Intermodular/SABITECH_Manual_Usuario.docx), [informe del uso real de IA](documents/Proyecto_Intermodular/SABITECH_Informe_Uso_IA.docx), [Gantt adaptado](documents/Proyecto_Intermodular/SABITECH_Gantt_Adaptado.xlsx), [reparto de tareas](documents/Proyecto_Intermodular/SABITECH_Reparto_Tareas.xlsx) y [avances e incidencias](documents/Proyecto_Intermodular/SABITECH_Avances_Incidencias.xlsx). Memoria parcial, en preparación |
+| Proyecto intermodular | [`Proyecto_Intermodular`](documents/Proyecto_Intermodular) | [Requisitos y alcance](documents/Proyecto_Intermodular/SABITECH_Requisitos_Alcance.docx), [manual de usuario](documents/Proyecto_Intermodular/SABITECH_Manual_Usuario.docx), [informe del uso real de IA](documents/Proyecto_Intermodular/SABITECH_Informe_Uso_IA.docx), [Gantt adaptado](documents/Proyecto_Intermodular/SABITECH_Gantt_Adaptado.xlsx), [reparto de tareas](documents/Proyecto_Intermodular/SABITECH_Reparto_Tareas.xlsx), [avances e incidencias](documents/Proyecto_Intermodular/SABITECH_Avances_Incidencias.xlsx) y [memoria técnica parcial](documents/Proyecto_Intermodular/07_2_DAW_Intermodular_1Evaluacion_SABITECH_WEB_Memoria.docx) |
 
 El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](documents/rubricas_requerimientos).
 
@@ -350,7 +350,7 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 | Integrante | GitHub | Responsabilidad principal |
 |---|---|---|
 | **Pablo Pedrón** | [@pablopedron](https://github.com/pablopedron) | Backend (Laravel), base de datos, Docker y despliegue |
-| **Alejandro Gutierrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Backend (Laravel) y empresa PGD |
+| **Alejandro Gutiérrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Backend (Laravel) y empresa PGD |
 | **David Clemente** | [@Daclus](https://github.com/Daclus) | Frontend (React), interfaces, Digitalización e Inglés |
 
 **PGD Technologies S.L.** es la empresa **ficticia** que recibe el encargo de SABITECH: una microempresa de desarrollo web con sede en Paterna (Valencia), organizada como sociedad limitada y con tres socios al 33,3 %. Su plan de empresa (forma jurídica, organigrama, costes y tarifas) está en [`documents/IPE`](documents/IPE).
