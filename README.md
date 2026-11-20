@@ -353,6 +353,10 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 | **Alejandro Gutiérrez** | [@AlejandroGutierrezDEV](https://github.com/AlejandroGutierrezDEV) | Backend (Laravel) y empresa PGD |
 | **David Clemente** | [@Daclus](https://github.com/Daclus) | Frontend (React), interfaces, Digitalización e Inglés |
 
+<p align="center">
+  <img src="documents/IPE/logo/pgd-logo.png" alt="Logo de PGD Technologies" width="320">
+</p>
+
 **PGD Technologies S.L.** es la empresa **ficticia** que recibe el encargo de SABITECH: una microempresa de desarrollo web con sede en Paterna (Valencia), organizada como sociedad limitada y con tres socios al 33,3 %. Su plan de empresa (forma jurídica, organigrama, costes y tarifas) está en [`documents/IPE`](documents/IPE).
 
 ---
@@ -369,5 +373,6 @@ El enunciado y las rúbricas están en [`documents/rubricas_requerimientos`](doc
 
 <p align="center">
   Proyecto intermodular · 2.º DAW · XTART Valencia · 2026-2027<br>
-  Desarrollado por PGD Technologies S.L. (empresa ficticia del proyecto)
+  Desarrollado por PGD Technologies S.L. (empresa ficticia del proyecto)<br>
+  <img src="documents/IPE/logo/pgd-logo.png" alt="PGD Technologies" width="160">
 </p>
