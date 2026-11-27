@@ -1,81 +1,101 @@
-function Header({ cambiarPagina, usuario }) {
+import { useState } from "react";
+
+import logo from "../assets/logos/logo-sabitech.webp";
+
+// Cabecera del prototipo: logo, Inicio y Charlas a la izquierda;
+// a la derecha, Iniciar sesión / Registrarse o, con sesión, "Bienvenid@", Mi cuenta y Cerrar sesión.
+// En móvil la navegación se pliega en un menú.
+function Header({ pagina, cambiarPagina, usuario, cerrarSesion }) {
+
+    const [menuAbierto, setMenuAbierto] = useState(false);
+
+    function ir(nombrePagina) {
+        setMenuAbierto(false);
+        cambiarPagina(nombrePagina);
+    }
+
+    // aria-current marca la página en la que estamos (se ve y lo anuncian los lectores de pantalla).
+    function actual(nombres) {
+        return nombres.includes(pagina) ? "page" : undefined;
+    }
+
+    const paginaCuenta = usuario?.rol === "admin" ? "admin" : "cuenta";
 
     return (
-        <header className="site-header" style={estilos.header}>
-            <h1 style={estilos.logo}>
+        <header className="cabecera">
+            <div className="contenedor cabecera__barra">
+
+                <button className="logo" onClick={() => ir("inicio")} aria-label="SABITECH, ir al inicio">
+                    <img src={logo} alt="" width="180" height="46" />
+                </button>
+
                 <button
-                    onClick={() => cambiarPagina("inicio")}
-                    style={estilos.botonLogo}
-                    aria-label="SABITECH, ir al inicio"
+                    className="menu-boton"
+                    aria-expanded={menuAbierto}
+                    aria-controls="navegacion-principal"
+                    onClick={() => setMenuAbierto(!menuAbierto)}
                 >
-                    SABITECH
-                </button>
-            </h1>
-
-            <nav className="site-nav" style={estilos.nav}>
-                <button onClick={() => cambiarPagina("inicio")}>
-                    Inicio
+                    {menuAbierto ? "✕ Cerrar" : "☰ Menú"}
                 </button>
 
-                <button onClick={() => cambiarPagina("charlas")}>
-                    Charlas
-                </button>
+                <nav
+                    id="navegacion-principal"
+                    aria-label="Navegación principal"
+                    className={`navegacion ${menuAbierto ? "navegacion--abierta" : ""}`}
+                >
+                    <ul className="navegacion__enlaces">
+                        <li>
+                            <button className="nav-enlace" aria-current={actual(["inicio"])} onClick={() => ir("inicio")}>
+                                Inicio
+                            </button>
+                        </li>
+                        <li>
+                            <button className="nav-enlace" aria-current={actual(["charlas", "detalle", "reserva"])} onClick={() => ir("charlas")}>
+                                Charlas
+                            </button>
+                        </li>
+                    </ul>
 
-                <button onClick={() => cambiarPagina("reserva")}>
-                    Pide tu cita
-                </button>
-
-                {usuario ? (
-                    <button onClick={() => cambiarPagina(
-                        usuario.rol === "admin" ? "admin" : "cuenta"
-                    )}>
-                        Mi cuenta
-                    </button>
-                ) : (
-                    <>
-                        <button onClick={() => cambiarPagina("login")}>
-                            Iniciar sesión
-                        </button>
-
-                        <button onClick={() => cambiarPagina("registro")}>
-                            Registrarse
-                        </button>
-                    </>
-                )}
-            </nav>
+                    <ul className="navegacion__cuenta">
+                        {usuario ? (
+                            <>
+                                <li className="saludo">Bienvenid@, <strong>{usuario.nombre}</strong></li>
+                                <li>
+                                    <button className="nav-enlace" aria-current={actual(["cuenta", "admin"])} onClick={() => ir(paginaCuenta)}>
+                                        Mi cuenta
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        className="boton boton--secundario"
+                                        onClick={() => {
+                                            setMenuAbierto(false);
+                                            cerrarSesion();
+                                        }}
+                                    >
+                                        Cerrar sesión
+                                    </button>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li>
+                                    <button className="nav-enlace" aria-current={actual(["login"])} onClick={() => ir("login")}>
+                                        Iniciar sesión
+                                    </button>
+                                </li>
+                                <li>
+                                    <button className="boton" onClick={() => ir("registro")}>
+                                        Registrarse
+                                    </button>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </nav>
+            </div>
         </header>
     );
 }
-
-const estilos = {
-    header: {
-        backgroundColor: "#5f137b",
-        color: "white",
-        padding: "20px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: "15px"
-    },
-    logo: {
-        margin: 0,
-        color: "white"
-    },
-    botonLogo: {
-        background: "none",
-        border: "none",
-        padding: 0,
-        color: "white",
-        font: "inherit",
-        letterSpacing: "inherit",
-        cursor: "pointer"
-    },
-    nav: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "10px"
-    }
-};
 
 export default Header;

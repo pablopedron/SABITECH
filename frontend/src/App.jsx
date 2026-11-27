@@ -44,6 +44,9 @@ function App() {
     const [estadoCharlas, setEstadoCharlas] = useState("cargando");
     const [errorCharlas, setErrorCharlas] = useState("");
 
+    // Área elegida en la página de charlas: "todas", "salud", "business" o "tech".
+    const [filtroArea, setFiltroArea] = useState("todas");
+
     // Charla seleccionada desde una tarjeta.
     const [charlaSeleccionada, setCharlaSeleccionada] = useState(null);
 
@@ -68,6 +71,11 @@ function App() {
         cargarCharlas();
         restaurarSesion();
     }, []);
+
+    // Al cambiar de pantalla, volvemos arriba (en móvil se quedaría a mitad de página).
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pagina]);
 
     // Pide las charlas a la API.
     async function cargarCharlas() {
@@ -115,6 +123,12 @@ function App() {
     function cambiarPagina(nombrePagina) {
         setAviso(null);
         setPagina(nombrePagina);
+    }
+
+    // Ir a la página de charlas mostrando solo un área (desde el inicio).
+    function verCharlasDe(area) {
+        setFiltroArea(area);
+        cambiarPagina("charlas");
     }
 
     // Seleccionar una charla para reservarla.
@@ -263,12 +277,19 @@ function App() {
                         reservar={reservar}
                         verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
+                        verCharlasDe={verCharlasDe}
                     />
                 );
 
             case "charlas":
                 return (
-                    <Charlas catalogo={catalogo} reservar={reservar} verDetalle={verDetalle} />
+                    <Charlas
+                        catalogo={catalogo}
+                        reservar={reservar}
+                        verDetalle={verDetalle}
+                        filtroArea={filtroArea}
+                        cambiarFiltroArea={setFiltroArea}
+                    />
                 );
 
             case "detalle":
@@ -302,6 +323,8 @@ function App() {
                         catalogo={catalogo}
                         charlaSeleccionada={charlaSeleccionada}
                         confirmarReserva={confirmarReserva}
+                        usuario={usuario}
+                        cambiarPagina={cambiarPagina}
                     />
                 );
 
@@ -316,6 +339,7 @@ function App() {
                         reservas={reservas}
                         cancelarReserva={cancelarReserva}
                         cerrarSesion={cerrarSesion}
+                        verDetalle={verDetalle}
                     />
                 );
 
@@ -327,12 +351,13 @@ function App() {
                             reservar={reservar}
                             verDetalle={verDetalle}
                             cambiarPagina={cambiarPagina}
+                            verCharlasDe={verCharlasDe}
                         />
                     );
                 }
 
                 return (
-                    <Admin catalogo={catalogo} />
+                    <Admin catalogo={catalogo} usuario={usuario} cerrarSesion={cerrarSesion} />
                 );
 
             default:
@@ -342,6 +367,7 @@ function App() {
                         reservar={reservar}
                         verDetalle={verDetalle}
                         cambiarPagina={cambiarPagina}
+                        verCharlasDe={verCharlasDe}
                     />
                 );
         }
@@ -349,31 +375,25 @@ function App() {
 
 
     return (
-        <div style={estilos.aplicacion}>
+        <>
+            <a className="salto" href="#contenido">Saltar al contenido</a>
 
             <Header
+                pagina={pagina}
                 cambiarPagina={cambiarPagina}
                 usuario={usuario}
+                cerrarSesion={cerrarSesion}
             />
 
             <Aviso aviso={aviso} cerrar={() => setAviso(null)} />
 
-            {mostrarPagina()}
+            <div id="contenido" className="contenido" tabIndex="-1">
+                {mostrarPagina()}
+            </div>
 
-            <Footer />
-
-        </div>
+            <Footer cambiarPagina={cambiarPagina} />
+        </>
     );
 }
-
-const estilos = {
-    aplicacion: {
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "Arial, sans-serif",
-        color: "#000000"
-    }
-};
 
 export default App;

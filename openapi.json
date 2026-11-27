@@ -3,7 +3,7 @@
   "info": {
     "title": "SABITECH WEB API",
     "description": "Contrato del frontend de SABITECH WEB (PGD Technologies S.L.): jornadas tecnológicas con inscripción, control de aforo y asistencia por QR.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "contact": {
       "name": "PGD Technologies S.L."
     }
@@ -29,7 +29,11 @@
     },
     {
       "name": "Attendances",
-      "description": "Valoración de charlas a las que se asistió"
+      "description": "Asistencia con QR temporal (prototipo del checkpoint)"
+    },
+    {
+      "name": "Organizacion",
+      "description": "Rutas solo para el perfil organizacion"
     }
   ],
   "paths": {
@@ -270,7 +274,7 @@
           "Reservas"
         ],
         "summary": "Reservar una plaza",
-        "description": "Requiere token. Se ejecuta en una transacción con la charla bloqueada, de modo que la última plaza no puede concederse dos veces. 404: charla inexistente o borrador. 409: ya tienes reserva, no quedan plazas o la charla ya ha empezado. Si la reserva había sido cancelada, se reactiva con una referencia nueva de QR.",
+        "description": "Requiere token. Se ejecuta en una transacción con la charla bloqueada, de modo que la última plaza no puede concederse dos veces. 404: charla inexistente o borrador. 409: ya tienes reserva, no quedan plazas o la charla ya ha empezado. Si la reserva había sido cancelada, se reactiva con una referencia nueva de QR. Tras guardar la reserva se envía el correo de confirmación (en Docker llega a Mailpit, http://localhost:8025) y se registra en email_logs. Si el correo falla, la reserva se mantiene y el envío queda como fallido.",
         "security": [
           {
             "bearerAuth": []
@@ -414,35 +418,59 @@
         }
       }
     },
-    "/attendances/rate": {
-      "post": {
+    "/reservations/{id}/qr": {
+      "get": {
         "tags": [
           "Attendances"
         ],
-        "summary": "Valorar una charla",
-        "description": "Guarda rating y feedback_comment en user_talk_qr. Solo es posible si la asistencia fue validada por QR (checked_in_at no nulo). [PENDIENTE de implementar]",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RateRequest"
-              },
-              "example": {
-                "talk_id": 3,
-                "rating": 5,
-                "feedback_comment": "Muy útil y bien explicada"
-              }
+        "summary": "Código QR actual de una reserva",
+        "description": "Solo el dueño de la reserva (la de otra persona responde 404). El token cambia cada 30 s y lo calcula el servidor: HMAC-SHA256(idReserva.ventana, qr_secret), con ventana = segundos desde 1970 / 30. El frontend lo pinta como QR y lo vuelve a pedir cuando pasan seconds_left segundos. 409 si la reserva está cancelada.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Valoración registrada",
+            "description": "Token vigente",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Attendance"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "idReserva.ventana.firma"
+                    },
+                    "window": {
+                      "type": "integer"
+                    },
+                    "valid_until": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "seconds_left": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 30
+                    }
+                  }
+                },
+                "example": {
+                  "token": "12.60000000.3f9c…(64 caracteres hex)",
+                  "window": 60000000,
+                  "valid_until": "2027-01-15T08:00:30+00:00",
+                  "seconds_left": 20
                 }
               }
             }
@@ -455,9 +483,204 @@
           },
           "409": {
             "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/attendances/scan": {
+      "post": {
+        "tags": [
+          "Attendances"
+        ],
+        "summary": "Registrar asistencia escaneando el QR",
+        "description": "Solo personal_acceso. El servidor comprueba la firma y la caducidad con SU reloj: se acepta la ventana actual y, durante los 5 primeros segundos de una ventana, también la anterior (un código vale como máximo 35 s). 422 si el código está caducado, manipulado o la reserva no está confirmada; 409 si la asistencia ya estaba registrada (no se duplica).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token"
+                ],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "maxLength": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Asistencia registrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "attendee": {
+                      "type": "string"
+                    },
+                    "talk": {
+                      "type": "string"
+                    },
+                    "reference": {
+                      "type": "string"
+                    },
+                    "checked_in_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Asistencia registrada.",
+                  "attendee": "Ana Asistente",
+                  "talk": "Taller de seguridad web",
+                  "reference": "SBT-7K2Q9M",
+                  "checked_in_at": "2026-11-20T10:02:11+01:00"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
           },
           "422": {
-            "$ref": "#/components/responses/Unprocessable"
+            "description": "Código caducado o no válido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Código QR caducado. Pide a la persona que muestre el código actual."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/talks/{id}/reservations": {
+      "get": {
+        "tags": [
+          "Organizacion"
+        ],
+        "summary": "Inscripciones de una charla",
+        "description": "Solo organizacion (middleware role:organizacion). Incluye borradores. attended indica si la persona tiene asistencia registrada.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Charla e inscripciones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "talk": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "capacity": {
+                          "type": "integer"
+                        },
+                        "seats_taken": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "reference": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "confirmada",
+                              "cancelada"
+                            ]
+                          },
+                          "registered_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "attended": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -659,57 +882,6 @@
           }
         }
       },
-      "RateRequest": {
-        "type": "object",
-        "required": [
-          "talk_id",
-          "rating"
-        ],
-        "properties": {
-          "talk_id": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "rating": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 5
-          },
-          "feedback_comment": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "Attendance": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "user_id": {
-            "type": "integer"
-          },
-          "talk_id": {
-            "type": "integer"
-          },
-          "checked_in_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "rating": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 5,
-            "nullable": true
-          },
-          "feedback_comment": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "Error": {
         "type": "object",
         "required": [
@@ -875,6 +1047,19 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Autenticado, pero sin el rol necesario",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "No tienes permiso para esta acción."
             }
           }
         }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\TalkController;
@@ -26,6 +27,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/talks/{id}/inscribe', [ReservationController::class, 'store'])->whereNumber('id');
     Route::get('/me/reservations', [ReservationController::class, 'index']);
     Route::post('/reservations/{id}/cancel', [ReservationController::class, 'cancel'])->whereNumber('id');
+
+    // --- QR de asistencia (prototipo del checkpoint) ---
+    Route::get('/reservations/{id}/qr', [AttendanceController::class, 'qr'])->whereNumber('id');
+    Route::post('/attendances/scan', [AttendanceController::class, 'scan'])->middleware('role:personal_acceso');
+
+    // --- Organización: el permiso se comprueba aquí, en el servidor ---
+    Route::get('/talks/{id}/reservations', [TalkController::class, 'reservations'])
+        ->whereNumber('id')
+        ->middleware('role:organizacion');
 });
 
 // --- Catálogo (feature/catalogo): público, sin token ---

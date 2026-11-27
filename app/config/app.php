@@ -65,7 +65,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // Las charlas se guardan en hora de Madrid: así la API envía la hora con +01:00 y la web, el correo y la base de datos coinciden
+    'timezone' => env('APP_TIMEZONE', 'Europe/Madrid'),
 
     /*
     |--------------------------------------------------------------------------
